@@ -1,3 +1,2 @@
-"# Study_files" 
 # Study_files
-"# Study_files" 
+공부한 파일들 및 간단하게 진행한 프로젝트들을 올려두었습니다.
