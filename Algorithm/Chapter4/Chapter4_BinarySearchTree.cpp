@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -93,12 +94,12 @@ public :
         if(step != 0)
         {
             for(int i = 0 ; i< step; i++)
-                cout<<"  ";
-            cout<< "â””";
+                cout<<"   ";
+            cout<< "¦¦";
             if(start->parent->left == start)
-                cout<<"(L) ";
+                cout<<"(L)  ";
             else
-                cout<<"(R) ";
+                cout<<"(R)  ";
 
         }
         cout<< start->data<<endl;
@@ -262,7 +263,32 @@ public :
         delete np;
     }
 
+    string Level_Trace()
+    {
+        node<T> *p = root;
 
+        queue< node<T>* > que;
+        que.push(p);
+
+        string str = "";
+        
+        while(!que.empty())
+        {
+            node<T> *q = que.front();
+            que.pop();
+
+            str += to_string(q->data);
+            str += " ";
+
+            if( q->left != NULL)
+                que.push(q->left);
+            if(q->right != NULL)
+                que.push(q->right);
+        }
+        
+        return str;
+
+    }
 
 };
 
@@ -301,6 +327,15 @@ int main()
     cout<<endl;
 
     cout<< bst->PostOrderTrace()<<endl;
+
+    cout<<endl;
+
+    
+    cout<<endl;
+    cout<<"LevelOrderTrace"<<endl;
+    cout<<endl;
+
+    cout<< bst->Level_Trace()<<endl;
 
     cout<<endl;
     cout<<"search"<<endl;
