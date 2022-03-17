@@ -263,7 +263,7 @@ public :
         delete np;
     }
 
-    string Level_Trace()
+    string LevelOrderTrace()
     {
         node<T> *p = root;
 
@@ -335,7 +335,7 @@ int main()
     cout<<"LevelOrderTrace"<<endl;
     cout<<endl;
 
-    cout<< bst->Level_Trace()<<endl;
+    cout<< bst->LevelOrderTrace()<<endl;
 
     cout<<endl;
     cout<<"search"<<endl;
