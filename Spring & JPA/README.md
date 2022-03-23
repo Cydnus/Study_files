@@ -4,7 +4,7 @@ Spring FrameWork & JPA
 
 JAVA Version : 11 (OpenJDK RE 18.9)    
 IDEs    
-&nbsp;&nbsp;&nbsp;IntelliJ IDEA 2021.3.3 (Community Edition) 
+&nbsp;&nbsp;&nbsp;IntelliJ IDEA 2021.3.3 (Community Edition)   
 &nbsp;&nbsp;&nbsp;Eclipse IDE for Java Developers 2022-03 (4.23.0)   
 Database : MariaDB 10.3.31( MySQL 15.1 )   
 Database on Raspberry Pi 3 b+
