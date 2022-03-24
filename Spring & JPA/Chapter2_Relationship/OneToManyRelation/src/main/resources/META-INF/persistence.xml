@@ -11,7 +11,7 @@
         <class>org.halyph.sessiondemo.Event</class>
 
         <properties>
-        
+
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.52:3306/jpa_playground?serverTimezone=Asia/Seoul" />
             <property name="javax.persistence.jdbc.user" value="sangho" />
@@ -27,3 +27,5 @@
     </persistence-unit>
 
 </persistence>
+
+

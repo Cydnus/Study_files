@@ -18,12 +18,12 @@ public class Main {
         {
             tx.begin();
 
-            Movie movie = new Movie();
-            
             /*
-             * 
+            Movie movie = new Movie();
+
+
             movie.setMovieid(1L);
-            movie.setMoviename("Å¸ÀÌÅ¸´Ğ");
+            movie.setMoviename("íƒ€ì´íƒ€ë‹‰");
             
             em.persist(movie);
             
@@ -32,21 +32,29 @@ public class Main {
             /*
              * 
             movie.setMovieid(2L);
-            movie.setMoviename("¿ÀÂ¡¾î°ÔÀÓ");
+            movie.setMoviename("ì˜¤ì§•ì–´ê²Œì„");
             
             em.persist(movie);
             
             */
             
-            
+            /*
            Movie findMovie = em.find(Movie.class, 1L);
            System.out.println("findMovie = " +findMovie);
            
-//           findMovie.setMoviename("·Î¹Ì¿À¿ÍÁÙ¸®¿§");
+//           findMovie.setMoviename("ë¡œë¯¸ì˜¤ì™€ì¤„ë¦¬ì—£");
            	
-           //em.update() ¿Í °°Àº °ÍÀº ÇÊ¿ä¾øÀ½ ÀÚµ¿À¸·Î ¾÷µ¥ÀÌÆ®
+           //em.update() ì™€ ê°™ì€ ê²ƒì€ í•„ìš”ì—†ìŒ ìë™ìœ¼ë¡œ ì—…ë°ì´íŠ¸
            
            em.remove(findMovie);
+*/
+            Movie movie1= new Movie();
+            movie1.setMoviename("íƒ€ì´íƒ€ë‹‰");
+            em.persist(movie1);
+
+            Movie movie2= new Movie();
+            movie2.setMoviename("ì˜¤ì§•ì–´ê²Œì„");
+            em.persist(movie2);
 
             tx.commit();
         }
