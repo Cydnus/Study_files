@@ -72,6 +72,7 @@ public class Main {
             em.clear();
 
 
+ */
 // 3
 
 
@@ -97,19 +98,6 @@ public class Main {
 
             PurchaseOrder findOrder = em.find(PurchaseOrder.class , 1L);
             findOrder.getItems().remove(0);
-
-*/
-
-            Manuscript manuscript = new Manuscript();
-            Book book = new Book();
-
-            book.setISBN("ABCDEFG12");
-            book.setManuscript(manuscript);
-
-            manuscript.setBook(book);
-
-            em.persist(manuscript);
-            em.persist(book);
 
 
             tx.commit();
