@@ -1,4 +1,4 @@
 *.exe
 temp/
-.vscode/
 */.metadata/
+.vscode/
