@@ -1,6 +1,0 @@
-*.exe
-temp/
-*/.metadata/
-.vscode/
-*/.idea/
-*/.settings/
