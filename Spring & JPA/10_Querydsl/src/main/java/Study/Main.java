@@ -16,6 +16,7 @@ public class Main {
         {
             tx.begin();
 
+
             Address_Querydsl address1 = new Address_Querydsl("street1","city1","zipcode1");
             Address_Querydsl address2 = new Address_Querydsl("street2","city2","zipcode2");
             Address_Querydsl address3 = new Address_Querydsl("street3","city3","zipcode3");
