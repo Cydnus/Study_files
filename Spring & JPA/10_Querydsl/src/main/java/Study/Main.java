@@ -23,7 +23,7 @@ public class Main {
 
             Person_Querydsl kim = new Person_Querydsl("kim", 20);
             Person_Querydsl lee = new Person_Querydsl("lee", 30);
-            Person_Querydsl park = new Person_Querydsl("park", 25);;
+            Person_Querydsl park = new Person_Querydsl("park", 25);
             Person_Querydsl hong = new Person_Querydsl("hong", 15);
 
             kim.addAddress(address1);
