@@ -5,5 +5,5 @@ Algorithm
 
 ||||
 |-|-|-|
-|IDE | VS Code   
+|IDE | VS Code 1.59.0|  
 |Compiler|mingw32 6.3.0| (gcc 6.3.0 )|

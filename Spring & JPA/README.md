@@ -3,11 +3,9 @@ Spring FrameWork & JPA
 해당 파일들은 [**KOCW**](http://www.kocw.net/home/cview.do?cid=5e6aec4a9ae2dd45)에 올라와 있는 금오공대 김성렬 교수님의 스프링과 JPA를 이용한 웹개발 강좌의 예제 및 실습을 진행한 파일들이다.  
 
 
-|  |  | |
+|JAVA Version| 11 (OpenJDK RE 18.9)|   |
 |-|:-|:-|
-|JAVA Version| 11 (OpenJDK RE 18.9)|   
-|IDEs||  
-||IntelliJ IDEA 2021.3.3 (Community Edition)|(주로 사용)|
+|IDEs|IntelliJ IDEA 2021.3.3 (Community Edition)|(주로 사용)|
 ||Eclipse IDE for Java Developers 2022-03 (4.23.0)||
 ||Visual Studio Code 1.59.0 ||
 |Database| MariaDB 10.3.31( MySQL 15.1 )|Database on Raspberry Pi 3 b+ |
