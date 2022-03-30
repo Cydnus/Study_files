@@ -26,10 +26,11 @@ public class SeedStarterMngController {
     public String showSeedStarters(final SeedStarter seedStarter , Model model) throws JsonProcessingException
     {
        //return "<html><h1>hello seed starter</h1></html>";
-        List<SeedStarter> all = SeedStarterService.findAll();
-        all.stream().forEach(v-> System.out.println("v.getId() = " + v.getId() ));
+        List<SeedStarter> seedStarterWithFeature = SeedStarterService.findWithFeature();
+        List<SeedStarter> seedStarterWithDetail = SeedStarterService.findWithDetail();
+        seedStarterWithFeature.stream().forEach(v-> System.out.println("v.getId() = " + v.getId() ));
         //return "hello";
-        return mapper.writeValueAsString(all);
+        return mapper.writeValueAsString(seedStarterWithFeature);
         //에러발생 (양방향) @JsonManagedReference / @JsonBackReference 로 해결
 
     }

@@ -9,11 +9,19 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// cannot simultaneously fetch multiple bags 에러 발생
+// 각각 들고오기 vs list가 아니라 set을 불러오기
+// 각각 들고오기로 진행
 @Getter
 @Setter
-@NamedEntityGraph(name = "SeedStarter.all", attributeNodes = {
-        @NamedAttributeNode("features"),
-        @NamedAttributeNode("details")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "SeedStarter.withFeature", attributeNodes = {
+                @NamedAttributeNode("features")
+        }),
+        @NamedEntityGraph(name = "SeedStarter.withDetail", attributeNodes = {
+                @NamedAttributeNode("details")
+        })
 })
 @Entity
 public class SeedStarter {

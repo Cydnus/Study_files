@@ -19,8 +19,13 @@ public class SeedStarterService {
     }
      */
 
-    public List<SeedStarter> findAll()
+    public List<SeedStarter> findWithFeature()
     {
-        return this.seedStarterRepository.findWithFeatureAndDetail();
+        return this.seedStarterRepository.findWithFeature();
+    }
+
+    public List<SeedStarter> findWithDetail()
+    {
+        return this.seedStarterRepository.findWithDetail();
     }
 }

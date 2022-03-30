@@ -10,7 +10,11 @@ import java.util.List;
 
 @Repository
 public interface SeedStarterRepository extends JpaRepository<SeedStarter, Long> {
-    @EntityGraph(value = "SeedStarter.all", type= EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(value = "SeedStarter.withFeature", type= EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT DISTINCT s FROM SeedStarter s")
-    List<SeedStarter> findWithFeatureAndDetail();
+    List<SeedStarter> findWithFeature();
+
+    @EntityGraph(value = "SeedStarter.withDetail", type= EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT DISTINCT s FROM SeedStarter s")
+    List<SeedStarter> findWithDetail();
 }
