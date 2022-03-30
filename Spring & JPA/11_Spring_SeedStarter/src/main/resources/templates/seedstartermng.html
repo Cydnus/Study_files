@@ -29,7 +29,17 @@
                 <td th:unless="${starter.covered}==true" th:text="#{seedstarter.covered.No}" ></td>
                 <td th:text="${starter.type}"></td>
                 <td th:text="${T(com.example.SeedStarter.entity.CollectorFeatureName).name(starter.features.stream())}"> </td>
-                <td>#</td>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr th:each="detail : ${starter.details}">
+                                <td th:text="${detail.rowNum}"></td>
+                                <td th:text="${detail.variety}"></td>
+                                <td th:text="${detail.seedPerCell}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
             </tbody>
         <table>

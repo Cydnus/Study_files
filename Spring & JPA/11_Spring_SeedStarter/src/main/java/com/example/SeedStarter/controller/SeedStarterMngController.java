@@ -16,17 +16,17 @@ import java.util.List;
 
 
 @Controller
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class SeedStarterMngController {
 
     private final SeedStarterService SeedStarterService;
-
+/*
     @Autowired
     public SeedStarterMngController(SeedStarterService seedStarterService) {
         SeedStarterService = seedStarterService;
     }
-
-    //private final ObjectMapper mapper;
+*/
+    private final ObjectMapper mapper;
 
     @RequestMapping({"/","/seedstartermng"})
     public String showSeedStarters(final SeedStarter seedStarter , Model model) throws JsonProcessingException

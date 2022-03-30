@@ -52,8 +52,9 @@ public class SeedStarter {
         this.details.add(detail);
         detail.setSeedStarter(this);
     }
-
+    /*
     public List<Feature> getFeatures() {
         return features;
     }
+    */
 }
