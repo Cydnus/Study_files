@@ -1,5 +1,6 @@
 package com.example.SeedStarter.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NamedEntityGraph(name = "SeedStarter.all", attributeNodes = {
+        @NamedAttributeNode("features"),
+        @NamedAttributeNode("details")
+})
 @Entity
 public class SeedStarter {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +28,11 @@ public class SeedStarter {
     private Type type;
 
     @OneToMany(mappedBy = "seedStarter", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonManagedReference
     private List<Feature> features = new ArrayList<>();
 
     @OneToMany(mappedBy = "seedStarter", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @JsonManagedReference
     private List<Detail> details= new ArrayList<>();
 
     public void setFeature(Feature feature) {

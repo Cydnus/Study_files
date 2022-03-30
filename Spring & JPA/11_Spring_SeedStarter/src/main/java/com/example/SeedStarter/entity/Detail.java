@@ -1,5 +1,6 @@
 package com.example.SeedStarter.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Detail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="SEED_STARTER_ID")
+    @JsonBackReference
     private SeedStarter seedStarter;
 
     public void setSeedStarter(SeedStarter seedStarter)

@@ -21,6 +21,6 @@ public class SeedStarterService {
 
     public List<SeedStarter> findAll()
     {
-        return this.seedStarterRepository.findAll();
+        return this.seedStarterRepository.findWithFeatureAndDetail();
     }
 }
