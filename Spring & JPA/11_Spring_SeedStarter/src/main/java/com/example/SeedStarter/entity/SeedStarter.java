@@ -53,7 +53,7 @@ public class SeedStarter {
         detail.setSeedStarter(this);
     }
 
-    public Long getId() {
-        return id;
+    public List<Feature> getFeatures() {
+        return features;
     }
 }

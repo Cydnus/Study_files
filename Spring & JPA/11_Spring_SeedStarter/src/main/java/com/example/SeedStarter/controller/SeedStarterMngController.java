@@ -6,6 +6,7 @@ import com.example.SeedStarter.service.SeedStarterService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-@RequiredArgsConstructor
 @Controller
+//@RequiredArgsConstructor
 public class SeedStarterMngController {
 
     private final SeedStarterService SeedStarterService;
 
-    private final ObjectMapper mapper;
+    @Autowired
+    public SeedStarterMngController(SeedStarterService seedStarterService) {
+        SeedStarterService = seedStarterService;
+    }
+
+    //private final ObjectMapper mapper;
 
     @RequestMapping({"/","/seedstartermng"})
     public String showSeedStarters(final SeedStarter seedStarter , Model model) throws JsonProcessingException

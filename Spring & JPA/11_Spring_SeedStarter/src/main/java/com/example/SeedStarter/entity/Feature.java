@@ -28,4 +28,8 @@ public class Feature {
         this.seedStarter = seedStarter;
         seedStarter.getFeatures().add(this);
     }
+
+    public FeatureType getName() {
+        return name;
+    }
 }

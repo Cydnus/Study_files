@@ -24,12 +24,12 @@
             </thread>
             <tbody>
             <tr th:each="starter : ${seedStarterWithFeature}">
-            <td th:text="${#temporals.format(starter.datePlanted, 'yyyy-MM-dd')}"></td>
-            <td th:if="${starter.covered}==true"></td>
-            <td th:unless="${starter.covered}==true"></td>
-            <td th:text="${starter.type}"></td>
-            <td> #<td>
-            <td> #<td>
+                <td th:text="${#temporals.format(starter.datePlanted, 'yyyy-MM-dd')}"></td>
+                <td th:if="${starter.covered}==true" th:text="#{seedstarter.covered.Yes}"}></td>
+                <td th:unless="${starter.covered}==true" th:text="#{seedstarter.covered.No}" ></td>
+                <td th:text="${starter.type}"></td>
+                <td th:text="${T(com.example.SeedStarter.entity.CollectorFeatureName).name(starter.features.stream())}"> </td>
+                <td>#</td>
             </tr>
             </tbody>
         <table>

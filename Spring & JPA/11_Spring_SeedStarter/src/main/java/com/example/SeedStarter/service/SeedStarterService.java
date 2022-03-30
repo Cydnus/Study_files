@@ -8,16 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SeedStarterService {
 
     private final SeedStarterRepository seedStarterRepository;
-    /*
+
     @Autowired
     public SeedStarterService(SeedStarterRepository seedStarterRepository) {
         this.seedStarterRepository = seedStarterRepository;
     }
-     */
 
     public List<SeedStarter> findWithFeature()
     {
