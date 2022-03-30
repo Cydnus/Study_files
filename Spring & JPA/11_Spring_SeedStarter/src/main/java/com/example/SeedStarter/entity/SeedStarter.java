@@ -37,4 +37,8 @@ public class SeedStarter {
         this.details.add(detail);
         detail.setSeedStarter(this);
     }
+
+    public Long getId() {
+        return id;
+    }
 }
