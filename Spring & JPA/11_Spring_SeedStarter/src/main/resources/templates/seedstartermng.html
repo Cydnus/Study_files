@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+    <head>
+    <meta charset="UTF-8">
+    <title>SSM</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="container" th:unless="${#lists.isEmpty(seedStarterWithDetail)}">
+            <div class="p-3 mb-5 bg-success text-white"><h2>List of Seed Starters</h2></div>
+        <p>&#x1F33F;</p><span th:text="#{title}"></span>
+        <table class="table table-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{seedstarter.datePlanted}"></th>
+                    <th th:text="#{seedstarter.covered}"></th>
+                    <th th:text="#{seedstarter.type}"></th>
+                    <th th:text="#{seedstarter.features}"></th>
+                    <th th:text="#{seedstarter.rows}"></th>
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each="starter : ${seedStarterWithFeature}">
+            <td th:text="${#temporals.format(starter.datePlanted, 'yyyy-MM-dd')}"></td>
+            <td th:if="${starter.covered}==true"></td>
+            <td th:unless="${starter.covered}==true"></td>
+            <td th:text="${starter.type}"></td>
+            <td> #<td>
+            <td> #<td>
+            </tr>
+            </tbody>
+        <table>
+    </body>
+</html>

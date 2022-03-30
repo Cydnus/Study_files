@@ -6,6 +6,11 @@ spring:
     url : jdbc:mysql://192.168.0.52:3306/jpa_playground?serverTimezone=Asia/Seoul
     username : sangho
     password : sangho
+  http:
+    encoding:
+      charset: UTF-8
+      enable : true
+      force : true
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate :
