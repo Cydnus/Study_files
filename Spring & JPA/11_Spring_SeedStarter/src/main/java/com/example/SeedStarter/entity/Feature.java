@@ -29,7 +29,4 @@ public class Feature {
         seedStarter.getFeatures().add(this);
     }
 
-    public FeatureType getName() {
-        return name;
-    }
 }

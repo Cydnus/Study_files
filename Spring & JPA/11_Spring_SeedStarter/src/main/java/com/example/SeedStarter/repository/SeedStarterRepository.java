@@ -17,4 +17,5 @@ public interface SeedStarterRepository extends JpaRepository<SeedStarter, Long> 
     @EntityGraph(value = "SeedStarter.withDetail", type= EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT DISTINCT s FROM SeedStarter s")
     List<SeedStarter> findWithDetail();
+
 }

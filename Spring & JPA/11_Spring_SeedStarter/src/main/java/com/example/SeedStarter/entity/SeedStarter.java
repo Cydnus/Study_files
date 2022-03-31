@@ -13,6 +13,7 @@ import java.util.List;
 // cannot simultaneously fetch multiple bags 에러 발생
 // 각각 들고오기 vs list가 아니라 set을 불러오기
 // 각각 들고오기로 진행
+
 @Getter
 @Setter
 @NamedEntityGraphs({

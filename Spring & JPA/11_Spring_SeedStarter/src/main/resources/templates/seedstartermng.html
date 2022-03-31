@@ -42,6 +42,59 @@
                 </td>
             </tr>
             </tbody>
+                
         <table>
+            
+
+            <div class="container alert alert-success">
+                <form action="#" th:action="@{/seedstartermng}" th:object="${seedStarterAddForm}" method="post">
+                    <fieldset>
+                        <legend>새로운 Seed Starter추가</legend>
+                        <div class="form-group row">
+                            <label for="plantedDateTxBox" class="col-sm-2 col-form-label"
+                            th:text="#{seedstarter.datePlanted}"></label>
+                            <div class="col-sm-10">
+                                <input type="text" id="plantedDateTxBox" th:field="*{datePlanted}" value="yyyy/MM/dd"/>
+                        </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2" th:text="#{seedstarter.covered}"></div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="coveredChkBox" th:field="*{covered}">
+                                <label class="form-check-label" for="coveredChkBox" ></label>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="col-sm-2" th:text="#{seedstarter.type}"></div>
+                            <div class="col-sm-2">
+                                <select id="seedStarterType" class="form-control" th:field="*{type}">
+                                <option selected value="PLASTIC">PLASTIC</option>
+                                <option value="WOOD" >WOOD</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <div class="col-sm-2" th:text="#{seedstarter.features}"></div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="features" value="SUBSTRATE" th:field="*{substrate}">
+                                    <label class="form-check-label">특정 기질</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="features" value="FERTILIZER" th:field="*{fertilizer}">
+                                    <label class="form-check-label">비료 사용</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="features" value="PH_CORRECTOR" th:field="*{phCorrector}">
+                                    <label class="form-check-label">수소 농도 교정</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">추가</button>
+                    </fieldset>
+                </form>
+            </div>
     </body>
 </html>
