@@ -12,7 +12,7 @@ public class ItemInfo {
     // Enum으로도 가능하지만 후에 아이템이 추가될 상황을 대비해서 테이블로 생성
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="Item_INFO_Id")
+    @Column(name="ITEM_INFO_ID")
     private Long id;
 
     private String name;

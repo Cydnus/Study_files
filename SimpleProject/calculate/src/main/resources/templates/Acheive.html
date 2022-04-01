@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <meta charset="utf-8">
+    <title>Maple Boss achieve</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container" >
+        <div class="p-3 mb-5 bg-warning text-white"><h2>&#x1F341; List of achieve</h2></div>
+    <table class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th th:text="#{achieveTitle.date}"></th>
+                <th th:text="#{achieveTitle.bossLevel}"></th>
+                <th th:text="#{achieveTitle.bossName}"></th>
+                <th th:text="#{achieveTitle.itemType}"></th>
+                <th th:text="#{achieveTitle.itemName}"></th>
+                <th th:text="#{achieveTitle.count}"></th>
+                <th th:text="#{achieveTitle.price}"></th>
+                <th th:text="#{achieveTitle.priceExcludeCommission}"></th>
+                <th th:text="#{achieveTitle.pricePerOne}"></th>
+                <th th:text="#{achieveTitle.partyInfo}"></th>
+                <th th:text="#{achieveTitle.isEnd}"></th>
+            </tr>
+        </thread>
+        <tbody>
+        <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}" th:each="achieve : ${achieveWithBossAndItem}">
+            <td th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+            <td th:text="${achieve.boss_level}"></td>
+            <td th:text="${achieve.boss_name}"></td>
+            <td th:text="${achieve.item_type}"></td>
+            <td th:text="${achieve.item_name}"></td>
+            <td th:text="${achieve.itemCount}"></td>
+            <td th:text="${achieve.price}"></td>
+            <td th:text="${achieve.priceExcludeCommission}"></td>
+            <td th:text="${achieve.pricePerOne}"></td>
+            <td th:text="${achieve.partyInfo}"></td>
+            <td th:if="${achieve.calEnd}==true" th:text="#{Yes}"></td>
+            <td th:unless="${achieve.calEnd}==true" th:text="#{No}" ></td>
+        </tr>
+        </tbody>
+            
+    <table>
+        
+</body>
+</html>
