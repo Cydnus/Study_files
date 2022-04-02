@@ -15,7 +15,7 @@
 >|   :-:    |   :-:      |-|
 >|2022/03/31| DB 구조 설계, 기본적인 Entity 설계|프로젝트 시작일|
 >|2022/04/01 | DB 컬럼 추가, 조회 구현||
->|||
+>|2022/04/02| DB 삽입, Thymeleaf 수정|
 
 --------
 * Using Modules
@@ -41,6 +41,12 @@
 >    </tr>
 >    <tr>
 >   <td> IDE </td>
+>   <td>Spring </td>
 >   <td colspan=2>IntelliJ IDEA 2021.3.3 (Community Edition)</td>
 >    </tr>
+>   <tr>
+>   <td></td>
+>   <td > Thymeleaf</td>
+>   <td> Visual Studio Code 1.59.0 </td> 
+>   </tr>
 ></table>
