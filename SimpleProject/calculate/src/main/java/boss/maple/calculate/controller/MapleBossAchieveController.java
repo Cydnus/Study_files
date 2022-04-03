@@ -7,14 +7,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -34,8 +37,8 @@ public class MapleBossAchieveController {
 
     }
 
-    @RequestMapping({"/api/", "/api/achieve"})
-    public String showAchieve(final Achieve achieve, Model model) throws JsonProcessingException
+    @RequestMapping({"/api/", "/api/achieve/"})
+    public ModelAndView showAchieve(final Achieve achieve) throws JsonProcessingException
     {
         List<Achieve> all = mbas.findAllByVisibleOnTable();
         List<String> itemNames = mbas.findAllItemInfoName();
@@ -48,47 +51,115 @@ public class MapleBossAchieveController {
         bossLevel.add(LevelType.하드);
         bossLevel.add(LevelType.카오스);
 
-        model.addAttribute("achieveWithBossAndItem", all);
-        model.addAttribute("itemNames", itemNames);
-        model.addAttribute("bossNames", bossNames);
-        model.addAttribute("bossTypes", bossLevel);
+        ModelAndView modelAndView = new ModelAndView("Achieve");
+        modelAndView.addObject("achieveWithBossAndItem", all);
+        modelAndView.addObject("itemNames", itemNames);
+        modelAndView.addObject("bossNames", bossNames);
+        modelAndView.addObject("bossTypes", bossLevel);
         //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
         //return mapper.writeValueAsString(shows);
-        return "Achieve";
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/api/achieve/{bLevel}/{bName}/{partyCnt}/", "/api/achieve/"}, method = RequestMethod.GET)
+    public ModelAndView showAchieveWithInfos(final Achieve achieve,
+                                             @RequestParam(value = "bLevel", required=false) String bLevel,
+                                             @RequestParam(value ="bName", required=false) String bName,
+                                             @RequestParam(value ="partyCnt", required=false) String partyCnt ) throws JsonProcessingException
+    {
+        if(bLevel == null || bName== null || partyCnt == null )
+            return showAchieve(achieve);
+
+        List<Achieve> all = mbas.findAllByVisibleOnTable();
+        List<String> itemNames = mbas.findAllItemInfoName();
+        List<String> bossNames = mbas.findAllBossInfoName();
+
+        List<LevelType> bossLevel = new ArrayList<>();
+        bossLevel.add(LevelType.이지);
+        bossLevel.add(LevelType.노말);
+        bossLevel.add(LevelType.하드);
+        bossLevel.add(LevelType.카오스);
+
+        List<String> infos = new ArrayList<>();
+        infos.add(bossLevel.get(Integer.parseInt(bLevel.toString())).toString());
+
+        infos.add(partyCnt.toString());
+
+        List<Integer> list = new ArrayList<Integer>();
+
+        int size = bName.toString().length();
+        for(int i = 0; i< size; i+=3)
+        {
+            list.add(Integer.parseInt(bName.toString().substring(i, i+3)) *(-1));
+        }
+        byte[] recover = new byte[list.size()];
+
+        for(int i = 0 ; i< list.size(); i++)
+        {
+            recover[i] = Byte.parseByte(list.get(i).toString());
+        }
+
+        infos.add(new String(recover,StandardCharsets.UTF_8));
+
+        infos.stream().forEach(v-> System.out.println("v = " + v));
+
+        ModelAndView modelAndView = new ModelAndView("Achieve");
+        modelAndView.addObject("achieveWithBossAndItem", all);
+        modelAndView.addObject("itemNames", itemNames);
+        modelAndView.addObject("bossNames", bossNames);
+        modelAndView.addObject("bossTypes", bossLevel);
+        modelAndView.addObject("infos",infos);
+        //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
+        //return mapper.writeValueAsString(shows);
+        return modelAndView;
     }
 
     @PostMapping("/api/achieve")
-    public String achieveAdd(@ModelAttribute AchieveAddForm achieveAddForm, Model model )
+    public ModelAndView achieveAdd(@ModelAttribute AchieveAddForm achieveAddForm)
     {
-        System.out.println(achieveAddForm);
-
-
-
         Achieve achieve = new Achieve();
-
+        String viewName= "redirect:/api/achieve/?";
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve");
         achieve.setDateTime(LocalDateTime.now());
         BossInfo bossInfo;
         switch ( achieveAddForm.getBosslevel())
         {
             case "노말":
+                viewName += "bLevel=1&";
                 bossInfo = mbas.findBossInfoByNameAndLevel(achieveAddForm.getBossname(), LevelType.노말 );
                 break;
             case "하드":
+                viewName += "bLevel=2&";
                 bossInfo = mbas.findBossInfoByNameAndLevel(achieveAddForm.getBossname(), LevelType.하드 );
                 break;
             case "카오스":
+                viewName += "bLevel=3&";
                 bossInfo = mbas.findBossInfoByNameAndLevel(achieveAddForm.getBossname(), LevelType.카오스 );
                 break;
             case "이지":
             default:
+                viewName += "bLevel=0&";
                 bossInfo = mbas.findBossInfoByNameAndLevel(achieveAddForm.getBossname(), LevelType.이지 );
                 break;
         }
 
+        //viewName += achieveAddForm.getBossname().getBytes(StandardCharsets.UTF_8) +"/";
+
+        byte[] bytes = achieveAddForm.getBossname().getBytes(StandardCharsets.UTF_8);
+        viewName +="bName=";
+        for (byte b : bytes) {
+            viewName += String.format("%03d", (int)b *-1);
+            System.out.println(String.format("%03d", (int)b *-1));
+        }
+        viewName +="&partyCnt=";
+
 
         if(bossInfo == null)
         {
-            return "redirect:/api/";
+            mav.addObject("msg","보스 정보가 잘못되었습니다.");
+            mav.addObject("url","/api/");
+            mav.setViewName("Alert");
+            return mav;
         }
 
         achieve.setBoss(bossInfo);
@@ -96,24 +167,14 @@ public class MapleBossAchieveController {
 
         if(itemInfo == null )
         {
-            return "redirect:/api/";
+            mav.addObject("msg","아이템 정보가 잘못되었습니다.");
+            mav.addObject("url","/api/");
+            mav.setViewName("Alert");
+            return mav;
         }
 
         achieve.setItem(itemInfo);
 
-        if(achieveAddForm.getPartyInfo() == null)
-        {
-            return "redirect:/api/";
-        }
-        try
-        {
-            achieve.setPartyInfo(achieveAddForm.getPartyInfo());
-
-        }
-        catch (Exception ex)
-        {
-            achieve.setPartyInfo(1L);
-        }
 
         if(achieveAddForm.getPrice() == null)
         {
@@ -131,7 +192,7 @@ public class MapleBossAchieveController {
 
         if(achieveAddForm.getCount() == null)
         {
-            return "redirect:/api/";
+            achieveAddForm.setCount(1);
         }
 
         try
@@ -142,17 +203,33 @@ public class MapleBossAchieveController {
         {
             achieve.setItemCount(1);
         }
+        if(achieveAddForm.getPartyInfo() == null)
+        {
+            mav.addObject("msg","파티 정보가 잘못되었습니다.");
+            mav.addObject("url","/api/");
+            mav.setViewName("Alert");
+            return mav;
+        }
+        try
+        {
+            achieve.setPartyInfo(achieveAddForm.getPartyInfo());
+
+            viewName +=achieveAddForm.getPartyInfo().toString();
+
+        }
+        catch (Exception ex)
+        {
+            achieve.setPartyInfo(1L);
+            viewName +="1";
+        }
+
 
         achieve.setCalEnd(false);
         achieve.setVisibleOnTable(false);
 
-
-
-
         mbas.saveAchieve(achieve);
+        mav.setViewName(viewName);
 
-        return "redirect:/api/";
+        return mav;
     }
-
-
 }
