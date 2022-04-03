@@ -5,7 +5,7 @@
     - 데이터 추가시 오류 발생 Alert 화면 추가
     - 데이터 추가시 보스정보(등급, 이름), 파티원 수 유지
     - 현재까지 상태   
-        <img src="Image/220403_View.gif" width="400px" >
+        <img src="Image/220403_View.gif" width="400px" title="220403_View" alt="220403_View" >
 
 * 2022/04/02
     - 데이터 삽입 부분 추가
