@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <meta charset="utf-8">
+    <title>Maple Boss achieve</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container" >
+        <div class="p-3 mb-5 bg-warning text-white"><h2>&#x1F341; List of achieve</h2></div>
+    </div>
+        
+    <div class="container" style="width:100%; height:600px; overflow:auto;">
+        <table class="table table-sm  table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{achieveTitle.date}"></th>
+                    <th th:text="#{achieveTitle.bossLevel}"></th>
+                    <th th:text="#{achieveTitle.bossName}"></th>
+                    <th th:text="#{achieveTitle.itemName}"></th>
+                    <th th:text="#{achieveTitle.count}"></th>
+                    <th th:text="#{achieveTitle.price}"></th>
+                    <th th:text="#{achieveTitle.partyInfo}"></th>
+                    <th th:text="#{achieveTitle.isEnd}"></th>
+                </tr>
+            </thread>
+            <tbody>
+                    <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}"  th:each="achieve, index : ${achieveWithBossAndItem}">
+                        <th:block th:with="item=|${itemModifyListForm.itemModifies}[${index.index}]|">
+                            <input type="hidden"  th:id="|${item}.id|" th:name="|${item}.id|" th:value="${achieve.id}"/>
+                            <td th:id="|${item}.date|" th:name="|${item}.date|" th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+
+                            <td> 
+                                <select th:id="|${item}.blevel|" th:name="|${item}.blevel|" >
+                                    <option th:value="${achieve.boss.level}" th:text="${achieve.boss.level}"></option>                            
+                                    <th:block  th:each="blv:${bossTypes}">
+                                        <option th:value="${blv}" th:text="${blv}" th:unless="${achieve.boss.level.toString().equals(blv.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td>                        
+                                <select th:id="|${item}.bname|" th:name="|${item}.bname|">
+                                    <option th:value="${achieve.boss.name}" th:text="${achieve.boss.name}"></option>                            
+                                    <th:block  th:each="bname:${bossNames}">
+                                        <option th:value="${bname}" th:text="${bname}" th:unless="${achieve.boss.name.toString().equals(bname.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+                            
+                            <td >
+                                <select th:id="|${item}.iname|" th:name="|${item}.iname|">
+                                    <option th:value="${achieve.item.name}" th:text="${achieve.item.name}"></option>                            
+                                    <th:block  th:each="iname:${itemNames}">
+                                        <option th:value="${iname}" th:text="${iname}" th:unless="${achieve.item.name.toString().equals(iname.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td>
+                                <input type ="number" th:id="|${item}.itemCount|" th:name="|${item}.itemCount|" th:value="${achieve.itemCount}"/>
+                            </td>
+
+                            <td>
+                                <input type ="number"  th:id="|${item}.price|" th:name="|${item}.price|" th:value="${achieve.price}"/>
+                            <td>
+                                <select th:id="|${item}.partyInfo|" th:name="|${item}.partyInfo|">
+                                    <option th:value="${achieve.partyInfo}" th:text="${achieve.partyInfo}"></option>                
+                                    <th:block th:each="num:${#numbers.sequence(1,6)}">
+                                        <option th:value="${num}" th:text="${num}" th:unless="${achieve.partyInfo.toString().equals(num.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td th:if="${achieve.calEnd}==true" ><input type="checkbox" th:id="|${item}.calEnd|"  th:name="|${item}.calEnd|" checked></td>
+                            <td th:unless="${achieve.calEnd}==true"><input type="checkbox" th:id="|${item}.calEnd|" th:name="|${item}.calEnd|"></td>
+                        </th:block>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container alert alert-dark" >
+        <div class="row">
+            <div class = "col-sm-2">
+                <button class="btn btn-worning" th:onclick="|location.href='@{/api/achieve/}'|" >취소</button>
+            </div>
+
+            <div class = "col-sm-2">
+                <button class="btn btn-primary" onclick="clock()">수정 완료</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        
+
+    </script>
+    
+    </body>
+</html>

@@ -34,10 +34,11 @@ public class MapleBossAchieveController {
     {
 
         model.addAttribute("achieveAddForm", new AchieveAddForm() );
+        model.addAttribute("itemModifyListForm", new ItemModifyListForm() );
 
     }
 
-    @RequestMapping({"/api/", "/api/achieve/"})
+    @RequestMapping({"/api/", "/api/achieve","/api/achieve/"})
     public ModelAndView showAchieve(final Achieve achieve) throws JsonProcessingException
     {
         List<Achieve> all = mbas.findAllByVisibleOnTable();
@@ -61,11 +62,11 @@ public class MapleBossAchieveController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/api/achieve/{bLevel}/{bName}/{partyCnt}/", "/api/achieve/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/api/achieve/{bLevel}/{bName}/{partyCnt}", "/api/achieve/"}, method = RequestMethod.GET)
     public ModelAndView showAchieveWithInfos(final Achieve achieve,
-                                             @RequestParam(value = "bLevel", required=false) String bLevel,
-                                             @RequestParam(value ="bName", required=false) String bName,
-                                             @RequestParam(value ="partyCnt", required=false) String partyCnt ) throws JsonProcessingException
+                                             @PathVariable("bLevel") @RequestParam(value = "bLevel", required=false) String bLevel,
+                                             @PathVariable("bName") @RequestParam(value ="bName", required=false) String bName,
+                                             @PathVariable("partyCnt") @RequestParam(value ="partyCnt", required=false) String partyCnt ) throws JsonProcessingException
     {
         if(bLevel == null || bName== null || partyCnt == null )
             return showAchieve(achieve);
@@ -113,6 +114,40 @@ public class MapleBossAchieveController {
         //return mapper.writeValueAsString(shows);
         return modelAndView;
     }
+
+    @RequestMapping({"/api/achieve/items_modify","/api/achieve/items_modify/"})
+    public ModelAndView showAchieveItems(final Achieve achieve) throws JsonProcessingException
+    {
+        List<Achieve> all = mbas.findAllByVisibleOnTable();
+        List<String> itemNames = mbas.findAllItemInfoName();
+        List<String> bossNames = mbas.findAllBossInfoName();
+
+
+        List<LevelType> bossLevel = new ArrayList<>();
+        bossLevel.add(LevelType.이지);
+        bossLevel.add(LevelType.노말);
+        bossLevel.add(LevelType.하드);
+        bossLevel.add(LevelType.카오스);
+
+        ModelAndView modelAndView = new ModelAndView("achieve/items_modify");
+        modelAndView.addObject("achieveWithBossAndItem", all);
+        modelAndView.addObject("itemNames", itemNames);
+        modelAndView.addObject("bossNames", bossNames);
+        modelAndView.addObject("bossTypes", bossLevel);
+        //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
+        //return mapper.writeValueAsString(shows);
+        return modelAndView;
+    }
+
+    @PostMapping({"/api/achieve/items_modify/","/api/achieve/items_modify/"})
+    public ModelAndView updates(@ModelAttribute ItemModifyListForm itemModifyListForm)
+    {
+         System.out.println("modifies = " + itemModifyListForm);
+
+        ModelAndView mav = new ModelAndView("/api/achieve/");
+        return mav;
+    }
+
 
     @PostMapping("/api/achieve")
     public ModelAndView achieveAdd(@ModelAttribute AchieveAddForm achieveAddForm)
@@ -232,4 +267,8 @@ public class MapleBossAchieveController {
 
         return mav;
     }
+
+
+
+
 }

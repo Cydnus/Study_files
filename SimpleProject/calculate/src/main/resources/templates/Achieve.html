@@ -81,6 +81,12 @@
                         document.write(sum_party.toLocaleString('ko-KR') + " 메소");
                     </script></sapn>
             </div>
+            <div  class="col-sm-2">
+                <button th:onclick="|location.href='@{/api/achieve/items_modify}'|" class="btn btn-primary" >수정</button>
+            </div>
+            <div  class="col-sm-2">
+                <button class="btn btn-primary" >정산완료</button>
+            </div>
         </div>
     </div>
     
