@@ -32,24 +32,26 @@
                 </tr>
             </thread>
             <tbody>
-                <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}" th:each="achieve : ${achieveWithBossAndItem}">
-                    <td th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${achieve.boss.level}"></td>
-                    <td th:text="${achieve.boss.name}"></td>
-                    <td th:text="${achieve.item.type}"></td>
-                    <td th:text="${achieve.item.name}"></td>
-                    <td th:text="${achieve.itemCount}"></td>
-                    <td th:text="${#numbers.formatInteger(achieve.price,1,'COMMA')}"></td>
-                    <th:block  th:with ="pec=${achieve.price}*${achieve.itemCount}*0.95">
+                <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}" th:each="achieve, index : ${achieveWithBossAndItem}">
+                    <th:block th:with="id=|acheive[${index.index}]|">
+                        <td th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${achieve.boss.level}"></td>
+                        <td th:text="${achieve.boss.name}"></td>
+                        <td th:text="${achieve.item.type}"></td>
+                        <td th:text="${achieve.item.name}"></td>
+                        <td th:text="${achieve.itemCount}"></td>
+                        <td th:text="${#numbers.formatInteger(achieve.price,1,'COMMA')}"></td>
+                        <th:block  th:with ="pec=${achieve.price}*${achieve.itemCount}*0.95">
+                                
+                            <td th:id="|${id}_pec|"  th:text="${#numbers.formatInteger(pec,1,'COMMA')}"></td>
+                            <td th:id="|${id}_ppo|"  th:with="ppo= ${pec}/${achieve.partyInfo}" th:text="${#numbers.formatInteger(ppo, 1, 'COMMA')}"></td>
                             
-                        <td th:text="${#numbers.formatInteger(pec,1,'COMMA')}"></td>
-                        <td th:with="ppo= ${pec}/${achieve.partyInfo}" th:text="${#numbers.formatInteger(ppo, 1, 'COMMA')}"></td>
-                        
-                
+                    
+                        </th:block>
+                        <td th:text="${achieve.partyInfo}"></td>
+                        <td th:if="${achieve.calEnd}==true" ><input th:id="|${id}_id|"  type="checkbox" checked onchange="checkbox_change(this)"></td>
+                        <td th:unless="${achieve.calEnd}==true"><input th:id="|${id}_id|" type="checkbox" onchange="checkbox_change(this)" ></td>
                     </th:block>
-                    <td th:text="${achieve.partyInfo}"></td>
-                    <td th:if="${achieve.calEnd}==true" ><input type="checkbox" checked></td>
-                    <td th:unless="${achieve.calEnd}==true"><input type="checkbox"></td>
                 </tr>
             </tbody>
         </table>
@@ -57,37 +59,89 @@
     <div class="container alert alert-dark" >
         <div class="row">
             
-            <script th:inline="javascript">
-                var sum_total = 0;
-                var sum_party = 0;
-                [# th:each="achieve, stat : ${achieveWithBossAndItem}"]
-                sum_total += parseInt([[${achieve.price}]] * 0.95) ;
-                sum_party += parseInt(([[${achieve.price}]] * 0.95) /[[${achieve.partyInfo}]]);
-                [/]
-            </script>
-
             <div class="col-sm-4">
                 <label for="sumTotal">전체 분배금액 : </label>            
-                <sapn id="sumTotal" >
-                    <script th:inline="javascript">
-                        document.write(sum_total.toLocaleString('ko-KR')  + " 메소");
-                    </script>
-                </sapn>                
+                <sapn id="sumTotal" ></sapn>                
             </div>
             <div class="col-sm-4" >
                 <label for="sumParty">1인당 분배금액 :</label>
-                <sapn id="sumParty" >
-                    <script th:inline="javascript">
-                        document.write(sum_party.toLocaleString('ko-KR') + " 메소");
-                    </script></sapn>
+                <sapn id="sumParty" ></sapn>
             </div>
             <div  class="col-sm-2">
                 <button th:onclick="|location.href='@{/api/achieve/items_modify}'|" class="btn btn-primary" >수정</button>
             </div>
             <div  class="col-sm-2">
-                <button class="btn btn-primary" >정산완료</button>
+                <button class="btn btn-primary" onclick="CalEnd()" >정산완료</button>
             </div>
+
         </div>
+            <script th:inline="javascript">
+                var sum_total = 0;
+                var sum_party = 0;
+                [# th:each="achieve, stat : ${achieveWithBossAndItem}"]
+                if([[${achieve.CalEnd}]]!=true)
+                {
+                    sum_total += parseInt([[${achieve.price}]] * 0.95) ;
+                    sum_party += parseInt(([[${achieve.price}]] * 0.95) /[[${achieve.partyInfo}]]);
+                }
+                [/]
+
+                function checkbox_change(obj)
+                {
+                    console.log(obj);
+                    
+                    let front = obj.id.split('_')[0];
+                    let pec = Number(document.getElementById(front+"_pec").innerHTML.replaceAll(',',''));
+                    let ppo = Number(document.getElementById(front+"_ppo").innerHTML.replaceAll(',',''));
+
+                    console.log("pec = " + pec);
+                    console.log("ppo = " + ppo);
+
+
+                    if( obj.checked == true)
+                    {                        
+                        sum_total -= pec;
+                        sum_party -= ppo;
+                    }
+                    
+                    if( obj.checked == false)
+                    {                        
+                        sum_total += pec;
+                        sum_party += ppo;
+                    }
+                    
+                    console.log("sum_total = " + sum_total);
+                    console.log("sum_party = " + sum_party);
+                    document.getElementById("sumTotal").innerHTML = sum_total.toLocaleString('ko-KR')  + " 메소";
+                    document.getElementById("sumParty").innerHTML = sum_party.toLocaleString('ko-KR')  + " 메소"; 
+
+                }
+                      //  document.write(sum_total.toLocaleString('ko-KR')  + " 메소");
+
+                    document.getElementById("sumTotal").innerHTML = sum_total.toLocaleString('ko-KR')  + " 메소";
+                    document.getElementById("sumParty").innerHTML = sum_party.toLocaleString('ko-KR')  + " 메소"; 
+
+                function CalEnd()
+                {
+                    let url = location.href;
+                    if(url[url.length-1]=='/')
+                        url += 'calend/'
+                    else
+                        url+='/calend/'
+
+
+                    fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                    }).then((response)=>console.log(response));
+                    window.location.reload();
+                }
+
+
+            </script>
+
     </div>
     
     

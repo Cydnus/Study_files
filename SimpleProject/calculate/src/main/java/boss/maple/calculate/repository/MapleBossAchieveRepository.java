@@ -5,6 +5,7 @@ import boss.maple.calculate.entity.BossInfo;
 import boss.maple.calculate.entity.ItemInfo;
 import boss.maple.calculate.entity.LevelType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,10 @@ public interface MapleBossAchieveRepository extends JpaRepository<Achieve, Long>
 
     @Query("SELECT i FROM ItemInfo i WHERE i.name=:#{#name}")
     ItemInfo findItemInfoByName(@Param("name") String name);
+
+    @Query("SELECT a FROM Achieve a WHERE a.id=:#{#id}")
+    Achieve findAchieveById(@Param("id") Long id);
+
 
 
 }

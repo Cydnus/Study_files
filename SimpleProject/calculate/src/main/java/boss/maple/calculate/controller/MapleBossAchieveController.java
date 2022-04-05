@@ -34,8 +34,6 @@ public class MapleBossAchieveController {
     {
 
         model.addAttribute("achieveAddForm", new AchieveAddForm() );
-        model.addAttribute("itemModifyListForm", new ItemModifyListForm() );
-
     }
 
     @RequestMapping({"/api/", "/api/achieve","/api/achieve/"})
@@ -115,7 +113,7 @@ public class MapleBossAchieveController {
         return modelAndView;
     }
 
-    @RequestMapping({"/api/achieve/items_modify","/api/achieve/items_modify/"})
+    @RequestMapping(value={"/api/achieve/items_modify","/api/achieve/items_modify/"}, method=RequestMethod.GET)
     public ModelAndView showAchieveItems(final Achieve achieve) throws JsonProcessingException
     {
         List<Achieve> all = mbas.findAllByVisibleOnTable();
@@ -138,13 +136,76 @@ public class MapleBossAchieveController {
         //return mapper.writeValueAsString(shows);
         return modelAndView;
     }
-
-    @PostMapping({"/api/achieve/items_modify/","/api/achieve/items_modify/"})
-    public ModelAndView updates(@ModelAttribute ItemModifyListForm itemModifyListForm)
+/*
+    @PutMapping({"/api/achieve/items_modify/",
+            "/api/achieve/items_modify/{id}/{bLevel}/{bName}/{iName}/{itemCnt}/{price}/{partyCnt}/{calEnd}"})
+    @ResponseBody
+    public ModelAndView updates(
+            @RequestBody ItemModify itemModify,
+            @PathVariable("id") @RequestParam(value = "id", required=false) Long id,
+            @PathVariable("bLevel") @RequestParam(value = "bLevel", required=false) String bLevel,
+            @PathVariable("bName") @RequestParam(value ="bName", required=false) String bName,
+            @PathVariable("iName") @RequestParam(value ="iName", required=false) String iName,
+            @PathVariable("itemCnt") @RequestParam(value ="itemCnt", required=false) String itemCnt,
+            @PathVariable("price") @RequestParam(value ="price", required=false) String price,
+            @PathVariable("partyCnt") @RequestParam(value ="partyCnt", required=false) String partyCnt,
+            @PathVariable("calEnd") @RequestParam(value ="calEnd", required=false) boolean calEnd    )
     {
-         System.out.println("modifies = " + itemModifyListForm);
+        System.out.println("itemModify = " + itemModify);
+        System.out.println("id = " + id);
+        System.out.println("bLevel = " + bLevel);
+        System.out.println("bName = " + bName);
+        System.out.println("iName = " + iName);
+        System.out.println("itemCnt = " + itemCnt);
+        System.out.println("price = " + price);
+        System.out.println("partyCnt = " + partyCnt);
+        System.out.println("calEnd = " + calEnd);
 
-        ModelAndView mav = new ModelAndView("/api/achieve/");
+        ModelAndView mav = new ModelAndView("/api/achieve/items_modify/");
+        return mav;
+    }
+
+ */
+
+
+
+    @PutMapping({"/api/achieve/items_modify/","/api/achieve/items_modify"})
+    @ResponseBody
+    public ModelAndView  updates(@RequestBody ItemModify itemModify )
+    {
+        System.out.println("itemModify = " + itemModify);
+
+        Achieve achieve = mbas.findAchieveById(itemModify.getId());
+        BossInfo bossInfo ;
+
+        switch ( itemModify.getBlevel())
+        {
+            case "노말":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.노말 );
+                break;
+            case "하드":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.하드 );
+                break;
+            case "카오스":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.카오스 );
+                break;
+            case "이지":
+            default:
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.이지 );
+                break;
+        }
+        ItemInfo itemInfo = mbas.findItemInfoByName(itemModify.getIname());
+
+        achieve.setBoss(bossInfo);
+        achieve.setItem(itemInfo);
+        achieve.setPrice(itemModify.getPrice());
+        achieve.setItemCount(itemModify.getItemCount());
+        achieve.setPartyInfo(itemModify.getPartyInfo());
+        achieve.setCalEnd(itemModify.isCalEnd());
+
+        mbas.saveAchieve(achieve);
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify/");
         return mav;
     }
 
@@ -265,6 +326,18 @@ public class MapleBossAchieveController {
         mbas.saveAchieve(achieve);
         mav.setViewName(viewName);
 
+        return mav;
+    }
+
+    @RequestMapping({"/api/achieve/calend/"})
+    public ModelAndView Calend()
+    {
+        List<Achieve> list = mbas.findAllByVisibleOnTable();
+
+        list.stream().forEach(v->{v.setCalEnd(true); mbas.saveAchieve(v);});
+
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/");
         return mav;
     }
 

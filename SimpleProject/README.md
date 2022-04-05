@@ -18,6 +18,7 @@
 >|2022/04/02| DB 삽입, Thymeleaf 수정|
 >|2022/04/03| Thymeleaf 수정 및 추가|
 >|2022/04/04| Update 부분 Thymeleaf 추가 및 컨트롤러 추가 |
+>|2022/04/05| Update 부분 구현 |
 
 --------
 * Using Modules

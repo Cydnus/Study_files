@@ -51,4 +51,11 @@ public class MapleBossAchieveService {
     {
         return this.mapleBossAchieveRepository.save(achieve);
     }
+
+    public Achieve findAchieveById(Long id)
+    {
+        return this.mapleBossAchieveRepository.findAchieveById(id);
+    }
+
+
 }

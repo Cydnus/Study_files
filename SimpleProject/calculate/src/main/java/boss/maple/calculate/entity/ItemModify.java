@@ -10,13 +10,12 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class ItemModify {
-    String id;
-    String date;
+    Long id;
     String blevel;
     String bname;
     String iname;
-    String itemCount;
-    String price;
-    String partyInfo;
+    int itemCount;
+    Long price;
+    Long partyInfo;
     boolean calEnd;
 }

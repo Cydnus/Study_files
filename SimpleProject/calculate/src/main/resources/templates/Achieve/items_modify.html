@@ -31,12 +31,12 @@
             </thread>
             <tbody>
                     <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}"  th:each="achieve, index : ${achieveWithBossAndItem}">
-                        <th:block th:with="item=|${itemModifyListForm.itemModifies}[${index.index}]|">
-                            <input type="hidden"  th:id="|${item}.id|" th:name="|${item}.id|" th:value="${achieve.id}"/>
-                            <td th:id="|${item}.date|" th:name="|${item}.date|" th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+                        <th:block th:with="item=|achieve_${index.index}|">
+                            <input type="hidden"  th:id="|${item}_id|" th:name="|${item}_id|" th:value="${achieve.id}"/>
+                            <td th:id="|${item}_date|" th:name="|${item}_date|" th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
 
                             <td> 
-                                <select th:id="|${item}.blevel|" th:name="|${item}.blevel|" >
+                                <select th:id="|${item}_blevel|" th:name="|${item}_blevel|" onchange="onChange(this)" >
                                     <option th:value="${achieve.boss.level}" th:text="${achieve.boss.level}"></option>                            
                                     <th:block  th:each="blv:${bossTypes}">
                                         <option th:value="${blv}" th:text="${blv}" th:unless="${achieve.boss.level.toString().equals(blv.toString())}"></option>
@@ -45,7 +45,7 @@
                             </td>
 
                             <td>                        
-                                <select th:id="|${item}.bname|" th:name="|${item}.bname|">
+                                <select th:id="|${item}_bname|" th:name="|${item}_bname|" onchange="onChange(this)">
                                     <option th:value="${achieve.boss.name}" th:text="${achieve.boss.name}"></option>                            
                                     <th:block  th:each="bname:${bossNames}">
                                         <option th:value="${bname}" th:text="${bname}" th:unless="${achieve.boss.name.toString().equals(bname.toString())}"></option>
@@ -54,7 +54,7 @@
                             </td>
                             
                             <td >
-                                <select th:id="|${item}.iname|" th:name="|${item}.iname|">
+                                <select th:id="|${item}_iname|" th:name="|${item}_iname|" onchange="onChange(this)">
                                     <option th:value="${achieve.item.name}" th:text="${achieve.item.name}"></option>                            
                                     <th:block  th:each="iname:${itemNames}">
                                         <option th:value="${iname}" th:text="${iname}" th:unless="${achieve.item.name.toString().equals(iname.toString())}"></option>
@@ -63,13 +63,13 @@
                             </td>
 
                             <td>
-                                <input type ="number" th:id="|${item}.itemCount|" th:name="|${item}.itemCount|" th:value="${achieve.itemCount}"/>
+                                <input type ="number" th:id="|${item}_itemCount|" th:name="|${item}_itemCount|" th:value="${achieve.itemCount}" onchange="onChange(this)"/>
                             </td>
 
                             <td>
-                                <input type ="number"  th:id="|${item}.price|" th:name="|${item}.price|" th:value="${achieve.price}"/>
+                                <input type ="number"  th:id="|${item}_price|" th:name="|${item}_price|" th:value="${achieve.price}" onchange="onChange(this)" />
                             <td>
-                                <select th:id="|${item}.partyInfo|" th:name="|${item}.partyInfo|">
+                                <select th:id="|${item}_partyInfo|" th:name="|${item}_partyInfo|" onchange="onChange(this)">
                                     <option th:value="${achieve.partyInfo}" th:text="${achieve.partyInfo}"></option>                
                                     <th:block th:each="num:${#numbers.sequence(1,6)}">
                                         <option th:value="${num}" th:text="${num}" th:unless="${achieve.partyInfo.toString().equals(num.toString())}"></option>
@@ -77,8 +77,8 @@
                                 </select>
                             </td>
 
-                            <td th:if="${achieve.calEnd}==true" ><input type="checkbox" th:id="|${item}.calEnd|"  th:name="|${item}.calEnd|" checked></td>
-                            <td th:unless="${achieve.calEnd}==true"><input type="checkbox" th:id="|${item}.calEnd|" th:name="|${item}.calEnd|"></td>
+                            <td th:if="${achieve.calEnd}==true" ><input type="checkbox" th:id="|${item}_calEnd|"  th:name="|${item}_calEnd|" checked onchange="onChange(this)"></td>
+                            <td th:unless="${achieve.calEnd}==true"><input type="checkbox" th:id="|${item}_calEnd|" th:name="|${item}_calEnd|" onchange="onChange(this)"></td>
                         </th:block>
                     </tr>
             </tbody>
@@ -91,14 +91,55 @@
             </div>
 
             <div class = "col-sm-2">
-                <button class="btn btn-primary" onclick="clock()">수정 완료</button>
+                <button class="btn btn-primary" th:onclick="|location.href='@{/api/achieve/}'|">수정 완료</button>
             </div>
         </div>
     </div>
     <script type="text/javascript">
+        function onChange( obj )
+        {
+            console.log(obj.id);
+            
+            var index = obj.id.split('_')[1];
+            
+            var jsid = document.getElementById("achieve_"+index+"_id").value;
+            var jsblevel = document.getElementById("achieve_"+index+"_blevel").value;
+            var jsbname = document.getElementById("achieve_"+index+"_bname").value;
+            var jsiname = document.getElementById("achieve_"+index+"_iname").value;
+            var jsitemCnt = document.getElementById("achieve_"+index+"_itemCount").value;
+            var jsprice = document.getElementById("achieve_"+index+"_price").value;
+            var jspartyCnt = document.getElementById("achieve_"+index+"_partyInfo").value;
+            var jscalEnd = document.getElementById("achieve_"+index+"_calEnd").checked;
 
+            
+            console.log(jsid);
+            console.log(jsblevel);
+            console.log(jsbname);
+            console.log(jsiname);
+            console.log(jsitemCnt);
+            console.log(jsprice);
+            console.log(jspartyCnt);
+            console.log(jscalEnd);
+            
+            fetch(window.location.href, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "id"  :    jsid,
+                "blevel"  :    jsblevel,
+                "bname"   : jsbname,
+                "iname"   :  jsiname,
+                "itemCount" :   jsitemCnt,
+                "price"   :   jsprice,
+                "partyInfo"    :   jspartyCnt,
+                "calEnd"  :   jscalEnd
+            })
+            }).then((response)=> console.log(response));
+            //window.location.reload();
+        }
         
-
     </script>
     
     </body>
