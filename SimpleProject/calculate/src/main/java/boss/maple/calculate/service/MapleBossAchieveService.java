@@ -18,9 +18,9 @@ public class MapleBossAchieveService {
 
     private final MapleBossAchieveRepository mapleBossAchieveRepository;
 
-    public List<Achieve> findAll()
+    public List<Achieve> findAchieveAll()
     {
-        return this.mapleBossAchieveRepository.findAll();
+        return this.mapleBossAchieveRepository.findAchieveAll();
     }
     public  List<Achieve> findAllByVisibleOnTable()
     {
@@ -57,5 +57,19 @@ public class MapleBossAchieveService {
         return this.mapleBossAchieveRepository.findAchieveById(id);
     }
 
+    public int deleteAchieveById(Long id)
+    {
+        return this.mapleBossAchieveRepository.deleteAchieveById(id);
+    }
+
+    public int updateAchieveCalEndById(Long id)
+    {
+        return this.mapleBossAchieveRepository.updateAchieveCalEndById(id);
+    }
+
+    public int updateAchieveVisibleOnTableById(Long id)
+    {
+        return this.mapleBossAchieveRepository.updateAchieveVisibleOnTableById(id);
+    }
 
 }

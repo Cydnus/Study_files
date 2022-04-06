@@ -19,6 +19,7 @@
         <table class="table table-sm  table-striped">
             <thead class="thead-dark">
                 <tr>
+                    <th> <input type="checkbox" id="check_all" onclick="togleAll(this)"/> </th>
                     <th th:text="#{achieveTitle.date}"></th>
                     <th th:text="#{achieveTitle.bossLevel}"></th>
                     <th th:text="#{achieveTitle.bossName}"></th>
@@ -29,10 +30,20 @@
                     <th th:text="#{achieveTitle.isEnd}"></th>
                 </tr>
             </thread>
-            <tbody>
+            <tbody>                
+                <script th:inline="javascript">
+                    var list_id = []; 
+                    var list_calEnd = []; 
+                </script>
                     <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}"  th:each="achieve, index : ${achieveWithBossAndItem}">
                         <th:block th:with="item=|achieve_${index.index}|">
-                            <input type="hidden"  th:id="|${item}_id|" th:name="|${item}_id|" th:value="${achieve.id}"/>
+                            <td>
+                                <input type="checkbox"  th:id="|${item}_id|" th:name="|${item}_id|" th:value="${achieve.id}"/>
+                                <script th:inline="javascript">
+                                    list_id.push([[${item}]]+'_id');
+                                    list_calEnd.push([[${item}]]+'_calEnd');
+                                </script>
+                            </td>
                             <td th:id="|${item}_date|" th:name="|${item}_date|" th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
 
                             <td> 
@@ -86,12 +97,22 @@
     </div>
     <div class="container alert alert-dark" >
         <div class="row">
-            <div class = "col-sm-2">
-                <button class="btn btn-worning" th:onclick="|location.href='@{/api/achieve/}'|" >취소</button>
-            </div>
 
             <div class = "col-sm-2">
-                <button class="btn btn-primary" th:onclick="|location.href='@{/api/achieve/}'|">수정 완료</button>
+                <button type="button" class="btn btn-danger" onclick="deleteItems()" > 선택 삭제 </button>
+            </div>
+            <div  class="col-sm-2">
+                <button class="btn btn-primary" onclick="CalEnd()" >정산 일괄 처리</button>
+            </div>
+            
+            <div  class="col-sm-2">
+                <button class="btn btn-primary" onclick="toLog()"> 정산 항목 표시 제외 </button>
+            </div>
+            <div class = "col-sm-1">
+                <button class="btn btn-secondary  float-right" th:onclick="|location.href='@{/api/achieve/}'|" >취소</button>
+            </div>
+            <div class = "col-sm-2">
+                <button class="btn btn-primary  float-right" th:onclick="|location.href='@{/api/achieve/}'|">수정 완료</button>
             </div>
         </div>
     </div>
@@ -136,10 +157,113 @@
                 "partyInfo"    :   jspartyCnt,
                 "calEnd"  :   jscalEnd
             })
-            }).then((response)=> console.log(response));
-            //window.location.reload();
+            }).then((Response)=> window.location.reload());
+            
+        }
+        function togleAll(obj)
+        {
+            let i = 0;
+            let status = document.getElementById(obj).checked;
+            for(i = 0; i<list_id.length; i++)
+            {
+                if(document.getElementById(list_id[i]).checked != status )
+                document.getElementById(list_id[i]).checked = !document.getElementById(list_id[i]).checked;
+            }
+        }
+        function deleteItems()
+        {
+            if(!confirm("정말 삭제하시겠습니까?"));
+                return;
+
+            let i = 0;
+            let list = [];
+
+            for(i = 0; i<list_id.length; i++)
+            {
+                if(document.getElementById(list_id[i]).checked)
+                    list.push(document.getElementById(list_id[i]).value);
+            }
+            
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'toLog/'
+            else
+                url+='/toLog/'
+
+
+            fetch(url,{                
+            method: "Put",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            }).then((Response) =>window.location.reload());
+
         }
         
+        function CalEnd()
+        {
+            if(!confirm("정산 완료 하시겠습니까?"));
+                return;
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'calend/'
+            else
+                url+='/calend/'
+
+
+            let list = [];
+            let i =0;
+            for( i = 0 ; i < list_calEnd.length ; i++)
+            {
+                list.push(document.getElementById(list_calEnd[i].replace('calEnd','id')).value);
+            }
+
+            fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            
+            }).then((Response)=>window.location.reload());
+        }
+
+        function toLog()
+        {
+            if(!confirm("정산 완료 항목들 모두 더이상 확인 안하시겠습니까?"));
+                return;
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'toLog/'
+            else
+                url+='/toLog/'
+
+
+            let list = [];
+            let i =0;
+            for( i = 0 ; i < list_calEnd.length ; i++)
+            {
+                list.push(document.getElementById(list_calEnd[i].replace('calEnd','id')).value);
+            }
+
+            fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            
+            }).then((Response)=>window.location.reload());
+
+        }
+
     </script>
     
     </body>

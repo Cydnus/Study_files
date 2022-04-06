@@ -113,101 +113,6 @@ public class MapleBossAchieveController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/api/achieve/items_modify","/api/achieve/items_modify/"}, method=RequestMethod.GET)
-    public ModelAndView showAchieveItems(final Achieve achieve) throws JsonProcessingException
-    {
-        List<Achieve> all = mbas.findAllByVisibleOnTable();
-        List<String> itemNames = mbas.findAllItemInfoName();
-        List<String> bossNames = mbas.findAllBossInfoName();
-
-
-        List<LevelType> bossLevel = new ArrayList<>();
-        bossLevel.add(LevelType.이지);
-        bossLevel.add(LevelType.노말);
-        bossLevel.add(LevelType.하드);
-        bossLevel.add(LevelType.카오스);
-
-        ModelAndView modelAndView = new ModelAndView("achieve/items_modify");
-        modelAndView.addObject("achieveWithBossAndItem", all);
-        modelAndView.addObject("itemNames", itemNames);
-        modelAndView.addObject("bossNames", bossNames);
-        modelAndView.addObject("bossTypes", bossLevel);
-        //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
-        //return mapper.writeValueAsString(shows);
-        return modelAndView;
-    }
-/*
-    @PutMapping({"/api/achieve/items_modify/",
-            "/api/achieve/items_modify/{id}/{bLevel}/{bName}/{iName}/{itemCnt}/{price}/{partyCnt}/{calEnd}"})
-    @ResponseBody
-    public ModelAndView updates(
-            @RequestBody ItemModify itemModify,
-            @PathVariable("id") @RequestParam(value = "id", required=false) Long id,
-            @PathVariable("bLevel") @RequestParam(value = "bLevel", required=false) String bLevel,
-            @PathVariable("bName") @RequestParam(value ="bName", required=false) String bName,
-            @PathVariable("iName") @RequestParam(value ="iName", required=false) String iName,
-            @PathVariable("itemCnt") @RequestParam(value ="itemCnt", required=false) String itemCnt,
-            @PathVariable("price") @RequestParam(value ="price", required=false) String price,
-            @PathVariable("partyCnt") @RequestParam(value ="partyCnt", required=false) String partyCnt,
-            @PathVariable("calEnd") @RequestParam(value ="calEnd", required=false) boolean calEnd    )
-    {
-        System.out.println("itemModify = " + itemModify);
-        System.out.println("id = " + id);
-        System.out.println("bLevel = " + bLevel);
-        System.out.println("bName = " + bName);
-        System.out.println("iName = " + iName);
-        System.out.println("itemCnt = " + itemCnt);
-        System.out.println("price = " + price);
-        System.out.println("partyCnt = " + partyCnt);
-        System.out.println("calEnd = " + calEnd);
-
-        ModelAndView mav = new ModelAndView("/api/achieve/items_modify/");
-        return mav;
-    }
-
- */
-
-
-
-    @PutMapping({"/api/achieve/items_modify/","/api/achieve/items_modify"})
-    @ResponseBody
-    public ModelAndView  updates(@RequestBody ItemModify itemModify )
-    {
-        System.out.println("itemModify = " + itemModify);
-
-        Achieve achieve = mbas.findAchieveById(itemModify.getId());
-        BossInfo bossInfo ;
-
-        switch ( itemModify.getBlevel())
-        {
-            case "노말":
-                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.노말 );
-                break;
-            case "하드":
-                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.하드 );
-                break;
-            case "카오스":
-                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.카오스 );
-                break;
-            case "이지":
-            default:
-                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.이지 );
-                break;
-        }
-        ItemInfo itemInfo = mbas.findItemInfoByName(itemModify.getIname());
-
-        achieve.setBoss(bossInfo);
-        achieve.setItem(itemInfo);
-        achieve.setPrice(itemModify.getPrice());
-        achieve.setItemCount(itemModify.getItemCount());
-        achieve.setPartyInfo(itemModify.getPartyInfo());
-        achieve.setCalEnd(itemModify.isCalEnd());
-
-        mbas.saveAchieve(achieve);
-
-        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify/");
-        return mav;
-    }
 
 
     @PostMapping("/api/achieve")
@@ -329,19 +234,138 @@ public class MapleBossAchieveController {
         return mav;
     }
 
-    @RequestMapping({"/api/achieve/calend/"})
-    public ModelAndView Calend()
+    @RequestMapping(value={"/api/achieve/items_modify","/api/achieve/items_modify/"}, method=RequestMethod.GET)
+    public ModelAndView showAchieveItems(final Achieve achieve) throws JsonProcessingException
     {
-        List<Achieve> list = mbas.findAllByVisibleOnTable();
+        List<Achieve> all = mbas.findAllByVisibleOnTable();
+        List<String> itemNames = mbas.findAllItemInfoName();
+        List<String> bossNames = mbas.findAllBossInfoName();
 
-        list.stream().forEach(v->{v.setCalEnd(true); mbas.saveAchieve(v);});
 
+        List<LevelType> bossLevel = new ArrayList<>();
+        bossLevel.add(LevelType.이지);
+        bossLevel.add(LevelType.노말);
+        bossLevel.add(LevelType.하드);
+        bossLevel.add(LevelType.카오스);
 
-        ModelAndView mav = new ModelAndView("redirect:/api/achieve/");
+        ModelAndView modelAndView = new ModelAndView("achieve/items_modify");
+        modelAndView.addObject("achieveWithBossAndItem", all);
+        modelAndView.addObject("itemNames", itemNames);
+        modelAndView.addObject("bossNames", bossNames);
+        modelAndView.addObject("bossTypes", bossLevel);
+        //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
+        //return mapper.writeValueAsString(shows);
+        return modelAndView;
+    }
+
+    @PutMapping({"/api/achieve/items_modify/","/api/achieve/items_modify"})
+    @ResponseBody
+    public ModelAndView  updates(@RequestBody ItemModify itemModify )
+    {
+        System.out.println("itemModify = " + itemModify);
+
+        Achieve achieve = mbas.findAchieveById(itemModify.getId());
+        BossInfo bossInfo ;
+
+        switch ( itemModify.getBlevel())
+        {
+            case "노말":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.노말 );
+                break;
+            case "하드":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.하드 );
+                break;
+            case "카오스":
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.카오스 );
+                break;
+            case "이지":
+            default:
+                bossInfo = mbas.findBossInfoByNameAndLevel(itemModify.getBname(), LevelType.이지 );
+                break;
+        }
+        ItemInfo itemInfo = mbas.findItemInfoByName(itemModify.getIname());
+
+        achieve.setBoss(bossInfo);
+        achieve.setItem(itemInfo);
+        achieve.setPrice(itemModify.getPrice());
+        achieve.setItemCount(itemModify.getItemCount());
+        achieve.setPartyInfo(itemModify.getPartyInfo());
+        achieve.setCalEnd(itemModify.isCalEnd());
+
+        mbas.saveAchieve(achieve);
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify/");
         return mav;
     }
 
+    @PutMapping({"/api/achieve/items_modify/calend/"})
+    public ModelAndView Calend(@RequestBody List<Long> ids)
+    {
+        System.out.println("ids = " + ids);
 
+        for(int i =0 ; i< ids.size(); i++)
+        {
+            mbas.updateAchieveCalEndById(ids.get(i));
+        }
+
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify/");
+        return mav;
+    }
+
+    @DeleteMapping({"/api/achieve/items_modify/","/api/achieve/items_modify"})
+    public ModelAndView deleteItems(@RequestBody List<Long> ids)
+    {
+        System.out.println("ids = " + ids);
+
+        for(int i =0 ; i< ids.size(); i++)
+        {
+            mbas.deleteAchieveById(ids.get(i));
+        }
+
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify");
+        return mav;
+    }
+
+    @PutMapping({"/api/achieve/items_modify/toLog/"})
+    public ModelAndView toLog(@RequestBody List<Long> ids)
+    {
+        System.out.println("ids = " + ids);
+
+        for(int i =0 ; i< ids.size(); i++)
+        {
+            mbas.updateAchieveVisibleOnTableById(ids.get(i));
+        }
+
+
+        ModelAndView mav = new ModelAndView("redirect:/api/achieve/items_modify/");
+        return mav;
+    }
+    @RequestMapping({"/api/achieve/All"})
+    public ModelAndView showAllAchieve(final Achieve achieve) throws JsonProcessingException
+    {
+        List<Achieve> all = mbas.findAchieveAll();
+        List<String> itemNames = mbas.findAllItemInfoName();
+        List<String> bossNames = mbas.findAllBossInfoName();
+
+
+        List<LevelType> bossLevel = new ArrayList<>();
+        bossLevel.add(LevelType.이지);
+        bossLevel.add(LevelType.노말);
+        bossLevel.add(LevelType.하드);
+        bossLevel.add(LevelType.카오스);
+
+        ModelAndView modelAndView = new ModelAndView("Achieve");
+        modelAndView.addObject("achieveWithBossAndItem", all);
+        modelAndView.addObject("itemNames", itemNames);
+        modelAndView.addObject("bossNames", bossNames);
+        modelAndView.addObject("bossTypes", bossLevel);
+        modelAndView.addObject("FindAll", "findAll");
+        //shows.stream().forEach(v-> System.out.println("v.isCalEnd() = " + v.isCalEnd()));
+        //return mapper.writeValueAsString(shows);
+        return modelAndView;
+    }
 
 
 }
