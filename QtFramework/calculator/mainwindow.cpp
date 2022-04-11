@@ -64,7 +64,13 @@ void MainWindow::setConfig(QMap<QString, QString> map)
     ui->Table->setFont(font);
 
 
+    font.setFamily(map["Title_Font_Family"]);
+    font.setPointSize(map["Title_Font_Size"].toInt());
 
+
+    ui->lblTotal->setFont(font);
+    ui->lblPer3->setFont(font);
+    ui->lblPer4->setFont(font);
 
 }
 
@@ -102,13 +108,12 @@ MainWindow::MainWindow(QWidget *parent)
     {
         if(str.length() == 0 ||str[0] == '#')
             continue;
+      // qDebug()<<str;
         QStringList lst = str.split('=');
         map[lst[0].trimmed()] = lst[1].trimmed();
     }
 
     setConfig(map);
-
-
 
     QFile fLog("log.Maple");
 
@@ -124,9 +129,10 @@ MainWindow::MainWindow(QWidget *parent)
     int row = 0;
     for(QString str : logs)
     {
-        if(str.endsWith("False"))
+        if(str.endsWith('0'))
             row++;
     }
+
 
 
     ui->Table->setRowCount(row);
@@ -150,22 +156,22 @@ MainWindow::MainWindow(QWidget *parent)
     uint64_t per3_sum = 0;
     row = 0;
 
+    int indexs[] = {0,1,2,3, 4,5,8,9};
 
+    vector<QCheckBox*> boxes;
     for(QString str : logs)
     {
         if(str.length()== 0)
             continue;
         QStringList lst = str.split("\t");
 
-        if(lst[8]=="True")
+        if(lst[7]=="1")
             continue;
 
-        ui->Table->setItem(row,0,new QTableWidgetItem(lst[0]));
-        ui->Table->setItem(row,1,new QTableWidgetItem(lst[1]));
-        ui->Table->setItem(row,2,new QTableWidgetItem(lst[2]));
-        ui->Table->setItem(row,3,new QTableWidgetItem(lst[3]));
-        ui->Table->setItem(row,4,new QTableWidgetItem(lst[4]));
-        ui->Table->setItem(row,5,new QTableWidgetItem(lst[5]));
+        for(int i = 0; i<7; i++)
+        {
+            ui->Table->setItem(row,indexs[i],new QTableWidgetItem(lst[i]));
+        }
         uint64_t total = (uint64_t)(lst[5].toLongLong()*lst[3].toInt()* 0.95);
         uint64_t perOne = total/lst[6].toInt();
         total_sum += total;
@@ -175,8 +181,25 @@ MainWindow::MainWindow(QWidget *parent)
             per4_sum += perOne;
         ui->Table->setItem(row,6,new QTableWidgetItem(QString::number(total)));
         ui->Table->setItem(row,7,new QTableWidgetItem(QString::number(perOne)));
-        ui->Table->setItem(row,8,new QTableWidgetItem(lst[6]));
-        ui->Table->setItem(row,9,new QTableWidgetItem(lst[7]));
+        QWidget *cellWidget = new QWidget();
+        QCheckBox *cb = new QCheckBox();
+
+        QHBoxLayout *layoutCB = new QHBoxLayout(cellWidget);
+        layoutCB->addWidget(cb);
+        layoutCB->setAlignment(Qt::AlignCenter);
+        cellWidget->setLayout(layoutCB);
+
+        if(lst[7] == '0')
+        {
+            cb->setChecked(false);
+        }
+        else
+        {
+            cb->setChecked(true);
+        }
+        ui->Table->setCellWidget(row,9,cellWidget);
+        boxes.push_back(cb);
+
         row++;
     }
 

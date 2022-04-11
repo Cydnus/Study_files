@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 
-#include <QStandardItemModel>
+#include <QCheckbox>
 
 
 using namespace std;
