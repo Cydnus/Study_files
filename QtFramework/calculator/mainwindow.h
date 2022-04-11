@@ -1,14 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QFile>
 
-#include <QCheckbox>
-
-
-using namespace std;
-
+#include "TotalHeader.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
