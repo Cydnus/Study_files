@@ -396,7 +396,7 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="8,2">
         <item>
          <spacer name="horizontalSpacer">
           <property name="font">

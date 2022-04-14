@@ -115,27 +115,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setConfig(map);
 
-    QFile fLog("log.Maple");
+    vector<AchieveEntity> entitys = achieve->getVisibleList();
 
-
-    if(!fLog.open(QFile::ReadOnly | QFile::Text))
-    {
-        qDebug()<<"Not Open";
-    }
-    QTextStream tsLogs(&fLog);
-
-    QStringList logs = tsLogs.readAll().split("\n");
-
-    int row = 0;
-    for(QString str : logs)
-    {
-        if(str.endsWith('0'))
-            row++;
-    }
-
-
-
-    ui->Table->setRowCount(row);
+    ui->Table->setRowCount(0);
     ui->Table->setColumnCount(10);
 
     QStringList header = {
@@ -154,54 +136,20 @@ MainWindow::MainWindow(QWidget *parent)
     uint64_t total_sum = 0;
     uint64_t per4_sum = 0;
     uint64_t per3_sum = 0;
-    row = 0;
 
-    int indexs[] = {0,1,2,3, 4,5,8,9};
-
-    vector<QCheckBox*> boxes;
-    for(QString str : logs)
+    for(AchieveEntity entity : entitys)
     {
-        if(str.length()== 0)
-            continue;
-        QStringList lst = str.split("\t");
+        tableInsert(entity);
+        uint64_t price = entity.getItemCount() * entity.getPrice() * 0.95;
+        uint64_t ppo = price / entity.getPartyCount();
 
-        if(lst[7]=="1")
-            continue;
-
-        for(int i = 0; i<7; i++)
-        {
-            ui->Table->setItem(row,indexs[i],new QTableWidgetItem(lst[i]));
-        }
-        uint64_t total = (uint64_t)(lst[5].toLongLong()*lst[3].toInt()* 0.95);
-        uint64_t perOne = total/lst[6].toInt();
-        total_sum += total;
-        if(lst[6] == '3')
-            per3_sum += perOne;
+        total_sum += price;
+        if(entity.getPartyCount() == 3)
+            per3_sum += ppo;
         else
-            per4_sum += perOne;
-        ui->Table->setItem(row,6,new QTableWidgetItem(QString::number(total)));
-        ui->Table->setItem(row,7,new QTableWidgetItem(QString::number(perOne)));
-        QWidget *cellWidget = new QWidget();
-        QCheckBox *cb = new QCheckBox();
-
-        QHBoxLayout *layoutCB = new QHBoxLayout(cellWidget);
-        layoutCB->addWidget(cb);
-        layoutCB->setAlignment(Qt::AlignCenter);
-        cellWidget->setLayout(layoutCB);
-
-        if(lst[7] == '0')
-        {
-            cb->setChecked(false);
-        }
-        else
-        {
-            cb->setChecked(true);
-        }
-        ui->Table->setCellWidget(row,9,cellWidget);
-        boxes.push_back(cb);
-
-        row++;
+            per4_sum += ppo;
     }
+
 
 
     ui->Table->resizeColumnsToContents();
@@ -211,12 +159,102 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
+
+    connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
+    connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
+    connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
+
 }
+
+
+void MainWindow::tableInsert( AchieveEntity entity )
+{
+    //qDebug()<<entity.getDate();
+    int row = ui->Table->rowCount();
+
+
+    ui->Table->insertRow(row);
+
+   // row --;
+
+    ui->Table->setItem(row,0, new QTableWidgetItem(entity.getDate().toString("yy-MM-dd (ddd)")));
+
+    ui->Table->setItem(row,1, new QTableWidgetItem(entity.getBossLevel()));
+    ui->Table->setItem(row,2, new QTableWidgetItem(entity.getBossName()));
+    ui->Table->setItem(row,3, new QTableWidgetItem(entity.getItemName()));
+
+    ui->Table->setItem(row,4, new QTableWidgetItem(QString::number(entity.getItemCount())));
+    ui->Table->setItem(row,5, new QTableWidgetItem(QString::number(entity.getPrice())));
+
+    uint64_t price = entity.getItemCount() * entity.getPrice() * 0.95;
+    uint64_t ppo = price / entity.getPartyCount();
+
+    QTableWidgetItem *pri = new QTableWidgetItem(QString::number(price)), *po =new QTableWidgetItem(QString::number(ppo));
+
+    pri->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    po->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+
+    ui->Table->setItem(row,6, pri);
+    ui->Table->setItem(row,7, po );
+
+
+    ui->Table->setItem(row,8, new QTableWidgetItem(QString::number(entity.getPartyCount())));
+
+    QCheckBox *box = new QCheckBox();
+
+    QWidget *cellWidget = new QWidget();
+
+    QHBoxLayout *layoutCB = new QHBoxLayout(cellWidget);
+    layoutCB->addWidget(box);
+    layoutCB->setAlignment(Qt::AlignCenter);
+    cellWidget->setLayout(layoutCB);
+
+    if(entity.isCalEnd() == true)
+        box->setChecked(true);
+    ui->Table->setCellWidget(row,9, cellWidget);
+
+}
+
+
+void MainWindow::btnClick()
+{
+    QObject* obj = sender();
+    if( obj == ui->pbInsert )
+        insertRow();
+
+    else if( obj == ui->pbCalEnd )
+        qDebug()<<"ui->pbCalEnd";
+
+    else if( obj == ui->pbCopy )
+        qDebug()<<"ui->pbCopy";
+}
+
+void MainWindow::insertRow()
+{
+    AchieveEntity ae;
+
+    ae.setDate(QDate::currentDate());
+    ae.setBossLevel(ui->cbBossLevel->currentText());
+    ae.setBossName(ui->cbBossName->currentText());
+    ae.setItemName(ui->cbItemName->currentText());
+    ae.setItemCount(ui->sbCount->value());
+    ae.setPrice(ui->lePrice->text().toULongLong());
+    ae.setPartyCount(ui->sbParty->value());
+    ae.setCalEnd(false);
+    ae.setVisible(false);
+
+    achieve->AppendData(ae);
+
+    tableInsert(ae);
+
+}
+
 
 
 
 MainWindow::~MainWindow()
 {
+    achieve->saveData();
     delete ui;
 }
 

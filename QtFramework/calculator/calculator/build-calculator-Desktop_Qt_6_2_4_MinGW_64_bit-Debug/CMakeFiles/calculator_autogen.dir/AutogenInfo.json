@@ -259,9 +259,9 @@
 	"HEADERS" : 
 	[
 		[
-			"E:/Study/Git/QtFramework/calculator/TotalHeader.h",
+			"E:/Study/Git/QtFramework/calculator/AchieveEntity.h",
 			"MU",
-			"EWIEGA46WW/moc_TotalHeader.cpp",
+			"EWIEGA46WW/moc_AchieveEntity.cpp",
 			null
 		],
 		[

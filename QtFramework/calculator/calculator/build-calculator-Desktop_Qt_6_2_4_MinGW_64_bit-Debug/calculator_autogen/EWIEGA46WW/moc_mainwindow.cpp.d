@@ -1,5 +1,6 @@
 E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/EWIEGA46WW/moc_mainwindow.cpp: E:/Study/Git/QtFramework/calculator/mainwindow.h \
   E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/moc_predefs.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h \
@@ -14,6 +15,7 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qbytearraylist.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qbytearrayview.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qcalendar.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qchar.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qcompare.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qcompilerdetection.h \
@@ -21,13 +23,17 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainerfwd.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainerinfo.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainertools_impl.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontiguouscache.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatastream.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatetime.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qdebug.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qfile.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qfiledevice.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qflags.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qgenericatomic.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qglobal.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qglobalstatic.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qhash.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qhashfunctions.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qiodevice.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qiodevicebase.h \
@@ -35,7 +41,9 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qiterator.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qline.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qlist.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qlocale.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qlogging.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qmap.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmargins.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmath.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmetacontainer.h \
@@ -53,12 +61,15 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qrefcount.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qscopedpointer.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qscopeguard.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qset.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qshareddata.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qshareddata_impl.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qsharedpointer.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qsharedpointer_impl.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qsize.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qstring.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qstringalgorithms.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qstringconverter.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qstringlist.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qstringliteral.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qstringmatcher.h \
@@ -68,9 +79,11 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qsystemdetection.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qtaggedpointer.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qtcore-config.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qtextstream.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qtmetamacros.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qtypeinfo.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qvariant.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qvarlengtharray.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qversiontagging.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qbitmap.h \
@@ -96,7 +109,7 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qtransform.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs_win.h \
-  D:/install/qt/6.2.4/mingw_64/include/QtWidgets/QCheckbox \
+  D:/install/qt/6.2.4/mingw_64/include/QtWidgets/QCheckBox \
   D:/install/qt/6.2.4/mingw_64/include/QtWidgets/QMainWindow \
   D:/install/qt/6.2.4/mingw_64/include/QtWidgets/qabstractbutton.h \
   D:/install/qt/6.2.4/mingw_64/include/QtWidgets/qcheckbox.h \
@@ -336,4 +349,6 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/time.h \
   D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
   D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
-  D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h
+  D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
+  E:/Study/Git/QtFramework/calculator/AchieveEntity.h \
+  E:/Study/Git/QtFramework/calculator/achieve.h

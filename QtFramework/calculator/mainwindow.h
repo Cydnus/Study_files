@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 
-#include "TotalHeader.h"
+#include "AchieveEntity.h"
+
+#include "achieve.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,8 +21,15 @@ public:
 private:
     Ui::MainWindow *ui;
 
-
+    Achieve *achieve = Achieve::getInstance();
     void setConfig(QMap<QString, QString> map);
+
+    void insertRow();
+
+    void tableInsert(AchieveEntity ae);
+
+private slots:
+    void btnClick();
 
 };
 #endif // MAINWINDOW_H

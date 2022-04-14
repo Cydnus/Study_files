@@ -21,7 +21,7 @@ set(PROJECT_SOURCES
         mainwindow.ui
         achieve.h
         achieve.cpp
-        TotalHeader.h
+        AchieveEntity.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
