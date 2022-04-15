@@ -13,11 +13,17 @@ public:
     void AppendData(AchieveEntity ae);
     bool saveData();
 
+
+    void setCalEnd(uint64_t ae, bool state);
+    void setAllCalEnd();
+    uint64_t getAddIndex();
+
   private:
 
     static Achieve *achieve;
     vector<AchieveEntity> achieveTotalList;
     Achieve();
+
 
 };
 

@@ -2,6 +2,7 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/moc_predefs.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qarraydata.h \
@@ -48,6 +49,7 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmath.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmetacontainer.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qmetatype.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/qmimedata.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qnamespace.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qnumeric.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qobject.h \
@@ -86,8 +88,10 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qvariant.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qvarlengtharray.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qversiontagging.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtGui/QClipboard \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qbitmap.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qbrush.h \
+  D:/install/qt/6.2.4/mingw_64/include/QtGui/qclipboard.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qcolor.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qcursor.h \
   D:/install/qt/6.2.4/mingw_64/include/QtGui/qfont.h \

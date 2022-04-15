@@ -12,6 +12,7 @@ using namespace std;
 
 class AchieveEntity
 {
+    uint64_t id;
     QDate date;
     QString bossName;
     QString bossLevel;
@@ -23,7 +24,8 @@ class AchieveEntity
     bool visible;
 public:
     AchieveEntity(){}
-    AchieveEntity(QDate date,
+    AchieveEntity(uint64_t id,
+                  QDate date,
                   QString bossName,
                   QString bossLevel,
                   QString itemName,
@@ -33,6 +35,7 @@ public:
                   bool calEnd,
                   bool visible)
     {
+        this->id = id;
         this->date = date;
         this->bossName = bossName;
         this->bossLevel = bossLevel;
@@ -44,6 +47,7 @@ public:
         this->visible = visible;
     }
 
+    void setId(uint64_t id){ this->id = id;}
     void setDate(QDate date){ this->date = date;}
     void setBossName(QString bossName){ this->bossName = bossName;}
     void setBossLevel(QString bossLevel){ this->bossLevel = bossLevel;}
@@ -55,6 +59,7 @@ public:
     void setVisible(bool visible){ this->visible = visible;}
 
 
+    uint64_t getId( ){ return id;}
     QDate getDate(){return date;}
     QString getBossName(){return bossName;}
     QString getBossLevel(){return bossLevel;}
@@ -65,6 +70,31 @@ public:
     bool isCalEnd(){return calEnd;}
     bool isVisible(){return visible;}
 
+    QString toString(){
+        return  QString("Id : ")            +       QString::number(id)         +
+                QString("    Date : "      )  +       date.toString()             +
+                QString("    BossName : "  )  +       bossName                    +
+                QString("    BossLevel : " )  +       bossLevel                   +
+                QString("    ItemName : "  )  +       itemName                    +
+                QString("    Price : "     )  +       QString::number(price)      +
+                QString("    ItemCount : " )  +       QString::number(itemCount)  +
+                QString("    PartyCount : ")  +       QString::number(partyCount) +
+                QString("    CalEnd : "    )  +       ((calEnd)?"true":"false")                 +
+                QString("    Visible : "   )  +       ((visible)?"true":"false");
+    }
+    QString toWriteFile()
+    {
+        return QString::number(id)         + "\t" +
+               date.toString("yyyy-MM-dd") + "\t" +
+               bossLevel                   + "\t" +
+               bossName                    + "\t" +
+               QString::number(itemCount)  + "\t" +
+               itemName                    + "\t" +
+               QString::number(price)      + "\t" +
+               QString::number(partyCount) + "\t" +
+               ((calEnd)?"true":"false")   + "\t" +
+               ((visible)?"true":"false")  + "\n" ;
+    }
 };
 
 #endif // ACHIEVEENTITY_H

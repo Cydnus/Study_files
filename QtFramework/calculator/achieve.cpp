@@ -25,16 +25,26 @@ Achieve::Achieve()
         QStringList lst = str.split("\t");
         //  2021-10-09 20:44:43	하드	스우	2	추가 경험치 쿠폰	2199800	4	1	1
         bool b1 = false ,b2 = false;
-        if( lst[7].toInt() == 1 )
+        if( lst[8] == "true" )
             b1 = true;
-        if(lst[8].toInt() == 1)
+        if(lst[9] == "true")
             b2 = true;
         // qDebug()<<lst[0].split(' ')[0]<<"\t"<<QDate::fromString(lst[0].split(' ')[0], "yyyy-MM-dd");
         AchieveEntity ae(
-                    QDate::fromString(lst[0].split(' ')[0], "yyyy-MM-dd"), lst[1], lst[2], lst[4],lst[3].toInt(), lst[5].toULongLong(), lst[6].toInt(), b1,b2);
+                    lst[0].toInt(),
+                    QDate::fromString(lst[1], "yyyy-MM-dd"),
+                    lst[3],
+                    lst[2],
+                    lst[5],
+                    lst[4].toInt(),
+                    lst[6].toULongLong(),
+                    lst[7].toInt(),
+                    b1,
+                    b2);
 
         achieveTotalList.push_back(ae);
     }
+    fLog.close();
 
 }
 
@@ -45,6 +55,19 @@ Achieve* Achieve::getInstance()
     return achieve;
 }
 
+
+uint64_t Achieve::getAddIndex()
+{
+    uint64_t ret = achieveTotalList.size();
+
+    //qDebug()<<ret<<"\t"<<(achieveTotalList.end()-1)->getId();
+
+    if( ret <= (achieveTotalList.end()-1)->getId())
+    {
+        ret = (achieveTotalList.end()-1)->getId()+1;
+    }
+    return ret;
+}
 
 vector<AchieveEntity> Achieve::getVisibleList()
 {
@@ -66,5 +89,32 @@ void Achieve::AppendData(AchieveEntity ae)
 
 bool Achieve::saveData()
 {
+    QFile fLog("log.Maple");
+
+
+    if(!fLog.open(QFile::WriteOnly | QFile::Text))
+    {
+        return false;
+    }
+    for(AchieveEntity ae : achieveTotalList)
+    {
+        fLog.write(ae.toWriteFile().toStdString().c_str());
+    }
+
+
+
+    fLog.close();
+
     return true;
+}
+
+void Achieve::setCalEnd(uint64_t id, bool state)
+{
+}
+void Achieve::setAllCalEnd()
+{
+    int size =  achieveTotalList.size();
+    for(int i = 0 ; i< size; i ++)
+        achieveTotalList[i].setCalEnd(true);
+    saveData();
 }

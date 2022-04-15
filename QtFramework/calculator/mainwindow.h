@@ -6,6 +6,10 @@
 
 #include "achieve.h"
 
+#include <QClipboard>
+#include <QMimeData>
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -23,13 +27,17 @@ private:
 
     Achieve *achieve = Achieve::getInstance();
     void setConfig(QMap<QString, QString> map);
+    void tableInsert(AchieveEntity ae);
+    void TableSetHeader();
+    void setTable();
 
     void insertRow();
-
-    void tableInsert(AchieveEntity ae);
+    void calculateEnd();
+    void copyToClipboard();
 
 private slots:
     void btnClick();
+    void checkBoxStateChange();
 
 };
 #endif // MAINWINDOW_H

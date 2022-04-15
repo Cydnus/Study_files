@@ -66,11 +66,10 @@ void MainWindow::setConfig(QMap<QString, QString> map)
 
     font.setFamily(map["Title_Font_Family"]);
     font.setPointSize(map["Title_Font_Size"].toInt());
-
-
     ui->lblTotal->setFont(font);
     ui->lblPer3->setFont(font);
     ui->lblPer4->setFont(font);
+    this->setFont(font);
 
 }
 
@@ -115,7 +114,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     setConfig(map);
 
-    vector<AchieveEntity> entitys = achieve->getVisibleList();
+    TableSetHeader();
+    setTable();
+
+
+    connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
+    connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
+    connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
+
+}
+
+void MainWindow::TableSetHeader()
+{
 
     ui->Table->setRowCount(0);
     ui->Table->setColumnCount(10);
@@ -133,37 +143,6 @@ MainWindow::MainWindow(QWidget *parent)
         QString("분배여부")};
 
     ui->Table->setHorizontalHeaderLabels(header);
-    uint64_t total_sum = 0;
-    uint64_t per4_sum = 0;
-    uint64_t per3_sum = 0;
-
-    for(AchieveEntity entity : entitys)
-    {
-        tableInsert(entity);
-        uint64_t price = entity.getItemCount() * entity.getPrice() * 0.95;
-        uint64_t ppo = price / entity.getPartyCount();
-
-        total_sum += price;
-        if(entity.getPartyCount() == 3)
-            per3_sum += ppo;
-        else
-            per4_sum += ppo;
-    }
-
-
-
-    ui->Table->resizeColumnsToContents();
-    ui->Table->resizeRowsToContents();
-
-    ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
-    ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
-    ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
-
-
-    connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
-    connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
-    connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
-
 }
 
 
@@ -209,9 +188,27 @@ void MainWindow::tableInsert( AchieveEntity entity )
     layoutCB->setAlignment(Qt::AlignCenter);
     cellWidget->setLayout(layoutCB);
 
+    box->setObjectName(QString::number(row));
+
     if(entity.isCalEnd() == true)
         box->setChecked(true);
     ui->Table->setCellWidget(row,9, cellWidget);
+
+    connect(box,SIGNAL(clicked()),this,SLOT(checkBoxStateChange()));
+
+}
+
+
+void MainWindow::checkBoxStateChange()
+{
+    QObject *obj = sender();
+
+    int row = obj->objectName().toInt();
+
+    achieve->setCalEnd(achieve->getVisibleList()[row].getId(), ((QCheckBox*)obj)->isChecked());
+
+    setTable();
+
 
 }
 
@@ -223,16 +220,16 @@ void MainWindow::btnClick()
         insertRow();
 
     else if( obj == ui->pbCalEnd )
-        qDebug()<<"ui->pbCalEnd";
+        calculateEnd();
 
     else if( obj == ui->pbCopy )
-        qDebug()<<"ui->pbCopy";
+        copyToClipboard();
 }
 
 void MainWindow::insertRow()
 {
     AchieveEntity ae;
-
+    ae.setId(achieve->getAddIndex());
     ae.setDate(QDate::currentDate());
     ae.setBossLevel(ui->cbBossLevel->currentText());
     ae.setBossName(ui->cbBossName->currentText());
@@ -243,6 +240,7 @@ void MainWindow::insertRow()
     ae.setCalEnd(false);
     ae.setVisible(false);
 
+    qDebug() << ae.toString();
     achieve->AppendData(ae);
 
     tableInsert(ae);
@@ -250,6 +248,67 @@ void MainWindow::insertRow()
 }
 
 
+void  MainWindow::setTable()
+{
+    vector<AchieveEntity> entitys = achieve->getVisibleList();
+
+    uint64_t total_sum = 0;
+    uint64_t per4_sum = 0;
+    uint64_t per3_sum = 0;
+
+    for(AchieveEntity entity : entitys)
+    {
+        tableInsert(entity);
+        uint64_t price = entity.getItemCount() * entity.getPrice() * 0.95;
+        uint64_t ppo = price / entity.getPartyCount();
+
+        if(entity.isCalEnd()==false)
+        {
+            total_sum += price;
+            if(entity.getPartyCount() == 3)
+                per3_sum += ppo;
+            else
+                per4_sum += ppo;
+        }
+    }
+
+
+
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
+
+    ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
+    ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
+    ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
+
+}
+
+void MainWindow::calculateEnd()
+{
+    qDebug()<<"ui->pbCalEnd";
+
+    ui->Table->clear();
+    TableSetHeader();
+
+    achieve->setAllCalEnd();
+    setTable();
+
+}
+
+void MainWindow::copyToClipboard()
+{
+    qDebug()<<"ui->pbCopy";
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    QMimeData *data = new QMimeData;
+
+    int width = 100, height = 100;
+    QImage *image = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
+
+    image->fill(0xffffffff);
+
+    data->setImageData(*image);
+    clipboard->setMimeData(data, QClipboard::Clipboard);
+}
 
 
 MainWindow::~MainWindow()
