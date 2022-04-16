@@ -23,18 +23,18 @@ QStringList getcbItemsFromFile(QString fileName)
     return items;
 }
 
-void MainWindow::setConfig(QMap<QString, QString> map)
+void MainWindow::setConfig()
 {
-    ui->sbParty->setValue(map["Party_Count"].toInt());
+    ui->sbParty->setValue(conf["Party_Count"].toInt());
 
-    QFont font(map["Button_Font_Family"],map["Button_Font_Size"].toInt());
+    QFont font(conf["Button_Font_Family"],conf["Button_Font_Size"].toInt());
 
     ui->pbInsert->setFont(font);
     ui->pbCalEnd->setFont(font);
     ui->pbCopy->setFont(font);
 
-    font.setFamily(map["TextBox_Font_Family"]);
-    font.setPointSize(map["TextBox_Font_Size"].toInt());
+    font.setFamily(conf["TextBox_Font_Family"]);
+    font.setPointSize(conf["TextBox_Font_Size"].toInt());
 
     ui->sbCount->setFont(font);
     ui->lePrice->setFont(font);
@@ -44,8 +44,8 @@ void MainWindow::setConfig(QMap<QString, QString> map)
     ui->cbBossName->setFont(font);
     ui->cbItemName->setFont(font);
 
-    font.setFamily(map["Label_Font_Family"]);
-    font.setPointSize(map["Label_Font_Size"].toInt());
+    font.setFamily(conf["Label_Font_Family"]);
+    font.setPointSize(conf["Label_Font_Size"].toInt());
     ui->lbl01->setFont(font);
     ui->lbl02->setFont(font);
     ui->lbl03->setFont(font);
@@ -58,14 +58,14 @@ void MainWindow::setConfig(QMap<QString, QString> map)
     ui->lbl10->setFont(font);
 
 
-    font.setFamily(map["GridBox_Font_Family"]);
-    font.setPointSize(map["GridBox_Font_Size"].toInt());
+    font.setFamily(conf["GridBox_Font_Family"]);
+    font.setPointSize(conf["GridBox_Font_Size"].toInt());
 
     ui->Table->setFont(font);
 
 
-    font.setFamily(map["Title_Font_Family"]);
-    font.setPointSize(map["Title_Font_Size"].toInt());
+    font.setFamily(conf["Title_Font_Family"]);
+    font.setPointSize(conf["Title_Font_Size"].toInt());
     ui->lblTotal->setFont(font);
     ui->lblPer3->setFont(font);
     ui->lblPer4->setFont(font);
@@ -97,7 +97,6 @@ MainWindow::MainWindow(QWidget *parent)
     {
         qDebug()<<"Not Open";
     }
-    QMap<QString, QString> map;
 
     QTextStream tsConfItems(&fConfig);
 
@@ -109,10 +108,10 @@ MainWindow::MainWindow(QWidget *parent)
             continue;
       // qDebug()<<str;
         QStringList lst = str.split('=');
-        map[lst[0].trimmed()] = lst[1].trimmed();
+        conf[lst[0].trimmed()] = lst[1].trimmed();
     }
-
-    setConfig(map);
+    fConfig.close();
+    setConfig();
 
     TableSetHeader();
     setTable();
@@ -272,8 +271,6 @@ void  MainWindow::setTable()
         }
     }
 
-
-
     ui->Table->resizeColumnsToContents();
     ui->Table->resizeRowsToContents();
 
@@ -301,10 +298,136 @@ void MainWindow::copyToClipboard()
     QClipboard *clipboard = QGuiApplication::clipboard();
     QMimeData *data = new QMimeData;
 
-    int width = 100, height = 100;
-    QImage *image = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
+    double mang = ((double)conf["CopyTable_Font_Size"].toInt() /(double)10);
+    int row_height = ui->Table->rowHeight(0)*mang;
 
+    int width = 20 , height = 100 + ( (ui->Table->rowCount()+1) * row_height);
+
+    vector<int> col_width;
+    for(int i = 0 ; i<ui->Table->columnCount();i++)
+    {
+        int size = ui->Table->columnWidth(i) * mang;
+        width += size;
+        col_width.push_back(size);
+    }
+
+    QImage *image = new QImage(width, height, QImage::Format_ARGB32_Premultiplied);
     image->fill(0xffffffff);
+    QPainter painter(image);
+    painter.setPen(QPen(Qt::black));
+    painter.setFont(QFont(conf["CopyTop_Font_Family"], conf["CopyTop_Font_Size"].toInt()));
+
+
+    // HEADER Insert
+
+    QString text1 = QString("%1 : %2").arg(ui->lbl01->text()).arg(ui->lblTotal->text());
+    QString text2 = QString("%1 : %2").arg(ui->lbl02->text()).arg(ui->lblPer3->text());
+    QString text3 = QString("%1 : %2").arg(ui->lbl03->text()).arg(ui->lblPer4->text());
+
+
+
+    int loca_width = (width-100) / (text1.count()+text2.count()+text3.count());
+
+
+    int sx=10, sy=20;
+
+    painter.drawText(QRect(sx,sy,loca_width*text1.count(),60),Qt::AlignCenter, text1);
+
+    sx= 10+(loca_width*text1.count()) ;
+
+    painter.drawText(QRect(sx,sy,loca_width*text2.count(),60),Qt::AlignCenter, text2);
+
+
+    sx=10+(loca_width*(text1.count()+text2.count()));
+
+    painter.drawText(QRect(sx,sy,loca_width*text3.count(),60),Qt::AlignCenter,text3);
+
+    // Table Insert
+
+    //table Header
+    sx=10;
+    sy=90;
+
+    QStringList header = {
+        QString("날자"),
+        QString("보스등급"),
+        QString("보스명"),
+        QString("아이템명"),
+        QString("갯수"),
+        QString("가격"),
+        QString("수수료 제외한 금액"),
+        QString("1인당 분배금액"),
+        QString("파티원수"),
+        QString("분배여부")};
+
+    painter.setFont(QFont(conf["CopyTable_Font_Family"], conf["CopyTable_Font_Size"].toInt()));
+
+    vector<int> start_x;
+
+    for(int i = 0 ; i < ui->Table->columnCount(); i++)
+    {
+        painter.drawRect(QRect(sx,sy,col_width[i],row_height));
+        painter.setPen(QPen(Qt::black));
+        painter.drawText(QRect(sx,sy,col_width[i],row_height),Qt::AlignCenter,header[i]);
+
+        start_x.push_back(sx);
+        sx += col_width[i];
+        // 72 point=96 pixel    3:4
+    }
+    sy += row_height;
+
+    int rowCount = ui->Table->rowCount(), colCount = ui->Table->columnCount();
+
+
+    vector<AchieveEntity> list = achieve->getVisibleList();
+    // table List
+    for(int i = 0; i<rowCount; i++)
+    {
+        if(i%2 == 0)
+            painter.setBrush(Qt::lightGray);
+        else
+            painter.setBrush(Qt::white);
+
+
+        painter.setPen(QPen(Qt::black));
+
+        painter.drawRect(QRect(start_x[0],sy,col_width[0],row_height));
+        painter.drawText(QRect(start_x[0],sy,col_width[0],row_height), Qt::AlignCenter, list[i].getDate().toString("yyyy-MM-dd (ddd)"));
+
+        painter.drawRect(QRect(start_x[1],sy,col_width[1],row_height));
+        painter.drawText(QRect(start_x[1],sy,col_width[1],row_height), Qt::AlignCenter, list[i].getBossLevel());
+
+        painter.drawRect(QRect(start_x[2],sy,col_width[2],row_height));
+        painter.drawText(QRect(start_x[2],sy,col_width[2],row_height), Qt::AlignCenter, list[i].getBossName());
+
+        painter.drawRect(QRect(start_x[3],sy,col_width[3],row_height));
+        painter.drawText(QRect(start_x[3],sy,col_width[3],row_height), Qt::AlignCenter, list[i].getItemName());
+
+        painter.drawRect(QRect(start_x[4],sy,col_width[4],row_height));
+        painter.drawText(QRect(start_x[4],sy,col_width[4],row_height), Qt::AlignCenter, QString("%L1").arg(list[i].getItemCount()));
+
+        painter.drawRect(QRect(start_x[5],sy,col_width[5],row_height));
+        painter.drawText(QRect(start_x[5],sy,col_width[5],row_height), Qt::AlignCenter, QString("%L1").arg(list[i].getPrice()));
+
+        int pp = list[i].getItemCount() *list[i].getPrice() *0.95;
+
+        painter.drawRect(QRect(start_x[6],sy,col_width[6],row_height));
+        painter.drawText(QRect(start_x[6],sy,col_width[6],row_height), Qt::AlignCenter, QString("%L1").arg(pp));
+
+        int ppo = pp/list[i].getPartyCount();
+
+        painter.drawRect(QRect(start_x[7],sy,col_width[7],row_height));
+        painter.drawText(QRect(start_x[7],sy,col_width[7],row_height), Qt::AlignCenter, QString("%L1").arg(ppo));
+
+        painter.drawRect(QRect(start_x[8],sy,col_width[8],row_height));
+        painter.drawText(QRect(start_x[8],sy,col_width[8],row_height), Qt::AlignCenter, QString::number(list[i].getPartyCount()));
+
+        painter.drawRect(QRect(start_x[9],sy,col_width[9],row_height));
+        painter.drawText(QRect(start_x[9],sy,col_width[9],row_height), Qt::AlignCenter, (list[i].isCalEnd()?"■":"□"));
+
+
+        sy += row_height;
+    }
 
     data->setImageData(*image);
     clipboard->setMimeData(data, QClipboard::Clipboard);

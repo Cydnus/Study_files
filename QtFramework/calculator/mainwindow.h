@@ -8,6 +8,7 @@
 
 #include <QClipboard>
 #include <QMimeData>
+#include <QPainter>
 
 
 QT_BEGIN_NAMESPACE
@@ -25,8 +26,10 @@ public:
 private:
     Ui::MainWindow *ui;
 
+
+    QMap<QString, QString> conf;
     Achieve *achieve = Achieve::getInstance();
-    void setConfig(QMap<QString, QString> map);
+    void setConfig();
     void tableInsert(AchieveEntity ae);
     void TableSetHeader();
     void setTable();

@@ -5,7 +5,11 @@ Party_Count = 4
 #CopyTop_Font_Family = info/NanumBarunGothic.ttf
 CopyTop_Font_Family = 메이플스토리 OTF
 
-CopyTop_Font_Size = 10
+CopyTop_Font_Size = 20
+
+
+CopyTable_Font_Family = 메이플스토리 OTF
+CopyTable_Font_Size = 15
 
 # Title Font
 #Title_Font_Family = info/NanumBarunGothic.ttf

@@ -88,6 +88,7 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qvarlengtharray.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qversiontagging.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/QClipboard \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/QPainter \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qbitmap.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qbrush.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qclipboard.h \
@@ -100,13 +101,16 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qimage.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qkeysequence.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpaintdevice.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpainter.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpalette.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpen.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixelformat.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixmap.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpolygon.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qregion.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgb.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgba64.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtextoption.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtgui-config.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtguiglobal.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtransform.h \
