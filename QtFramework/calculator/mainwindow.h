@@ -9,6 +9,7 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QPainter>
+#include <QLocale>
 
 
 QT_BEGIN_NAMESPACE
@@ -25,15 +26,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
+    QMetaObject::Connection tableConnect;
 
     QMap<QString, QString> conf;
     Achieve *achieve = Achieve::getInstance();
     void setConfig();
     void tableInsert(AchieveEntity ae);
-    void TableSetHeader();
-    void setTable();
-
+    void setTableHeader();
+    void setTableBody();
     void insertRow();
     void calculateEnd();
     void copyToClipboard();
@@ -41,6 +41,7 @@ private:
 private slots:
     void btnClick();
     void checkBoxStateChange();
+    void cellChanged(int row, int col);
 
 };
 #endif // MAINWINDOW_H

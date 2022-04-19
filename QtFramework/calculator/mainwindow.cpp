@@ -113,17 +113,18 @@ MainWindow::MainWindow(QWidget *parent)
     fConfig.close();
     setConfig();
 
-    TableSetHeader();
-    setTable();
+    setTableBody();
 
 
     connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
 
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+
 }
 
-void MainWindow::TableSetHeader()
+void MainWindow::setTableHeader()
 {
 
     ui->Table->setRowCount(0);
@@ -155,7 +156,9 @@ void MainWindow::tableInsert( AchieveEntity entity )
 
    // row --;
 
-    ui->Table->setItem(row,0, new QTableWidgetItem(entity.getDate().toString("yy-MM-dd (ddd)")));
+    QLocale lo = QLocale::system();
+
+    ui->Table->setItem(row,0, new QTableWidgetItem(entity.getDate().toString("yy-MM-dd") + " (" + lo.dayName(entity.getDate().dayOfWeek(),QLocale::ShortFormat) +")"));
 
     ui->Table->setItem(row,1, new QTableWidgetItem(entity.getBossLevel()));
     ui->Table->setItem(row,2, new QTableWidgetItem(entity.getBossName()));
@@ -187,14 +190,16 @@ void MainWindow::tableInsert( AchieveEntity entity )
     layoutCB->setAlignment(Qt::AlignCenter);
     cellWidget->setLayout(layoutCB);
 
-    box->setObjectName(QString::number(row));
+    box->setObjectName(QString::number(entity.getId()));
+
+    cellWidget->setObjectName(QString::number(entity.getId()));
 
     if(entity.isCalEnd() == true)
         box->setChecked(true);
+
     ui->Table->setCellWidget(row,9, cellWidget);
 
     connect(box,SIGNAL(clicked()),this,SLOT(checkBoxStateChange()));
-
 }
 
 
@@ -204,11 +209,9 @@ void MainWindow::checkBoxStateChange()
 
     int row = obj->objectName().toInt();
 
-    achieve->setCalEnd(achieve->getVisibleList()[row].getId(), ((QCheckBox*)obj)->isChecked());
+    achieve->setCalEnd(row, ((QCheckBox*)obj)->isChecked());
 
-    setTable();
-
-
+    setTableBody();
 }
 
 
@@ -247,13 +250,17 @@ void MainWindow::insertRow()
 }
 
 
-void  MainWindow::setTable()
+void  MainWindow::setTableBody()
 {
+    ui->Table->clear();
+
     vector<AchieveEntity> entitys = achieve->getVisibleList();
 
     uint64_t total_sum = 0;
     uint64_t per4_sum = 0;
     uint64_t per3_sum = 0;
+
+    setTableHeader();
 
     for(AchieveEntity entity : entitys)
     {
@@ -285,12 +292,62 @@ void MainWindow::calculateEnd()
     qDebug()<<"ui->pbCalEnd";
 
     ui->Table->clear();
-    TableSetHeader();
 
     achieve->setAllCalEnd();
-    setTable();
+    setTableBody();
 
 }
+
+void MainWindow::cellChanged(int row, int col)
+{
+    qDebug()<<row<<"\t"<<col;
+    AchieveEntity ae;
+    QTableWidget * table = ui->Table;
+
+    qDebug()<<table->item(row, 0)->text();
+    ae.setDate(QDate::fromString(table->item(row, 0)->text().split(' ')[0],"yy-MM-dd").addYears(100));
+
+    ae.setBossLevel(table->item(row, 1)->text());
+    ae.setBossName(table->item(row, 2)->text());
+    ae.setItemName(table->item(row, 3)->text());
+    ae.setItemCount(table->item(row, 4)->text().toInt());
+    ae.setPrice(table->item(row, 5)->text().toULongLong());
+    ae.setPartyCount(table->item(row, 8)->text().toInt());
+    ae.setCalEnd(((QCheckBox*)table->cellWidget(row,9))->isChecked());
+
+    ae.setId(table->cellWidget(row,9)->objectName().toULongLong());
+    ae.setVisible(false);
+    qDebug()<<ae.toString();
+
+    disconnect(tableConnect);
+
+    uint64_t price = ae.getItemCount() * ae.getPrice() * 0.95;
+    uint64_t ppo = price / ae.getPartyCount();
+
+    table->setItem(row,6, new QTableWidgetItem(QString::number(price)));
+    table->setItem(row,7, new QTableWidgetItem(QString::number(ppo)));
+
+    uint64_t total_sum = ui->lblTotal->text().toULongLong();
+    uint64_t per3_sum = ui->lblPer3->text().toULongLong();
+    uint64_t per4_sum = ui->lblPer4->text().toULongLong();
+
+    if(ae.isCalEnd()==false)
+    {
+        total_sum += price;
+        if(ae.getPartyCount() == 3)
+            per3_sum += ppo;
+        else
+            per4_sum += ppo;
+    }
+
+    ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
+    ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
+    ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
+
+    tableConnect =  connect(table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+    achieve->changeData(ae);
+}
+
 
 void MainWindow::copyToClipboard()
 {
@@ -363,8 +420,9 @@ void MainWindow::copyToClipboard()
     painter.setFont(QFont(conf["CopyTable_Font_Family"], conf["CopyTable_Font_Size"].toInt()));
 
     vector<int> start_x;
+    int rowCount = ui->Table->rowCount(), colCount = ui->Table->columnCount();
 
-    for(int i = 0 ; i < ui->Table->columnCount(); i++)
+    for(int i = 0 ; i < colCount; i++)
     {
         painter.drawRect(QRect(sx,sy,col_width[i],row_height));
         painter.setPen(QPen(Qt::black));
@@ -376,7 +434,6 @@ void MainWindow::copyToClipboard()
     }
     sy += row_height;
 
-    int rowCount = ui->Table->rowCount(), colCount = ui->Table->columnCount();
 
 
     vector<AchieveEntity> list = achieve->getVisibleList();

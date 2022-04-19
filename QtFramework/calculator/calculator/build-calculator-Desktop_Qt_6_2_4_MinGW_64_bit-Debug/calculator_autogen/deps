@@ -1,6 +1,7 @@
 calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QLocale \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h \

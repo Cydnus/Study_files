@@ -96,25 +96,54 @@ bool Achieve::saveData()
     {
         return false;
     }
+
     for(AchieveEntity ae : achieveTotalList)
     {
         fLog.write(ae.toWriteFile().toStdString().c_str());
     }
-
-
 
     fLog.close();
 
     return true;
 }
 
+int getIndexFromId(vector<AchieveEntity> data, uint64_t id, int start, int end)
+{
+    if( start >= end)
+        return -1;
+
+    int mid = (start + end) / 2;
+
+    if(data[mid].getId() == id)
+        return mid;
+    if(data[mid].getId() < id )
+        return getIndexFromId(data, id, mid+1, end);
+    return getIndexFromId(data, id,start, mid-1);
+
+}
+
+
 void Achieve::setCalEnd(uint64_t id, bool state)
 {
+    int ind = getIndexFromId(achieveTotalList, id, 0,achieveTotalList.size());
+    if( ind == -1)
+        return;
+    achieveTotalList[ind].setCalEnd(state);
+
 }
 void Achieve::setAllCalEnd()
 {
     int size =  achieveTotalList.size();
     for(int i = 0 ; i< size; i ++)
         achieveTotalList[i].setCalEnd(true);
+    saveData();
+}
+
+void Achieve::changeData(AchieveEntity ae)
+{
+    int ind = getIndexFromId(achieveTotalList, ae.getId(), 0,achieveTotalList.size());
+
+    achieveTotalList[ind] = ae;
+
     saveData();
 }

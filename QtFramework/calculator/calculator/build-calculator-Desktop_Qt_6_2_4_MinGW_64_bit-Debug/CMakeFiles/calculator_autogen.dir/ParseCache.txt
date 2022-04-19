@@ -6,6 +6,7 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/moc_predefs.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QLocale
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h

@@ -2,6 +2,7 @@ E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4
   E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/moc_predefs.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile \
+  D:/install/qt/6.2.4/mingw_64/include/QtCore/QLocale \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h \
   D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h \

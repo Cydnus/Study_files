@@ -18,6 +18,8 @@ public:
     void setAllCalEnd();
     uint64_t getAddIndex();
 
+    void changeData(AchieveEntity ae);
+
   private:
 
     static Achieve *achieve;
