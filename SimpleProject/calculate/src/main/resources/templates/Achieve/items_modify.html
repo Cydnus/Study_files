@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <meta charset="utf-8">
+    <title>Maple Boss achieve</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container" >
+        <div class="p-3 mb-5 bg-warning text-white"><h2>&#x1F341; List of achieve</h2></div>
+    </div>
+        
+    <div class="container" style="width:100%; height:600px; overflow:auto;">
+        <table class="table table-sm  table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th> <input type="checkbox" id="check_all" onclick="togleAll(this)"/> </th>
+                    <th th:text="#{achieveTitle.date}"></th>
+                    <th th:text="#{achieveTitle.bossLevel}"></th>
+                    <th th:text="#{achieveTitle.bossName}"></th>
+                    <th th:text="#{achieveTitle.itemName}"></th>
+                    <th th:text="#{achieveTitle.count}"></th>
+                    <th th:text="#{achieveTitle.price}"></th>
+                    <th th:text="#{achieveTitle.partyInfo}"></th>
+                    <th th:text="#{achieveTitle.isEnd}"></th>
+                </tr>
+            </thread>
+            <tbody>                
+                <script th:inline="javascript">
+                    var list_id = []; 
+                    var list_calEnd = []; 
+                </script>
+                    <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}"  th:each="achieve, index : ${achieveWithBossAndItem}">
+                        <th:block th:with="item=|achieve_${index.index}|">
+                            <td>
+                                <input type="checkbox"  th:id="|${item}_id|" th:name="|${item}_id|" th:value="${achieve.id}"/>
+                                <script th:inline="javascript">
+                                    list_id.push([[${item}]]+'_id');
+                                    list_calEnd.push([[${item}]]+'_calEnd');
+                                </script>
+                            </td>
+                            <td th:id="|${item}_date|" th:name="|${item}_date|" th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+
+                            <td> 
+                                <select th:id="|${item}_blevel|" th:name="|${item}_blevel|" onchange="onChange(this)" >
+                                    <option th:value="${achieve.boss.level}" th:text="${achieve.boss.level}"></option>                            
+                                    <th:block  th:each="blv:${bossTypes}">
+                                        <option th:value="${blv}" th:text="${blv}" th:unless="${achieve.boss.level.toString().equals(blv.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td>                        
+                                <select th:id="|${item}_bname|" th:name="|${item}_bname|" onchange="onChange(this)">
+                                    <option th:value="${achieve.boss.name}" th:text="${achieve.boss.name}"></option>                            
+                                    <th:block  th:each="bname:${bossNames}">
+                                        <option th:value="${bname}" th:text="${bname}" th:unless="${achieve.boss.name.toString().equals(bname.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+                            
+                            <td >
+                                <select th:id="|${item}_iname|" th:name="|${item}_iname|" onchange="onChange(this)">
+                                    <option th:value="${achieve.item.name}" th:text="${achieve.item.name}"></option>                            
+                                    <th:block  th:each="iname:${itemNames}">
+                                        <option th:value="${iname}" th:text="${iname}" th:unless="${achieve.item.name.toString().equals(iname.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td>
+                                <input type ="number" th:id="|${item}_itemCount|" th:name="|${item}_itemCount|" th:value="${achieve.itemCount}" onchange="onChange(this)"/>
+                            </td>
+
+                            <td>
+                                <input type ="number"  th:id="|${item}_price|" th:name="|${item}_price|" th:value="${achieve.price}" onchange="onChange(this)" />
+                            <td>
+                                <select th:id="|${item}_partyInfo|" th:name="|${item}_partyInfo|" onchange="onChange(this)">
+                                    <option th:value="${achieve.partyInfo}" th:text="${achieve.partyInfo}"></option>                
+                                    <th:block th:each="num:${#numbers.sequence(1,6)}">
+                                        <option th:value="${num}" th:text="${num}" th:unless="${achieve.partyInfo.toString().equals(num.toString())}"></option>
+                                    </th:block>
+                                </select>
+                            </td>
+
+                            <td th:if="${achieve.calEnd}==true" ><input type="checkbox" th:id="|${item}_calEnd|"  th:name="|${item}_calEnd|" checked onchange="onChange(this)"></td>
+                            <td th:unless="${achieve.calEnd}==true"><input type="checkbox" th:id="|${item}_calEnd|" th:name="|${item}_calEnd|" onchange="onChange(this)"></td>
+                        </th:block>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container alert alert-dark" >
+        <div class="row">
+
+            <div class = "col-sm-2">
+                <button type="button" class="btn btn-danger" onclick="deleteItems()" > 선택 삭제 </button>
+            </div>
+            <div  class="col-sm-2">
+                <button class="btn btn-primary" onclick="CalEnd()" >정산 일괄 처리</button>
+            </div>
+            
+            <div  class="col-sm-2">
+                <button class="btn btn-primary" onclick="toLog()"> 정산 항목 표시 제외 </button>
+            </div>
+            <div class = "col-sm-1">
+                <button class="btn btn-secondary  float-right" th:onclick="|location.href='@{/api/achieve/}'|" >취소</button>
+            </div>
+            <div class = "col-sm-2">
+                <button class="btn btn-primary  float-right" th:onclick="|location.href='@{/api/achieve/}'|">수정 완료</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onChange( obj )
+        {
+            console.log(obj.id);
+            
+            var index = obj.id.split('_')[1];
+            
+            var jsid = document.getElementById("achieve_"+index+"_id").value;
+            var jsblevel = document.getElementById("achieve_"+index+"_blevel").value;
+            var jsbname = document.getElementById("achieve_"+index+"_bname").value;
+            var jsiname = document.getElementById("achieve_"+index+"_iname").value;
+            var jsitemCnt = document.getElementById("achieve_"+index+"_itemCount").value;
+            var jsprice = document.getElementById("achieve_"+index+"_price").value;
+            var jspartyCnt = document.getElementById("achieve_"+index+"_partyInfo").value;
+            var jscalEnd = document.getElementById("achieve_"+index+"_calEnd").checked;
+
+            
+            console.log(jsid);
+            console.log(jsblevel);
+            console.log(jsbname);
+            console.log(jsiname);
+            console.log(jsitemCnt);
+            console.log(jsprice);
+            console.log(jspartyCnt);
+            console.log(jscalEnd);
+            
+            fetch(window.location.href, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "id"  :    jsid,
+                "blevel"  :    jsblevel,
+                "bname"   : jsbname,
+                "iname"   :  jsiname,
+                "itemCount" :   jsitemCnt,
+                "price"   :   jsprice,
+                "partyInfo"    :   jspartyCnt,
+                "calEnd"  :   jscalEnd
+            })
+            }).then((Response)=> window.location.reload());
+            
+        }
+        function togleAll(obj)
+        {
+            let i = 0;
+            let status = document.getElementById(obj).checked;
+            for(i = 0; i<list_id.length; i++)
+            {
+                if(document.getElementById(list_id[i]).checked != status )
+                document.getElementById(list_id[i]).checked = !document.getElementById(list_id[i]).checked;
+            }
+        }
+        function deleteItems()
+        {
+            if(!confirm("정말 삭제하시겠습니까?"));
+                return;
+
+            let i = 0;
+            let list = [];
+
+            for(i = 0; i<list_id.length; i++)
+            {
+                if(document.getElementById(list_id[i]).checked)
+                    list.push(document.getElementById(list_id[i]).value);
+            }
+            
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'toLog/'
+            else
+                url+='/toLog/'
+
+
+            fetch(url,{                
+            method: "Put",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            }).then((Response) =>window.location.reload());
+
+        }
+        
+        function CalEnd()
+        {
+            if(!confirm("정산 완료 하시겠습니까?"));
+                return;
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'calend/'
+            else
+                url+='/calend/'
+
+
+            let list = [];
+            let i =0;
+            for( i = 0 ; i < list_calEnd.length ; i++)
+            {
+                list.push(document.getElementById(list_calEnd[i].replace('calEnd','id')).value);
+            }
+
+            fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            
+            }).then((Response)=>window.location.reload());
+        }
+
+        function toLog()
+        {
+            if(!confirm("정산 완료 항목들 모두 더이상 확인 안하시겠습니까?"));
+                return;
+
+            let url = location.href;
+
+            if(url[url.length-1]=='/')
+                url += 'toLog/'
+            else
+                url+='/toLog/'
+
+
+            let list = [];
+            let i =0;
+            for( i = 0 ; i < list_calEnd.length ; i++)
+            {
+                list.push(document.getElementById(list_calEnd[i].replace('calEnd','id')).value);
+            }
+
+            fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(list)
+            
+            }).then((Response)=>window.location.reload());
+
+        }
+
+    </script>
+    
+    </body>
+</html>

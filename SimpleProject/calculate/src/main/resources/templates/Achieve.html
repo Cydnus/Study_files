@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <meta charset="utf-8">
+    <title>Maple Boss achieve</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="container" >
+        <div class="p-3 mb-5 bg-warning text-white"><h2>&#x1F341; List of achieve</h2></div>
+    </div>
+    <div class="container" style="width:100%; height:600px; overflow:auto;">
+        <table class="table table-sm  table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th th:text="#{achieveTitle.date}"></th>
+                    <th th:text="#{achieveTitle.bossLevel}"></th>
+                    <th th:text="#{achieveTitle.bossName}"></th>
+                    <th th:text="#{achieveTitle.itemType}"></th>
+                    <th th:text="#{achieveTitle.itemName}"></th>
+                    <th th:text="#{achieveTitle.count}"></th>
+                    <th th:text="#{achieveTitle.price}"></th>
+                    <th th:text="#{achieveTitle.priceExcludeCommission}"></th>
+                    <th th:text="#{achieveTitle.pricePerOne}"></th>
+                    <th th:text="#{achieveTitle.partyInfo}"></th>
+                    <th th:text="#{achieveTitle.isEnd}"></th>
+                </tr>
+            </thread>
+            <tbody>
+                <tr th:unless="${#lists.isEmpty(achieveWithBossAndItem)}" th:each="achieve, index : ${achieveWithBossAndItem}">
+                    <th:block th:with="id=|acheive[${index.index}]|">
+                        <td th:text="${#temporals.format(achieve.dateTime, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${achieve.boss.level}"></td>
+                        <td th:text="${achieve.boss.name}"></td>
+                        <td th:text="${achieve.item.type}"></td>
+                        <td th:text="${achieve.item.name}"></td>
+                        <td th:text="${achieve.itemCount}"></td>
+                        <td th:text="${#numbers.formatInteger(achieve.price,1,'COMMA')}"></td>
+                        <th:block  th:with ="pec=${achieve.price}*${achieve.itemCount}*0.95">
+                                
+                            <td th:id="|${id}_pec|"  th:text="${#numbers.formatInteger(pec,1,'COMMA')}"></td>
+                            <td th:id="|${id}_ppo|"  th:with="ppo= ${pec}/${achieve.partyInfo}" th:text="${#numbers.formatInteger(ppo, 1, 'COMMA')}"></td>
+                            
+                    
+                        </th:block>
+                        <td th:text="${achieve.partyInfo}"></td>
+                        <td th:if="${achieve.calEnd}==true" ><input th:id="|${id}_id|"  type="checkbox" checked onchange="checkbox_change(this)"></td>
+                        <td th:unless="${achieve.calEnd}==true"><input th:id="|${id}_id|" type="checkbox" onchange="checkbox_change(this)" ></td>
+                    </th:block>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container alert alert-dark" >
+        <div class="row">
+            
+            <div class="col-sm-4">
+                <label for="sumTotal">전체 분배금액 : </label>            
+                <sapn id="sumTotal" ></sapn>                
+            </div>
+            <div class="col-sm-4" >
+                <label for="sumParty">1인당 분배금액 :</label>
+                <sapn id="sumParty" ></sapn>
+            </div>
+            <div  class="col-sm-2 float-right" th:unless="${FindAll}=='findAll'">
+                <button th:onclick="|location.href='@{/api/achieve/items_modify}'|" class="btn btn-primary float-right" >수정</button>
+            </div>
+            <div  class="col-sm-2 float-right">
+                <button th:onclick="|location.href='@{/api/achieve/All/}'|" class="btn btn-primary float-right" th:unless="${FindAll}=='findAll'" >전체기록보기</button>
+                <button th:onclick="|location.href='@{/api/achieve/}'|" class="btn btn-primary float-right" th:if="${FindAll} =='findAll'" >이전으로</button>
+            </div>
+
+        </div>
+            <script th:inline="javascript">
+                var sum_total = 0;
+                var sum_party = 0;
+                [# th:each="achieve, stat : ${achieveWithBossAndItem}"]
+                if([[${achieve.CalEnd}]]!=true)
+                {
+                    sum_total += parseInt([[${achieve.price}]] * 0.95) ;
+                    sum_party += parseInt(([[${achieve.price}]] * 0.95) /[[${achieve.partyInfo}]]);
+                }
+                [/]
+
+                function checkbox_change(obj)
+                {
+                    console.log(obj);
+                    
+                    let front = obj.id.split('_')[0];
+                    let pec = Number(document.getElementById(front+"_pec").innerHTML.replaceAll(',',''));
+                    let ppo = Number(document.getElementById(front+"_ppo").innerHTML.replaceAll(',',''));
+
+                    console.log("pec = " + pec);
+                    console.log("ppo = " + ppo);
+
+
+                    if( obj.checked == true)
+                    {                        
+                        sum_total -= pec;
+                        sum_party -= ppo;
+                    }
+                    
+                    if( obj.checked == false)
+                    {                        
+                        sum_total += pec;
+                        sum_party += ppo;
+                    }
+                    
+                    console.log("sum_total = " + sum_total);
+                    console.log("sum_party = " + sum_party);
+                    document.getElementById("sumTotal").innerHTML = sum_total.toLocaleString('ko-KR')  + " 메소";
+                    document.getElementById("sumParty").innerHTML = sum_party.toLocaleString('ko-KR')  + " 메소"; 
+
+                }
+                      //  document.write(sum_total.toLocaleString('ko-KR')  + " 메소");
+
+                    document.getElementById("sumTotal").innerHTML = sum_total.toLocaleString('ko-KR')  + " 메소";
+                    document.getElementById("sumParty").innerHTML = sum_party.toLocaleString('ko-KR')  + " 메소"; 
+
+
+            </script>
+
+    </div>
+    
+    <th:block th:unless="${FindAll}=='findAll'">
+        <div th:if="${#lists.isEmpty(infos)}" >
+            <div class="container alert alert-success" style="position: relative">
+                <form action="#" th:action="@{/api/achieve}" th:object="${achieveAddForm}" method="post">
+                    <fieldset >
+                        <div class="form-group row">
+                            <label for="datetime" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.date}"></label>
+                            <div class="col-sm-4">
+                                <span id="datetime" th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <div class="col-sm-2" th:text="#{achieveTitle.bossLevel}"></div>
+                            <div class="col-sm-2">
+                                <select id="bolv" class="form-control" th:field="*{bosslevel}">
+                                    <option  th:each="bl:${bossTypes}" th:value="${bl}" th:text="${bl}">노말</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2" th:text="#{achieveTitle.bossName}"></div>
+                            <div class="col-sm-4">
+                                <select id="boname" class="form-control" th:field="*{bossname}">
+                                    <option  th:each="bn:${bossNames}" th:value="${bn}" th:text="${bn}" >스우</option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2" th:text="#{achieveTitle.itemName}"></div>
+                            <div class="col-sm-4"> 
+                                <select id="itemname" class="form-control" th:field="*{itemname}"  >
+                                    <option th:each="in:${itemNames}" th:value="${in}" th:text="${in}" >경험치 50% 추가 쿠폰</option>
+                                </select>
+                            </div>
+                            <label for="count" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.count}"></label>
+                            <div class="col-sm-2">
+                                <input type="number" id="count" th:field="*{count}" placeholder="1" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.price}"></label>
+                            <div class="col-sm-4">
+                                <input type="number" id="price" th:field="*{price}" />
+                            </div>
+                            <label for="partyInfo" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.partyInfo}"></label>
+                            <div class="col-sm-2">  
+                                <select id="partyInfo" th:field="*{partyInfo}">
+                                    <th:block th:each="num:${#numbers.sequence(1,6)}">
+                                        <option th:value="${num}" th:text="${num}" ></option>
+                                    </th:block>
+                                </select>
+                            </div>                    
+                        </div>
+                        <button type="submit" class="btn btn-primary">추가</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        
+        <div th:unless="${#lists.isEmpty(infos)}">
+            <div class="container alert alert-success" style="position: relative">
+                <form action="#" th:action="@{/api/achieve}" th:object="${achieveAddForm}" method="post">
+                    <fieldset >
+                        <div class="form-group row">
+                            <label for="datetime" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.date}"></label>
+                            <div class="col-sm-4">
+                                <span id="datetime" th:text="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}"></span>
+                            </div>
+                        </div> 
+                        <div class="form-group row">
+                            <div class="col-sm-2" th:text="#{achieveTitle.bossLevel}"></div>
+                            <div class="col-sm-2">
+                                <select id="bolv" class="form-control" th:field="*{bosslevel}">
+                                    <option  th:value="${infos[0]}" th:text="${infos[0]}" selected  >노말</option>
+                                    <th:block th:each="bl:${bossTypes}" >
+                                        <option  th:value="${bl}" th:text="${bl}" th:unless="${infos[0].toString().equals(bl.toString())}" >노말</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="col-sm-2" th:text="#{achieveTitle.bossName}"></div>
+                            <div class="col-sm-4">
+                                <select id="boname" class="form-control" th:field="*{bossname}">
+                                    <option  th:value="${infos[2]}" th:text="${infos[2]}"  >스우</option>
+                                    <th:block th:each="bn:${bossNames}" >
+                                        <option  th:value="${bn}" th:text="${bn}" th:unless="${infos[2]}==${bn}" >스우</option>
+                                    </th:block>
+                                </select>
+                                
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-2" th:text="#{achieveTitle.itemName}"></div>
+                            <div class="col-sm-4"> 
+                                <select id="itemname" class="form-control" th:field="*{itemname}"  >
+                                    <option th:each="in:${itemNames}" th:value="${in}" th:text="${in}" >경험치 50% 추가 쿠폰</option>
+                                </select>
+                            </div>
+                            <label for="count" class="col-sm-2 col-form-label" th:text="#{achieveTitle.count}"></label>
+                            <div class="col-sm-2">
+                                <input type="number" id="count" th:field="*{count}" placeholder="1" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.price}"></label>
+                            <div class="col-sm-4">
+                                <input type="number" id="price" th:field="*{price}" />
+                            </div>
+                            <label for="partyInfo" class="col-sm-2 col-form-label"
+                            th:text="#{achieveTitle.partyInfo}"></label>
+                            <select id="partyInfo" th:field="*{partyInfo}">
+                                <option th:value="${infos[1]}" th:text="${infos[1]}"  ></option>
+                                <th:block th:each="num:${#numbers.sequence(1,6)}">
+                                    <option th:value="${num}" th:text="${num}" th:unless="${infos[1].toString().equals(num.toString())}" ></option>
+                                </th:block>
+                            </select> 
+                        </div>
+                        <button type="submit" class="btn btn-primary">추가</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </th:block>
+    </body>
+</html>
