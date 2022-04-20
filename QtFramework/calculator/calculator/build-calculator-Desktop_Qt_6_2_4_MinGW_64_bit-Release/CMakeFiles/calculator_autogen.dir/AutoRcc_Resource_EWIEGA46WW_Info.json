@@ -1,0 +1,19 @@
+{
+	"BUILD_DIR" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen",
+	"CMAKE_BINARY_DIR" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release",
+	"CMAKE_CURRENT_BINARY_DIR" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release",
+	"CMAKE_CURRENT_SOURCE_DIR" : "E:/Study/Git/QtFramework/calculator",
+	"CMAKE_SOURCE_DIR" : "E:/Study/Git/QtFramework/calculator",
+	"INCLUDE_DIR" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/include",
+	"INPUTS" : [ "E:/Study/Git/QtFramework/calculator/i15952174095.ico" ],
+	"LOCK_FILE" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/calculator_autogen.dir/AutoRcc_Resource_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "Resource" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_Resource.cpp",
+	"RCC_EXECUTABLE" : "D:/install/qt/6.2.4/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/calculator_autogen.dir/AutoRcc_Resource_EWIEGA46WW_Used.txt",
+	"SOURCE" : "E:/Study/Git/QtFramework/calculator/Resource.qrc",
+	"VERBOSITY" : 0
+}

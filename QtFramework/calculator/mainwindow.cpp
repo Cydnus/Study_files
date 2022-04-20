@@ -2,7 +2,7 @@
 #include "./ui_mainwindow.h"
 
 
-QStringList getcbItemsFromFile(QString fileName)
+QStringList getcbItemsFromFile(QString fileName) /* 파일 읽어오기 */
 {
     QFile fItemName(fileName);
 
@@ -23,7 +23,7 @@ QStringList getcbItemsFromFile(QString fileName)
     return items;
 }
 
-void MainWindow::setConfig()
+void MainWindow::setConfig()   /* 기본설정 (폰트/ 사이즈) */
 {
     ui->sbParty->setValue(conf["Party_Count"].toInt());
 
@@ -73,10 +73,7 @@ void MainWindow::setConfig()
 
 }
 
-
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) /* 생성자  */
 {
     ui->setupUi(this);
     QDate date;
@@ -113,40 +110,22 @@ MainWindow::MainWindow(QWidget *parent)
     fConfig.close();
     setConfig();
 
-    setTableBody();
+    setTable();
+    ui->Table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    //ui->Table->setSelectionMode(QAbstractItemView::SingleSelection);
 
 
     connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
 
+
+
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
 }
 
-void MainWindow::setTableHeader()
-{
-
-    ui->Table->setRowCount(0);
-    ui->Table->setColumnCount(10);
-
-    QStringList header = {
-        QString("날자"),
-        QString("보스등급"),
-        QString("보스명"),
-        QString("아이템명"),
-        QString("갯수"),
-        QString("가격"),
-        QString("수수료 제외한 금액"),
-        QString("1인당 분배금액"),
-        QString("파티원수"),
-        QString("분배여부")};
-
-    ui->Table->setHorizontalHeaderLabels(header);
-}
-
-
-void MainWindow::tableInsert( AchieveEntity entity )
+void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입력  */
 {
     //qDebug()<<entity.getDate();
     int row = ui->Table->rowCount();
@@ -202,8 +181,7 @@ void MainWindow::tableInsert( AchieveEntity entity )
     connect(box,SIGNAL(clicked()),this,SLOT(checkBoxStateChange()));
 }
 
-
-void MainWindow::checkBoxStateChange()
+void MainWindow::checkBoxStateChange() /* 체크박스 체크/해제시 동작 이벤트  */
 {
     QObject *obj = sender();
 
@@ -211,11 +189,10 @@ void MainWindow::checkBoxStateChange()
 
     achieve->setCalEnd(row, ((QCheckBox*)obj)->isChecked());
 
-    setTableBody();
+    setTable();
 }
 
-
-void MainWindow::btnClick()
+void MainWindow::btnClick() /* 버튼 클릭 분류  */
 {
     QObject* obj = sender();
     if( obj == ui->pbInsert )
@@ -228,7 +205,7 @@ void MainWindow::btnClick()
         copyToClipboard();
 }
 
-void MainWindow::insertRow()
+void MainWindow::insertRow() /* 항목 추가 이벤트  */
 {
     AchieveEntity ae;
     ae.setId(achieve->getAddIndex());
@@ -243,14 +220,18 @@ void MainWindow::insertRow()
     ae.setVisible(false);
 
     qDebug() << ae.toString();
-    achieve->AppendData(ae);
+
+    disconnect(tableConnect);
 
     tableInsert(ae);
 
+    tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+
+    achieve->AppendData(ae);
+
 }
 
-
-void  MainWindow::setTableBody()
+void MainWindow::setTable() /* 테이블 항목 추가  */
 {
     ui->Table->clear();
 
@@ -260,7 +241,22 @@ void  MainWindow::setTableBody()
     uint64_t per4_sum = 0;
     uint64_t per3_sum = 0;
 
-    setTableHeader();
+    ui->Table->setRowCount(0);
+    ui->Table->setColumnCount(10);
+
+    QStringList header = {
+        QString("날자"),
+        QString("보스등급"),
+        QString("보스명"),
+        QString("아이템명"),
+        QString("갯수"),
+        QString("가격"),
+        QString("수수료 제외한 금액"),
+        QString("1인당 분배금액"),
+        QString("파티원수"),
+        QString("분배여부")};
+
+    ui->Table->setHorizontalHeaderLabels(header);
 
     for(AchieveEntity entity : entitys)
     {
@@ -281,24 +277,25 @@ void  MainWindow::setTableBody()
     ui->Table->resizeColumnsToContents();
     ui->Table->resizeRowsToContents();
 
+
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
 }
 
-void MainWindow::calculateEnd()
+void MainWindow::calculateEnd() /* 정산완료 동작 이벤트  */
 {
     qDebug()<<"ui->pbCalEnd";
 
     ui->Table->clear();
 
     achieve->setAllCalEnd();
-    setTableBody();
+    setTable();
 
 }
 
-void MainWindow::cellChanged(int row, int col)
+void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이벤트 */
 {
     qDebug()<<row<<"\t"<<col;
     AchieveEntity ae;
@@ -340,16 +337,16 @@ void MainWindow::cellChanged(int row, int col)
             per4_sum += ppo;
     }
 
+    tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
-    tableConnect =  connect(table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
     achieve->changeData(ae);
 }
 
-
-void MainWindow::copyToClipboard()
+void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤트 */
 {
     qDebug()<<"ui->pbCopy";
     QClipboard *clipboard = QGuiApplication::clipboard();
@@ -490,8 +487,45 @@ void MainWindow::copyToClipboard()
     clipboard->setMimeData(data, QClipboard::Clipboard);
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+   QModelIndexList select = ui->Table->selectionModel()->selectedRows();
 
-MainWindow::~MainWindow()
+   if(select.size() >=0)
+   {
+       if(event->nativeVirtualKey() == Qt::Key_Delete || event->key() == Qt::Key_Delete)
+       {
+           vector<uint64_t> list;
+           if(event->modifiers()  == Qt::ShiftModifier)
+           {
+               for(int i = 0 ; i<select.count(); i ++)
+               {
+                   qDebug()<<"Shift + Delete \t" <<ui->Table->cellWidget(select[i].row(),9)->objectName();
+                   list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+               }
+                achieve->remove(list);
+
+           }
+           else
+           {
+               for(int i = 0 ; i<select.count(); i ++)
+               {
+                   qDebug()<<"toLog\t"<<ui->Table->cellWidget(select[i].row(),9)->objectName();
+                   list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+               }
+               achieve->toLog(list);
+           }
+
+           disconnect(tableConnect);
+           setTable();
+           tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+
+       }
+   }
+
+}
+
+MainWindow::~MainWindow() /* 소멸자 */
 {
     achieve->saveData();
     delete ui;

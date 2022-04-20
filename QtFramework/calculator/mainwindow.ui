@@ -13,6 +13,16 @@
   <property name="windowTitle">
    <string>메이플보스분배계산기</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="Resource.qrc">
+    <normaloff>:/Icon/i15952174095.ico</normaloff>:/Icon/i15952174095.ico</iconset>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>196</width>
+    <height>256</height>
+   </size>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -450,6 +460,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

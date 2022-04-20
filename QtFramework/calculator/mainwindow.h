@@ -10,6 +10,7 @@
 #include <QMimeData>
 #include <QPainter>
 #include <QLocale>
+#include <QKeyEvent>
 
 
 QT_BEGIN_NAMESPACE
@@ -32,11 +33,13 @@ private:
     Achieve *achieve = Achieve::getInstance();
     void setConfig();
     void tableInsert(AchieveEntity ae);
-    void setTableHeader();
-    void setTableBody();
+    void setTable();
     void insertRow();
     void calculateEnd();
     void copyToClipboard();
+
+    void keyPressEvent(QKeyEvent *event);
+
 
 private slots:
     void btnClick();

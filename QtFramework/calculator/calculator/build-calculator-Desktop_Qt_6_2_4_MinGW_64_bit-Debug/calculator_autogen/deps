@@ -1,8 +1,13 @@
 calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QList \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QLocale \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QObject \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QRect \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QSize \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/QSizeF \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qarraydata.h \
@@ -25,6 +30,7 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainerinfo.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainertools_impl.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontiguouscache.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/qcoreevent.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatastream.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatetime.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qdebug.h \
@@ -51,6 +57,7 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qmetatype.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qmimedata.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qnamespace.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/qnativeinterface.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qnumeric.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qobject.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qobject_impl.h \
@@ -58,6 +65,7 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qobjectdefs_impl.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qpair.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qpoint.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/qpointer.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qprocessordetection.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qrect.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qrefcount.h \
@@ -84,22 +92,28 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qtextstream.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qtmetamacros.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qtypeinfo.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtCore/qurl.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qutf8stringview.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qvariant.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qvarlengtharray.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtCore/qversiontagging.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/QClipboard \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/QKeyEvent \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/QPainter \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/QTransform \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qbitmap.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qbrush.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qclipboard.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qcolor.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qcursor.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qevent.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qeventpoint.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qfont.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qfontinfo.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qfontmetrics.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qicon.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qimage.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qinputdevice.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qkeysequence.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpaintdevice.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpainter.h \
@@ -107,14 +121,18 @@ calculator_autogen/timestamp: \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpen.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixelformat.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixmap.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpointingdevice.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qpolygon.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qregion.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgb.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgba64.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qscreen.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtextoption.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtgui-config.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtguiglobal.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qtransform.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qvector2d.h \
+	D:/install/qt/6.2.4/mingw_64/include/QtGui/qvectornd.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs_win.h \
 	D:/install/qt/6.2.4/mingw_64/include/QtWidgets/QCheckBox \
@@ -469,6 +487,7 @@ calculator_autogen/timestamp: \
 	D:/install/qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
 	E:/Study/Git/QtFramework/calculator/AchieveEntity.h \
 	E:/Study/Git/QtFramework/calculator/CMakeLists.txt \
+	E:/Study/Git/QtFramework/calculator/Resource.qrc \
 	E:/Study/Git/QtFramework/calculator/achieve.cpp \
 	E:/Study/Git/QtFramework/calculator/achieve.h \
 	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/CMakeFiles/3.21.1/CMakeCXXCompiler.cmake \

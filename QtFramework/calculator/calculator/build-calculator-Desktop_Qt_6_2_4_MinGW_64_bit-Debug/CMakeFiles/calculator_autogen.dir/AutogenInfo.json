@@ -251,7 +251,8 @@
 		"D:/install/qt/6.2.4/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake",
 		"D:/install/qt/6.2.4/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsVersionlessTargets.cmake",
 		"D:/install/qt/6.2.4/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake",
-		"D:/install/qt/Tools/CMake_64/share/cmake-3.21/Modules/CMakeParseArguments.cmake"
+		"D:/install/qt/Tools/CMake_64/share/cmake-3.21/Modules/CMakeParseArguments.cmake",
+		"E:/Study/Git/QtFramework/calculator/Resource.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "E:/Study/Git/QtFramework/calculator",
 	"DEP_FILE" : "E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/deps",

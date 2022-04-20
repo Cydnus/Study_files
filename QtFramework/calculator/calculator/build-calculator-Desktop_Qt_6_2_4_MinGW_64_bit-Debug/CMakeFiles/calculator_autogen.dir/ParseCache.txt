@@ -6,8 +6,13 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Debug/calculator_autogen/moc_predefs.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QDate
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QFile
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QList
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QLocale
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QMimeData
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QObject
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QRect
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QSize
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/QSizeF
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qalgorithms.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qanystringview.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qarraydata.h
@@ -30,6 +35,7 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainerinfo.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontainertools_impl.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qcontiguouscache.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qcoreevent.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatastream.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qdatetime.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qdebug.h
@@ -56,6 +62,7 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qmetatype.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qmimedata.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qnamespace.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qnativeinterface.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qnumeric.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qobject.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qobject_impl.h
@@ -63,6 +70,7 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qobjectdefs_impl.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qpair.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qpoint.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qpointer.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qprocessordetection.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qrect.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qrefcount.h
@@ -89,22 +97,28 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qtextstream.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qtmetamacros.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qtypeinfo.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qurl.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qutf8stringview.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qvariant.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qvarlengtharray.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtCore/qversiontagging.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/QClipboard
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/QKeyEvent
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/QPainter
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/QTransform
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qbitmap.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qbrush.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qclipboard.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qcolor.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qcursor.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qevent.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qeventpoint.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qfont.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qfontinfo.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qfontmetrics.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qicon.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qimage.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qinputdevice.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qkeysequence.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpaintdevice.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpainter.h
@@ -112,14 +126,18 @@ E:/Study/Git/QtFramework/calculator/mainwindow.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpen.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixelformat.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpixmap.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpointingdevice.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qpolygon.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qregion.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgb.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qrgba64.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qscreen.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qtextoption.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qtgui-config.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qtguiglobal.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qtransform.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qvector2d.h
+ mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qvectornd.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtGui/qwindowdefs_win.h
  mdp:D:/install/qt/6.2.4/mingw_64/include/QtWidgets/QCheckBox

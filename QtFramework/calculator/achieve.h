@@ -20,6 +20,9 @@ public:
 
     void changeData(AchieveEntity ae);
 
+    void remove(vector<uint64_t>);
+    void toLog(vector<uint64_t>);
+
   private:
 
     static Achieve *achieve;

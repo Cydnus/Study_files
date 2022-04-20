@@ -1,0 +1,8 @@
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/rebuild_cache.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/calculator.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/Resource.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/edit_cache.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/calculator_autogen_timestamp_deps.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/calculator_autogen.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/Resource_autogen_timestamp_deps.dir
+E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/CMakeFiles/Resource_autogen.dir

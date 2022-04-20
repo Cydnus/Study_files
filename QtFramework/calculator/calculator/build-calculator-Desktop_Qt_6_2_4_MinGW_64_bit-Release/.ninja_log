@@ -1,0 +1,23 @@
+# ninja log v5
+2496	6738	6720855133455740	CMakeFiles/calculator.dir/calculator_autogen/mocs_compilation.cpp.obj	d12afe3761b825fb
+89	2491	6720855089995760	calculator_autogen/timestamp	ed2147aa6f0c73bc
+89	2491	6720855089995760	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/timestamp	ed2147aa6f0c73bc
+89	2491	6720855089995760	calculator_autogen/mocs_compilation.cpp	ed2147aa6f0c73bc
+89	2491	6720855089995760	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/mocs_compilation.cpp	ed2147aa6f0c73bc
+2498	7544	6720855141805743	CMakeFiles/calculator.dir/achieve.cpp.obj	d571d515d8b0c8f9
+2501	6753	6720855133505734	CMakeFiles/calculator.dir/main.cpp.obj	4dbb8c0ed43e715f
+2499	9457	6720855160925724	CMakeFiles/calculator.dir/mainwindow.cpp.obj	27454471817fb548
+9458	9726	6720855163425708	calculator.exe	2c9c635e5465c3f8
+1	566	6720858468926036	build.ninja	603450bdb98f8751
+8	194	6720858470830967	Resource_autogen/timestamp	12421bd83fe07ba0
+8	194	6720858470830967	Resource_autogen/mocs_compilation.cpp	12421bd83fe07ba0
+8	194	6720858470830967	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/Resource_autogen/timestamp	12421bd83fe07ba0
+8	194	6720858470830967	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/Resource_autogen/mocs_compilation.cpp	12421bd83fe07ba0
+10	280	6720858472070969	calculator_autogen/timestamp	ed2147aa6f0c73bc
+10	280	6720858472070969	calculator_autogen/mocs_compilation.cpp	ed2147aa6f0c73bc
+10	280	6720858472070969	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/timestamp	ed2147aa6f0c73bc
+10	280	6720858472070969	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/mocs_compilation.cpp	ed2147aa6f0c73bc
+194	317	6720858472620994	CMakeFiles/Resource.dir/Resource_autogen/mocs_compilation.cpp.obj	8fb1aecaf278a8fa
+196	391	6720858473420986	CMakeFiles/Resource.dir/Resource.rc.obj	fe11c93e9e09f873
+283	399	6720858473430966	calculator_autogen/EWIEGA46WW/qrc_Resource.cpp	9c5634801b49a340
+283	399	6720858473430966	E:/Study/Git/QtFramework/calculator/calculator/build-calculator-Desktop_Qt_6_2_4_MinGW_64_bit-Release/calculator_autogen/EWIEGA46WW/qrc_Resource.cpp	9c5634801b49a340
