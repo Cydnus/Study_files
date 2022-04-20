@@ -431,10 +431,10 @@ void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤�
     }
     sy += row_height;
 
-
+    // table List
+    QLocale lo = QLocale::system();
 
     vector<AchieveEntity> list = achieve->getVisibleList();
-    // table List
     for(int i = 0; i<rowCount; i++)
     {
         if(i%2 == 0)
@@ -446,7 +446,7 @@ void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤�
         painter.setPen(QPen(Qt::black));
 
         painter.drawRect(QRect(start_x[0],sy,col_width[0],row_height));
-        painter.drawText(QRect(start_x[0],sy,col_width[0],row_height), Qt::AlignCenter, list[i].getDate().toString("yyyy-MM-dd (ddd)"));
+        painter.drawText(QRect(start_x[0],sy,col_width[0],row_height), Qt::AlignCenter, list[i].getDate().toString("yyyy-MM-dd")  + " (" + lo.dayName(list[i].getDate().dayOfWeek(),QLocale::ShortFormat) +")" );
 
         painter.drawRect(QRect(start_x[1],sy,col_width[1],row_height));
         painter.drawText(QRect(start_x[1],sy,col_width[1],row_height), Qt::AlignCenter, list[i].getBossLevel());
