@@ -15,4 +15,4 @@
 >    + QTableWidget 항목 수정 동작
 
 >22/04/16 진행사항
->    + QPushButton CopyToClipBoard 항목 작성
+>    + QPushButton CopyToClipBoard 항목 작성1xz
