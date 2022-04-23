@@ -23,10 +23,13 @@ public:
     void remove(vector<uint64_t>);
     void toLog(vector<uint64_t>);
 
+    AchieveEntity getAchieveEntity(uint64_t id);
+
   private:
 
     static Achieve *achieve;
     vector<AchieveEntity> achieveTotalList;
+    vector<AchieveEntity> visibleList;
     Achieve();
 
 

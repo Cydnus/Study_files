@@ -17,6 +17,9 @@ Achieve::Achieve()  /* 생성자 */
     QStringList logs = tsLogs.readAll().split("\n");
 
     int row = 0;
+
+    visibleList.clear();
+
     for(const QString &str : logs)
     {
         if(str.length()== 0)
@@ -43,6 +46,8 @@ Achieve::Achieve()  /* 생성자 */
                     b1,
                     b2);
 
+        if( ae.isVisible() == false )
+            visibleList.push_back(ae);
         achieveTotalList.push_back(ae);
     }
     fLog.close();
@@ -71,18 +76,12 @@ uint64_t Achieve::getAddIndex() /* 추가시 들어갈 인덱스 */
 
 vector<AchieveEntity> Achieve::getVisibleList() /* 테이블 표시 리스트  */
 {
-    vector<AchieveEntity> ret;
-    int size = achieveTotalList.size();
-    for(int i = 0 ; i< size ; i++)
-    {
-        if( achieveTotalList[i].isVisible() == false )
-            ret.push_back(achieveTotalList[i]);
-    }
-    return ret;
+    return visibleList;
 }
 
 void Achieve::AppendData(AchieveEntity ae) /* 엔티티 추가 */
 {
+    visibleList.push_back(ae);
     achieveTotalList.push_back(ae);
     saveData();
 }
@@ -121,25 +120,31 @@ int getIndexFromId(vector<AchieveEntity> data, uint64_t id, int start, int end) 
 void Achieve::setCalEnd(uint64_t id, bool state) /* 한개 정산 */
 {
     int ind = getIndexFromId(achieveTotalList, id, 0,achieveTotalList.size());
+    int ind2 = getIndexFromId(visibleList, id, 0,visibleList.size());
     if( ind == -1)
         return;
     achieveTotalList[ind].setCalEnd(state);
+    visibleList[ind2].setCalEnd(!visibleList[ind2].isCalEnd());
 
 }
 
 void Achieve::setAllCalEnd() /* 모두 정산 */
 {
-    int size =  achieveTotalList.size();
+    int size = visibleList.size();
     for(int i = 0 ; i< size; i ++)
-        achieveTotalList[i].setCalEnd(true);
+    {
+        setCalEnd(visibleList[i].getId(),!visibleList[i].isCalEnd());
+    }
     saveData();
 }
 
 void Achieve::changeData(AchieveEntity ae) /* 값 변경 */
 {
     int ind = getIndexFromId(achieveTotalList, ae.getId(), 0,achieveTotalList.size());
+    int ind2 = getIndexFromId(visibleList, ae.getId(), 0,visibleList.size());
 
     achieveTotalList[ind] = ae;
+    visibleList[ind2] = ae;
 
     saveData();
 }
@@ -149,11 +154,13 @@ void Achieve::remove(vector<uint64_t> listId) /* 항목 삭제 */
     for(uint64_t id : listId )
     {
         int ind = getIndexFromId(achieveTotalList,id,0, achieveTotalList.size());
+        int ind2 =  getIndexFromId(visibleList,id,0, visibleList.size());
         qDebug()<<"Achieve Remove() : "<<id<<"\t" << ind;
         if(ind !=-1)
         {
             qDebug()<<(achieveTotalList.begin()+ind)->getId();
             achieveTotalList.erase(achieveTotalList.begin()+ind);
+            visibleList.erase(visibleList.begin()+ind2);
         }
     }
     saveData();
@@ -164,12 +171,19 @@ void Achieve::toLog(vector<uint64_t> listId)  /* 테이블 표시 제외 */
     for(uint64_t id : listId )
     {
         int ind = getIndexFromId(achieveTotalList,id,0, achieveTotalList.size());
+        int ind2 =  getIndexFromId(visibleList,id,0, visibleList.size());
         qDebug()<<"Achieve toLog() : "<<id<<"\t" << ind;
         if(ind !=-1)
         {
             qDebug()<<(achieveTotalList.begin()+ind)->getId();
             achieveTotalList[ind].setVisible(true);
+            visibleList[ind2].setVisible(true);
         }
     }
     saveData();
+}
+
+AchieveEntity Achieve::getAchieveEntity(uint64_t id)
+{
+    return achieveTotalList[getIndexFromId(achieveTotalList,id,0, achieveTotalList.size())];
 }

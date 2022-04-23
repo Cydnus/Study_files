@@ -1,6 +1,16 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+#define DISCONNECT {disconnect(tableConnect);}
+#define CONNECT {tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));}
+
+uint64_t getMeso(QString str)
+{
+    if(str.contains("메소"))
+        return str.sliced(0,str.size()-2).replace(",","").toULongLong();
+    return str.replace(",","").toULongLong();
+}
+
 
 QStringList getcbItemsFromFile(QString fileName) /* 파일 읽어오기 */
 {
@@ -120,8 +130,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
 
 
-
-    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+    CONNECT;
 
 }
 
@@ -148,8 +157,7 @@ void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입
 
     uint64_t price = entity.getItemCount() * entity.getPrice() * 0.95;
     uint64_t ppo = price / entity.getPartyCount();
-
-    QTableWidgetItem *pri = new QTableWidgetItem(QString::number(price)), *po =new QTableWidgetItem(QString::number(ppo));
+    QTableWidgetItem *pri = new QTableWidgetItem(QString("%L1").arg(price)), *po =new QTableWidgetItem(QString("%L1").arg(ppo));
 
     pri->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
     po->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
@@ -189,7 +197,9 @@ void MainWindow::checkBoxStateChange() /* 체크박스 체크/해제시 동작 �
 
     achieve->setCalEnd(row, ((QCheckBox*)obj)->isChecked());
 
+    DISCONNECT;
     setTable();
+    CONNECT;
 }
 
 void MainWindow::btnClick() /* 버튼 클릭 분류  */
@@ -221,11 +231,11 @@ void MainWindow::insertRow() /* 항목 추가 이벤트  */
 
     qDebug() << ae.toString();
 
-    disconnect(tableConnect);
+    DISCONNECT;
 
     tableInsert(ae);
 
-    tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+    CONNECT;
 
     achieve->AppendData(ae);
 
@@ -291,9 +301,12 @@ void MainWindow::calculateEnd() /* 정산완료 동작 이벤트  */
     ui->Table->clear();
 
     achieve->setAllCalEnd();
-    setTable();
 
+    DISCONNECT;
+    setTable();
+    CONNECT;
 }
+
 
 void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이벤트 */
 {
@@ -308,7 +321,7 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     ae.setBossName(table->item(row, 2)->text());
     ae.setItemName(table->item(row, 3)->text());
     ae.setItemCount(table->item(row, 4)->text().toInt());
-    ae.setPrice(table->item(row, 5)->text().toULongLong());
+    ae.setPrice(getMeso(table->item(row, 5)->text()));
     ae.setPartyCount(table->item(row, 8)->text().toInt());
     ae.setCalEnd(((QCheckBox*)table->cellWidget(row,9))->isChecked());
 
@@ -316,17 +329,32 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     ae.setVisible(false);
     qDebug()<<ae.toString();
 
-    disconnect(tableConnect);
+    DISCONNECT;
+
+    uint64_t total_sum = getMeso(ui->lblTotal->text());
+    uint64_t per3_sum = getMeso(ui->lblPer3->text());
+    uint64_t per4_sum = getMeso(ui->lblPer4->text());
+
+    AchieveEntity before = achieve->getAchieveEntity(ae.getId());
+
+    uint64_t pre_price = before.getItemCount() * before.getPrice() * 0.95;
+    uint64_t pre_ppo = pre_price / before.getPartyCount();
+
+    if(before.isCalEnd()==false)
+    {
+        total_sum -= pre_price;
+        if(before.getPartyCount() == 3)
+            per3_sum -= pre_ppo;
+        else
+            per4_sum -= pre_ppo;
+    }
 
     uint64_t price = ae.getItemCount() * ae.getPrice() * 0.95;
     uint64_t ppo = price / ae.getPartyCount();
 
-    table->setItem(row,6, new QTableWidgetItem(QString::number(price)));
-    table->setItem(row,7, new QTableWidgetItem(QString::number(ppo)));
+    table->setItem(row,6, new QTableWidgetItem(QString("%L1").arg(price)));
+    table->setItem(row,7, new QTableWidgetItem(QString("%L1").arg(ppo)));
 
-    uint64_t total_sum = ui->lblTotal->text().toULongLong();
-    uint64_t per3_sum = ui->lblPer3->text().toULongLong();
-    uint64_t per4_sum = ui->lblPer4->text().toULongLong();
 
     if(ae.isCalEnd()==false)
     {
@@ -337,7 +365,7 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
             per4_sum += ppo;
     }
 
-    tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+    CONNECT;
 
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
@@ -516,9 +544,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                achieve->toLog(list);
            }
 
-           disconnect(tableConnect);
+           DISCONNECT;
            setTable();
-           tableConnect =  connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+           CONNECT;
 
        }
    }
