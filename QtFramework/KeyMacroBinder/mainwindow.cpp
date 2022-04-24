@@ -62,8 +62,15 @@ void MainWindow::btnClick()
         else
             serialDisconenct();
     }
-    if(btnClick == btns["load"])
+    else if(btnClick == btns["load"])
         btnLoad();
+    else if(btnClick == btns["reset"])
+        btnReset();
+    else if(btnClick == btns["confirm"])
+        btnConfirm();
+    else
+        macroBtnClick(btnClick);
+
 }
 
 void MainWindow::serialConenct()
@@ -90,6 +97,8 @@ void MainWindow::serialConenct()
     {
         i->second->setEnabled(true);
     }
+    port->write("\n");
+
     btnLoad();
 }
 void MainWindow::serialDisconenct()
@@ -113,7 +122,23 @@ void MainWindow::serialDisconenct()
 void MainWindow::btnLoad()
 {
     qDebug()<<"load";
-    port->write("50");
+    QByteArray ba;
+    /*
+    QString str;
+    str+=(char)0xc0;
+    str+=(char)0xf0;
+    str+= (char) 0x00;
+    str+=(char)0xc0;
+    */
+
+    ba.append((char)0xc0);
+    ba.append((char)0xf0);
+    ba.append((char)0x00);
+    ba.append((char)0xc0);
+
+    //port->write(str.toStdString().c_str());
+    port->write(ba);
+    port->write("\n");
 }
 
 void MainWindow::serialReceived()
@@ -125,13 +150,45 @@ void MainWindow::serialReceived()
         received = port->readLine();
         qDebug()<<received;
     }
+}
+
+
+void MainWindow::macroBtnClick(QPushButton* btn)
+{
+    int btnName = btn->objectName().sliced(3,2).toInt();
+    qDebug()<<btnName;
+    QStringListModel *model = new QStringListModel(this);
+    QStringList strlist;
+    ui->lvMapping->reset();
+
+    strlist.clear();
+
+    foreach( int a, macro[btnName])
+    {
+        if( a > 127)
+            strlist.push_back(KeyMap[a]);
+        else
+            strlist.push_back(QString((char)a));
+    }
+    model->setStringList(strlist);
+    ui->lvMapping->setModel(model);
+
+}
+
+void MainWindow::btnReset()
+{
+
+}
+
+void MainWindow::btnConfirm()
+{
 
 }
 
 
 MainWindow::~MainWindow()
 {
-    if(port->isOpen())
+    if(port != nullptr && port->isOpen())
         port->close();
 
     delete ui;

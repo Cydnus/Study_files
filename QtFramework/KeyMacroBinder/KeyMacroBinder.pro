@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    BtnSetting.h \
     mainwindow.h
 
 FORMS += \

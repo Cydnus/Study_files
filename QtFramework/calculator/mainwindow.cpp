@@ -187,6 +187,8 @@ void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입
     ui->Table->setCellWidget(row,9, cellWidget);
 
     connect(box,SIGNAL(clicked()),this,SLOT(checkBoxStateChange()));
+
+
 }
 
 void MainWindow::checkBoxStateChange() /* 체크박스 체크/해제시 동작 이벤트  */
@@ -197,9 +199,7 @@ void MainWindow::checkBoxStateChange() /* 체크박스 체크/해제시 동작 �
 
     achieve->setCalEnd(row, ((QCheckBox*)obj)->isChecked());
 
-    DISCONNECT;
     setTable();
-    CONNECT;
 }
 
 void MainWindow::btnClick() /* 버튼 클릭 분류  */
@@ -232,9 +232,7 @@ void MainWindow::insertRow() /* 항목 추가 이벤트  */
     qDebug() << ae.toString();
 
     DISCONNECT;
-
     tableInsert(ae);
-
     CONNECT;
 
     achieve->AppendData(ae);
@@ -244,6 +242,8 @@ void MainWindow::insertRow() /* 항목 추가 이벤트  */
 void MainWindow::setTable() /* 테이블 항목 추가  */
 {
     ui->Table->clear();
+
+    DISCONNECT;
 
     vector<AchieveEntity> entitys = achieve->getVisibleList();
 
@@ -292,6 +292,8 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
+    CONNECT;
+
 }
 
 void MainWindow::calculateEnd() /* 정산완료 동작 이벤트  */
@@ -302,9 +304,7 @@ void MainWindow::calculateEnd() /* 정산완료 동작 이벤트  */
 
     achieve->setAllCalEnd();
 
-    DISCONNECT;
     setTable();
-    CONNECT;
 }
 
 
@@ -544,9 +544,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                achieve->toLog(list);
            }
 
-           DISCONNECT;
            setTable();
-           CONNECT;
 
        }
    }

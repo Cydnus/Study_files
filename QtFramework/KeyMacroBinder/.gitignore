@@ -73,3 +73,5 @@ build-*
 *.dll
 *.exe
 
+
+test_*
