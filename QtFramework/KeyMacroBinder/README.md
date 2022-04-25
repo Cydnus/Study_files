@@ -7,6 +7,11 @@
         <th colspan=2></th>
     </tr>
     <tr>
+        <td>22/04/25</td>
+        <td> Serial read 동작 구현</td>
+        <td>통신방식 : UART <br> 아두이노 대신 SerialCom 프로그램 활용 </td>
+    </tr>
+    <tr>
         <td>22/04/24</td>
         <td>Arduino와 통신 및 버튼 동작 구현</td>
         <td>통신방식 : UART </td>

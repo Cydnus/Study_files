@@ -51,7 +51,7 @@ private slots:
 };
 
 
-map<int, QString> KeyMap = {
+static map<int, QString> KeyMap = {
     { 128 , "KEY_LEFT_CTRL"},
     { 129 , "KEY_LEFT_SHIFT"} ,
     { 130 , "KEY_LEFT_ALT"} ,

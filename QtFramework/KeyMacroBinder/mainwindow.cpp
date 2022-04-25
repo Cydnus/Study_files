@@ -143,12 +143,42 @@ void MainWindow::btnLoad()
 
 void MainWindow::serialReceived()
 {
-    QString received;
+    QByteArray received;
 
     while(port->canReadLine())
     {
         received = port->readLine();
+        received.replace("\n","");
+
+        int size = received.size();
         qDebug()<<received;
+        //qDebug()<<received[0]<<"\t"<<received[size-1];
+
+        for(uint8_t b : received)
+            qDebug()<<b;
+
+        if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
+        {
+            int op = 1;
+            int opr_head = op+1;
+
+            for(int i = 0; i < 15 && op < size-1; i++)
+            {
+                if(i == 12)
+                    continue;
+                int opc = received[op];
+                int opr_size = received[opr_head];
+                for(int j = 1; j<=opr_size; j++)
+                {
+                    macro[opc].push_back((uint8_t)received[opr_head+j]);
+                }
+                op = opr_size+opr_head+1;
+                opr_head = op+1;
+                qDebug()<<op<<"\t"<<opr_head;
+            }
+
+        }
+
     }
 }
 

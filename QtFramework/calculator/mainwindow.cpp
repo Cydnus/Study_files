@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#define DISCONNECT {disconnect(tableConnect);}
-#define CONNECT {tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));}
 
 uint64_t getMeso(QString str)
 {
@@ -129,8 +127,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
 
-
-    CONNECT;
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
 }
 
@@ -231,9 +228,9 @@ void MainWindow::insertRow() /* 항목 추가 이벤트  */
 
     qDebug() << ae.toString();
 
-    DISCONNECT;
+    ui->Table->disconnect();
     tableInsert(ae);
-    CONNECT;
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
     achieve->AppendData(ae);
 
@@ -243,7 +240,7 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
 {
     ui->Table->clear();
 
-    DISCONNECT;
+    ui->Table->disconnect();
 
     vector<AchieveEntity> entitys = achieve->getVisibleList();
 
@@ -292,7 +289,7 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
-    CONNECT;
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
 }
 
@@ -315,8 +312,8 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     QTableWidget * table = ui->Table;
 
     qDebug()<<table->item(row, 0)->text();
-    ae.setDate(QDate::fromString(table->item(row, 0)->text().split(' ')[0],"yy-MM-dd").addYears(100));
 
+    ae.setDate(QDate::fromString(table->item(row, 0)->text().split(' ')[0],"yy-MM-dd").addYears(100));
     ae.setBossLevel(table->item(row, 1)->text());
     ae.setBossName(table->item(row, 2)->text());
     ae.setItemName(table->item(row, 3)->text());
@@ -329,7 +326,6 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     ae.setVisible(false);
     qDebug()<<ae.toString();
 
-    DISCONNECT;
 
     uint64_t total_sum = getMeso(ui->lblTotal->text());
     uint64_t per3_sum = getMeso(ui->lblPer3->text());
@@ -352,9 +348,6 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     uint64_t price = ae.getItemCount() * ae.getPrice() * 0.95;
     uint64_t ppo = price / ae.getPartyCount();
 
-    table->setItem(row,6, new QTableWidgetItem(QString("%L1").arg(price)));
-    table->setItem(row,7, new QTableWidgetItem(QString("%L1").arg(ppo)));
-
 
     if(ae.isCalEnd()==false)
     {
@@ -365,14 +358,26 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
             per4_sum += ppo;
     }
 
-    CONNECT;
 
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
     achieve->changeData(ae);
+    setTableSomeRow(row,price,ppo);
 }
+
+void MainWindow::setTableSomeRow(int row, uint64_t price, uint64_t ppo)
+{
+    ui->Table->disconnect();
+
+    ui->Table->setItem(row,6, new QTableWidgetItem(QString("%L1").arg(price)));
+    ui->Table->setItem(row,7, new QTableWidgetItem(QString("%L1").arg(ppo)));
+
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
+
+}
+
 
 void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤트 */
 {

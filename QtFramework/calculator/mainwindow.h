@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 
+
 #include "AchieveEntity.h"
 
 #include "achieve.h"
@@ -37,7 +38,7 @@ private:
     void insertRow();
     void calculateEnd();
     void copyToClipboard();
-
+    void setTableSomeRow(int, uint64_t,uint64_t);
     void keyPressEvent(QKeyEvent *event);
 
 
