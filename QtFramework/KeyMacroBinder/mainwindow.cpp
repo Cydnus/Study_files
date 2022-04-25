@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
     {
         ui->cbCom->addItem(info.portName());
     }
-
     mappingButtons();
     connection();
 }
@@ -148,52 +147,45 @@ void MainWindow::serialReceived()
     while(port->canReadLine())
     {
         received = port->readLine();
-        received.replace("\n","");
+    }
+    received.replace("\n","");
 
-        int size = received.size();
-        qDebug()<<received;
-        //qDebug()<<received[0]<<"\t"<<received[size-1];
+    int size = received.size();
+    qDebug()<<received;
+    //qDebug()<<received[0]<<"\t"<<received[size-1];
 
-        for(uint8_t b : received)
-            qDebug()<<b;
 
-        if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
+    if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
+    {
+        int op = 1;
+        int opr_head = op+1;
+
+        for(int i = 0; i < 15 && op < size-1; i++)
         {
-            int op = 1;
-            int opr_head = op+1;
-
-            for(int i = 0; i < 15 && op < size-1; i++)
+            if(i == 12)
+                continue;
+            int opc = received[op];
+            int opr_size = received[opr_head];
+            for(int j = 1; j<=opr_size; j++)
             {
-                if(i == 12)
-                    continue;
-                int opc = received[op];
-                int opr_size = received[opr_head];
-                for(int j = 1; j<=opr_size; j++)
-                {
-                    macro[opc].push_back((uint8_t)received[opr_head+j]);
-                }
-                op = opr_size+opr_head+1;
-                opr_head = op+1;
-                qDebug()<<op<<"\t"<<opr_head;
+                macro[opc].push_back((uint8_t)received[opr_head+j]);
             }
-
+            op = opr_size+opr_head+1;
+            opr_head = op+1;
+            qDebug()<<op<<"\t"<<opr_head;
         }
-
     }
 }
 
-
-void MainWindow::macroBtnClick(QPushButton* btn)
+void MainWindow::setListView(int no)
 {
-    int btnName = btn->objectName().sliced(3,2).toInt();
-    qDebug()<<btnName;
     QStringListModel *model = new QStringListModel(this);
     QStringList strlist;
     ui->lvMapping->reset();
 
     strlist.clear();
 
-    foreach( int a, macro[btnName])
+    foreach( int a, macro[no])
     {
         if( a > 127)
             strlist.push_back(KeyMap[a]);
@@ -202,6 +194,13 @@ void MainWindow::macroBtnClick(QPushButton* btn)
     }
     model->setStringList(strlist);
     ui->lvMapping->setModel(model);
+}
+
+void MainWindow::macroBtnClick(QPushButton* btn)
+{
+    int btnName = btn->objectName().sliced(3,2).toInt();
+    qDebug()<<btnName;
+    setListView(btnName);
 
 }
 

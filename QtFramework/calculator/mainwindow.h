@@ -12,6 +12,7 @@
 #include <QPainter>
 #include <QLocale>
 #include <QKeyEvent>
+#include <QMessageBox>
 
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +45,7 @@ private:
 
 private slots:
     void btnClick();
-    void checkBoxStateChange();
+    void checkBoxStateChange(bool);
     void cellChanged(int row, int col);
 
 };

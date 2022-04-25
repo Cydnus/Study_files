@@ -33,6 +33,8 @@ private:
     map<string, QMetaObject::Connection> conns;
     map<int,vector<int>> macro;
 
+    int nowListOfBtn;
+
 
     void mappingButtons();
     void connection();
@@ -43,6 +45,8 @@ private:
     void btnReset();
     void btnConfirm();
     void btnLoad();
+
+    void setListView(int);
 
 
 private slots:

@@ -183,18 +183,18 @@ void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입
 
     ui->Table->setCellWidget(row,9, cellWidget);
 
-    connect(box,SIGNAL(clicked()),this,SLOT(checkBoxStateChange()));
+    connect(box,SIGNAL(toggled(bool)),this,SLOT(checkBoxStateChange(bool)));
 
 
 }
 
-void MainWindow::checkBoxStateChange() /* 체크박스 체크/해제시 동작 이벤트  */
+void MainWindow::checkBoxStateChange(bool state) /* 체크박스 체크/해제시 동작 이벤트  */
 {
     QObject *obj = sender();
 
     int row = obj->objectName().toInt();
 
-    achieve->setCalEnd(row, ((QCheckBox*)obj)->isChecked());
+    achieve->setCalEnd(row, state);
 
     setTable();
 }
@@ -204,12 +204,13 @@ void MainWindow::btnClick() /* 버튼 클릭 분류  */
     QObject* obj = sender();
     if( obj == ui->pbInsert )
         insertRow();
-
-    else if( obj == ui->pbCalEnd )
-        calculateEnd();
-
+    else if( obj == ui->pbCalEnd && QMessageBox::information(this, "CalculateEnd", "정산 완료 하시겠습니까?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
+            calculateEnd();
     else if( obj == ui->pbCopy )
+    {
         copyToClipboard();
+        QMessageBox::information(this, "Copy", "Copied");
+    }
 }
 
 void MainWindow::insertRow() /* 항목 추가 이벤트  */
