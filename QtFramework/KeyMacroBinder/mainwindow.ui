@@ -306,10 +306,14 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout" stretch="19,1">
           <item>
-           <widget class="QListView" name="lvMapping"/>
+           <widget class="QListView" name="lvMapping">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,1,1">
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,1,1,1">
             <item>
              <spacer name="horizontalSpacer_2">
               <property name="orientation">
@@ -322,6 +326,13 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="lblNowList">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="btnReset">

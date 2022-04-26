@@ -7,6 +7,18 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->lvMapping->setContextMenuPolicy(Qt::ActionsContextMenu);
+
+
+    QAction *actionAdd = new QAction("추가" , ui->lvMapping);
+    QAction *actionDelete = new QAction("삭제" , ui->lvMapping);
+
+    connect(actionAdd, SIGNAL(triggered()),this,SLOT(listAdd()));
+    connect(actionDelete, SIGNAL(triggered()),this,SLOT(listDelete()));
+
+    ui->lvMapping->addAction(actionAdd);
+    ui->lvMapping->addAction(actionDelete);
+
     for(const QSerialPortInfo &info : QSerialPortInfo::availablePorts())
     {
         ui->cbCom->addItem(info.portName());
@@ -92,11 +104,14 @@ void MainWindow::serialConenct()
 
     conns["port"] = connect(port, SIGNAL(readyRead()), this, SLOT(serialReceived()));
 
+    port->write("\n");
+
+
     for(auto i = btns.begin(); i!=btns.end(); i++)
     {
         i->second->setEnabled(true);
     }
-    port->write("\n");
+    ui->lvMapping->setEnabled(true);
 
     btnLoad();
 }
@@ -113,6 +128,7 @@ void MainWindow::serialDisconenct()
     {
         i->second->setEnabled(false);
     }
+    ui->lvMapping->setEnabled(false);
     btns["connect"]->setEnabled(true);
     btns["connect"]->setText("Connect");
 
@@ -138,6 +154,7 @@ void MainWindow::btnLoad()
     //port->write(str.toStdString().c_str());
     port->write(ba);
     port->write("\n");
+
 }
 
 void MainWindow::serialReceived()
@@ -157,22 +174,34 @@ void MainWindow::serialReceived()
 
     if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
     {
-        int op = 1;
-        int opr_head = op+1;
-
-        for(int i = 0; i < 15 && op < size-1; i++)
+        if((received[1] & 0xf0) == 0xf0)
         {
-            if(i == 12)
-                continue;
-            int opc = received[op];
-            int opr_size = received[opr_head];
-            for(int j = 1; j<=opr_size; j++)
+            macro.clear();
+
+            int op = 2;
+            int opr_head = op+1;
+
+            for(int i = 0; i < 15 && op < size-1; i++)
             {
-                macro[opc].push_back((uint8_t)received[opr_head+j]);
+                if(i == 12)
+                    continue;
+                int opc = received[op];
+                int opr_size = received[opr_head];
+                for(int j = 1; j<=opr_size; j++)
+                {
+                    macro[opc].push_back((uint8_t)received[opr_head+j]);
+                }
+                op = opr_size+opr_head+1;
+                opr_head = op+1;
+                qDebug()<<op<<"\t"<<opr_head;
             }
-            op = opr_size+opr_head+1;
-            opr_head = op+1;
-            qDebug()<<op<<"\t"<<opr_head;
+            if(ui->lblNowList->text() != "")
+                setListView(ui->lblNowList->text().mid(3,2).toInt());
+        }
+        else if((received[1] & 0x30) == 0x30)
+        {
+            qDebug()<<"Insert Clear";
+            qDebug()<<received;
         }
     }
 }
@@ -187,10 +216,7 @@ void MainWindow::setListView(int no)
 
     foreach( int a, macro[no])
     {
-        if( a > 127)
-            strlist.push_back(KeyMap[a]);
-        else
-            strlist.push_back(QString((char)a));
+        strlist.push_back(Convert::getInstance()->getKeyString(a));
     }
     model->setStringList(strlist);
     ui->lvMapping->setModel(model);
@@ -201,20 +227,50 @@ void MainWindow::macroBtnClick(QPushButton* btn)
     int btnName = btn->objectName().sliced(3,2).toInt();
     qDebug()<<btnName;
     setListView(btnName);
-
+    ui->lblNowList->setText(QString("버튼 %0").arg(btnName,2,10,QChar('0')));
 }
 
 void MainWindow::btnReset()
 {
-
+    int no = ui->lblNowList->text().mid(3,2).toInt();
+    qDebug()<<no;
+    setListView(no);
 }
 
 void MainWindow::btnConfirm()
 {
+    QByteArray ba;
+    ba.append(0xc0);
+    int no = ui->lblNowList->text().mid(3,2).toInt();
+    ba.append((char)no | 0x30);
+
+    QStringListModel *model = (QStringListModel *)ui->lvMapping->model();
+    QStringList strlist = model->stringList();
+    ba.append((char) strlist.size());
+
+    foreach(QString str, strlist)
+    {
+        // str->index
+        qDebug()<<str;
+        ba.append((char) Convert::getInstance()->getKeyCode(str));
+    }
+    ba.append(0xc0);
+    ba.append(0x0a);
+
+    qDebug()<<ba;
+
+    port->write(ba);
 
 }
+void MainWindow::listAdd()
+{
+    qDebug()<<"insert";
+}
 
-
+void MainWindow::listDelete()
+{
+    qDebug()<<"Delete";
+}
 MainWindow::~MainWindow()
 {
     if(port != nullptr && port->isOpen())
