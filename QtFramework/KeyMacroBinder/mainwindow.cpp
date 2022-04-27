@@ -150,10 +150,10 @@ void MainWindow::btnLoad()
     ba.append((char)0xf0);
     ba.append((char)0x00);
     ba.append((char)0xc0);
+    ba.append((char)0x0a);
 
     //port->write(str.toStdString().c_str());
     port->write(ba);
-    port->write("\n");
 
 }
 
@@ -161,11 +161,8 @@ void MainWindow::serialReceived()
 {
     QByteArray received;
 
-    while(port->canReadLine())
-    {
-        received = port->readLine();
-    }
-    received.replace("\n","");
+    received = port->readAll();
+    received.replace("\r\n","");
 
     int size = received.size();
     qDebug()<<received;
@@ -185,11 +182,11 @@ void MainWindow::serialReceived()
             {
                 if(i == 12)
                     continue;
-                int opc = received[op];
+                uint8_t opc = (uint8_t)received[op];
                 int opr_size = received[opr_head];
                 for(int j = 1; j<=opr_size; j++)
                 {
-                    macro[opc].push_back((uint8_t)received[opr_head+j]);
+                    macro[opc].push_back((uint8_t)(received[opr_head+j]));
                 }
                 op = opr_size+opr_head+1;
                 opr_head = op+1;
@@ -204,6 +201,11 @@ void MainWindow::serialReceived()
             qDebug()<<received;
         }
     }
+    else
+    {
+        QMessageBox::information(this,"로딩 실패", "다시 로딩해 주시기 바랍니다.");
+        port->flush();
+    }
 }
 
 void MainWindow::setListView(int no)
@@ -214,7 +216,7 @@ void MainWindow::setListView(int no)
 
     strlist.clear();
 
-    foreach( int a, macro[no])
+    for(int a : macro[no])
     {
         strlist.push_back(Convert::getInstance()->getKeyString(a));
     }
@@ -248,11 +250,14 @@ void MainWindow::btnConfirm()
     QStringList strlist = model->stringList();
     ba.append((char) strlist.size());
 
+     macro[no].clear();
     foreach(QString str, strlist)
     {
         // str->index
         qDebug()<<str;
-        ba.append((char) Convert::getInstance()->getKeyCode(str));
+        int code = Convert::getInstance()->getKeyCode(str);
+        ba.append((char) code );
+        macro[no].push_back(code);
     }
     ba.append(0xc0);
     ba.append(0x0a);
@@ -261,15 +266,51 @@ void MainWindow::btnConfirm()
 
     port->write(ba);
 
+
 }
 void MainWindow::listAdd()
-{
+{    
     qDebug()<<"insert";
+    InsertDialog *dlg = new InsertDialog(this);
+    dlg->setModal(true);
+    dlg->exec();
+}
+void MainWindow::insertDialogmsg(QString str)
+{
+    qDebug()<<str;
+
+    int no = ui->lblNowList->text().mid(3,2).toInt();
+    macro[no].push_back(Convert::getInstance()->getKeyCode(str));
+    QStringListModel *model = (QStringListModel *)ui->lvMapping->model();
+    QStringList strlist = model->stringList();
+    strlist.push_back(str);
+    model->setStringList(strlist);
+
 }
 
 void MainWindow::listDelete()
 {
-    qDebug()<<"Delete";
+    if(ui->lvMapping->selectionModel()==nullptr)
+        return;
+
+    vector<int> list;
+
+    foreach(const QModelIndex &index, ui->lvMapping->selectionModel()->selectedIndexes())
+        list.push_back(index.row());
+
+    QStringListModel *model = (QStringListModel *)ui->lvMapping->model();
+    QStringList strlist = model->stringList();
+
+    sort(list.begin(),list.end(),[](int a,int b){return a>b;});
+    qDebug()<<list;
+
+    foreach(int ind, list)
+    {
+        strlist.removeAt(ind);
+    }
+
+    model->setStringList(strlist);
+
 }
 MainWindow::~MainWindow()
 {

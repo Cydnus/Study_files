@@ -10,14 +10,17 @@ CONFIG += c++17
 
 SOURCES += \
     convert.cpp \
+    insertdialog.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     convert.h \
+    insertdialog.h \
     mainwindow.h
 
 FORMS += \
+    insertdialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

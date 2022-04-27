@@ -310,6 +310,18 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::ExtendedSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <property name="textElideMode">
+             <enum>Qt::ElideNone</enum>
+            </property>
            </widget>
           </item>
           <item>

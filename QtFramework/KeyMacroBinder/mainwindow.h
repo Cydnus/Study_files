@@ -9,7 +9,11 @@
 #include <QPushButton>
 #include <QStringListModel>
 #include <map>
+
+#include <QMessageBox>
+
 #include "convert.h"
+#include "insertdialog.h"
 
 using namespace std;
 
@@ -54,6 +58,8 @@ private slots:
     void btnClick();
     void serialReceived();
     void listAdd();
+    void listDelete();
+    void insertDialogmsg(QString);
 };
 
 

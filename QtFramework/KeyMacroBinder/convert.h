@@ -2,6 +2,7 @@
 #define CONVERT_H
 #include <QString>
 #include <map>
+#include <QStringList>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ public:
 
     int getKeyCode(QString Key);
     QString getKeyString(int);
+    QStringList getKeyStrings();
 
 private:
     Convert();
@@ -21,6 +23,7 @@ private:
     map<QString, int> codeMap;
 
     map<int, QString> keyMap ;
+    QStringList keyStrings;
 
 };
 

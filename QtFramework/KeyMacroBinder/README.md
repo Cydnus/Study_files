@@ -7,6 +7,31 @@
         <th colspan=2></th>
     </tr>
     <tr>
+        <td rowspan=2>22/04/27</td>
+        <td rowspan=2>
+        ContextMenu 추가 / 삭제 동작 구현
+        </td>
+        <td>
+            통신방식 : UART
+            <br> 
+            아두이노 대신 SerialCom 프로그램 활용 구현중
+            <br>
+            CR/LF 제거 ( readline->readall)
+            <br>   
+            시리얼 지연에 따른 처리에 문제 있을 가능성 존재
+        </td>
+    </tr>
+    <tr>
+        <td>
+            추가 : insertDialog 추가 / 모달로 실행
+            <br>    QComboBox의 값을 MainWindow로 전달
+            <br>
+            삭제 : QListView 상의 셀들이 선택되어 있을 때 동작
+            <br> 
+            모두 Confirm 동작 이후 시리얼 전송
+        </td>
+    </tr>
+    <tr>
         <td rowspan=2>22/04/26</td>
         <td rowspan=2> 
             Reset, Confirm 버튼  동작 구현
@@ -16,7 +41,7 @@
         <td>
             통신방식 : UART
             <br> 
-            아두이노 대신 SerialCom 프로그램 활용 
+            아두이노 대신 SerialCom 프로그램 활용  구현중
             <br>
             opcode 변경 setMode (0000 xxxx) -> (0011 xxxx)
         </td>
@@ -31,7 +56,7 @@
     <tr>
         <td>22/04/25</td>
         <td> Serial read 동작 구현</td>
-        <td>통신방식 : UART <br> 아두이노 대신 SerialCom 프로그램 활용 </td>
+        <td>통신방식 : UART <br> 아두이노 대신 SerialCom 프로그램 활용  구현중 </td>
     </tr>
     <tr>
         <td rowspan=2>22/04/24</td>
@@ -41,7 +66,7 @@
     <tr>
         <td>
             0xC0 Opcode Operand_Header Operand 0xC0 
-            <br>Opcode : (8bit) AllLoad(1111 xxxx ), setMode(0000 xxxx:0~11,13,14) 
+            <br>Opcode : (8bit) AllLoad(1111 xxxx ), setMode(0000 xxxx:0~11,13,14)  LF
             <br>Operand_Header : (8bit) Count of Operand empty : 0x00
             <br>하지만 사용중인 promicro에서 serial read & write 동작 안함.(우노에선 동작확인)
             <br>아두이노 자체 시리얼 모니터에서는 동작 하지만 그외엔 동작안함.
