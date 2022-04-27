@@ -19,6 +19,8 @@
             CR/LF 제거 ( readline->readall)
             <br>   
             시리얼 지연에 따른 처리에 문제 있을 가능성 존재
+            <br>
+            opcode 변경 AllLoad (1111 xxxx) -> (1100 xxxx)
         </td>
     </tr>
     <tr>
@@ -29,6 +31,8 @@
             삭제 : QListView 상의 셀들이 선택되어 있을 때 동작
             <br> 
             모두 Confirm 동작 이후 시리얼 전송
+            <br> 
+            시리얼 통신에 문제가 있음
         </td>
     </tr>
     <tr>

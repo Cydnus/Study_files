@@ -11,6 +11,7 @@
 #include <map>
 
 #include <QMessageBox>
+#include <QKeyEvent>
 
 #include "convert.h"
 #include "insertdialog.h"
@@ -53,6 +54,7 @@ private:
 
     void setListView(int);
 
+    void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void btnClick();

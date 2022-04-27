@@ -64,7 +64,7 @@ void MainWindow::btnClick()
 {
     QPushButton* btnClick = (QPushButton*)sender();
 
-    qDebug()<<btnClick->objectName();
+    //qDebug()<<btnClick->objectName();
 
     if(btnClick == btns["connect"])
     {
@@ -96,7 +96,7 @@ void MainWindow::serialConenct()
 
     if(!port->open(QIODevice::ReadWrite))
     {
-        qDebug()<<"Failed to open";
+        //qDebug()<<"Failed to open";
         return;
     }
     btns["connect"]->setText("Disconnect");
@@ -136,7 +136,7 @@ void MainWindow::serialDisconenct()
 
 void MainWindow::btnLoad()
 {
-    qDebug()<<"load";
+    //qDebug()<<"load";
     QByteArray ba;
     /*
     QString str;
@@ -147,13 +147,15 @@ void MainWindow::btnLoad()
     */
 
     ba.append((char)0xc0);
-    ba.append((char)0xf0);
+    ba.append((char)0xA0);
     ba.append((char)0x00);
     ba.append((char)0xc0);
-    ba.append((char)0x0a);
+    ba.append((char)0x0D);
+    ba.append((char)0x0A);
 
     //port->write(str.toStdString().c_str());
     port->write(ba);
+    qDebug()<<"Serial wirte : >>"<<ba;
 
 }
 
@@ -161,11 +163,13 @@ void MainWindow::serialReceived()
 {
     QByteArray received;
 
-    received = port->readAll();
+    while(port->bytesAvailable() > 0)
+        received += port->read(1);
+    qDebug()<<"Serial input : >>"<<received;
+
     received.replace("\r\n","");
 
     int size = received.size();
-    qDebug()<<received;
     //qDebug()<<received[0]<<"\t"<<received[size-1];
 
 
@@ -178,19 +182,19 @@ void MainWindow::serialReceived()
             int op = 2;
             int opr_head = op+1;
 
-            for(int i = 0; i < 15 && op < size-1; i++)
+            for(int i = 0; i < 15 && opr_head < size-1; i++)
             {
                 if(i == 12)
                     continue;
                 uint8_t opc = (uint8_t)received[op];
-                int opr_size = received[opr_head];
+                int opr_size = (uint8_t)received[opr_head];
                 for(int j = 1; j<=opr_size; j++)
                 {
                     macro[opc].push_back((uint8_t)(received[opr_head+j]));
                 }
                 op = opr_size+opr_head+1;
                 opr_head = op+1;
-                qDebug()<<op<<"\t"<<opr_head;
+                //qDebug()<<op<<"\t"<<opr_head;
             }
             if(ui->lblNowList->text() != "")
                 setListView(ui->lblNowList->text().mid(3,2).toInt());
@@ -227,7 +231,7 @@ void MainWindow::setListView(int no)
 void MainWindow::macroBtnClick(QPushButton* btn)
 {
     int btnName = btn->objectName().sliced(3,2).toInt();
-    qDebug()<<btnName;
+    //qDebug()<<btnName;
     setListView(btnName);
     ui->lblNowList->setText(QString("버튼 %0").arg(btnName,2,10,QChar('0')));
 }
@@ -235,7 +239,7 @@ void MainWindow::macroBtnClick(QPushButton* btn)
 void MainWindow::btnReset()
 {
     int no = ui->lblNowList->text().mid(3,2).toInt();
-    qDebug()<<no;
+    //qDebug()<<no;
     setListView(no);
 }
 
@@ -254,7 +258,7 @@ void MainWindow::btnConfirm()
     foreach(QString str, strlist)
     {
         // str->index
-        qDebug()<<str;
+        //qDebug()<<str;
         int code = Convert::getInstance()->getKeyCode(str);
         ba.append((char) code );
         macro[no].push_back(code);
@@ -262,7 +266,7 @@ void MainWindow::btnConfirm()
     ba.append(0xc0);
     ba.append(0x0a);
 
-    qDebug()<<ba;
+    //qDebug()<<ba;
 
     port->write(ba);
 
@@ -270,14 +274,14 @@ void MainWindow::btnConfirm()
 }
 void MainWindow::listAdd()
 {    
-    qDebug()<<"insert";
+    //qDebug()<<"insert";
     InsertDialog *dlg = new InsertDialog(this);
     dlg->setModal(true);
     dlg->exec();
 }
 void MainWindow::insertDialogmsg(QString str)
 {
-    qDebug()<<str;
+    //qDebug()<<str;
 
     int no = ui->lblNowList->text().mid(3,2).toInt();
     macro[no].push_back(Convert::getInstance()->getKeyCode(str));
@@ -302,7 +306,7 @@ void MainWindow::listDelete()
     QStringList strlist = model->stringList();
 
     sort(list.begin(),list.end(),[](int a,int b){return a>b;});
-    qDebug()<<list;
+    //qDebug()<<list;
 
     foreach(int ind, list)
     {
@@ -312,6 +316,22 @@ void MainWindow::listDelete()
     model->setStringList(strlist);
 
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if( ui->lvMapping->selectionModel() == nullptr)
+        return ;
+    QModelIndexList select = ui->lvMapping->selectionModel()->selectedRows();
+
+    if(select.size() >=0)
+    {
+        if(event->nativeVirtualKey() == Qt::Key_Delete || event->key() == Qt::Key_Delete)
+        {
+            listDelete();
+        }
+    }
+}
+
 MainWindow::~MainWindow()
 {
     if(port != nullptr && port->isOpen())
