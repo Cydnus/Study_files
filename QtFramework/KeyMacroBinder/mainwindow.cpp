@@ -323,7 +323,6 @@ void MainWindow::listDelete()
     }
 
     model->setStringList(strlist);
-    btnConfirm();
 
 }
 
