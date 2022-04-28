@@ -73,7 +73,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 00</string>
             </property>
            </widget>
           </item>
@@ -89,7 +89,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 06</string>
             </property>
            </widget>
           </item>
@@ -105,7 +105,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 07</string>
             </property>
            </widget>
           </item>
@@ -121,7 +121,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 08</string>
             </property>
            </widget>
           </item>
@@ -137,7 +137,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 01</string>
             </property>
            </widget>
           </item>
@@ -153,7 +153,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 14</string>
             </property>
            </widget>
           </item>
@@ -169,7 +169,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 10</string>
             </property>
            </widget>
           </item>
@@ -185,7 +185,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 13</string>
             </property>
            </widget>
           </item>
@@ -201,7 +201,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 02</string>
             </property>
            </widget>
           </item>
@@ -217,7 +217,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 03</string>
             </property>
            </widget>
           </item>
@@ -233,7 +233,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 04</string>
             </property>
            </widget>
           </item>
@@ -249,7 +249,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 09</string>
             </property>
            </widget>
           </item>
@@ -265,7 +265,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 11</string>
             </property>
            </widget>
           </item>
@@ -281,7 +281,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>버튼</string>
+             <string>버튼 05</string>
             </property>
            </widget>
           </item>

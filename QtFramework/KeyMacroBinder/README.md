@@ -7,6 +7,34 @@
         <th colspan=2></th>
     </tr>
     <tr>
+        <td rowspan=2>22/04/28</td>
+        <td rowspan=2>
+        Arduino Pro Micro와 통신 구현
+        </td>
+        <td>
+            통신방식 : UART
+            <br>
+            1byte씩 read(아두이노나 qt 둘다)
+            <br>
+            opcode 변경 AllLoad (1111 xxxx) -> (1010 xxxx)
+            <br>
+            기존 operand_header 삭제
+            <br>
+                  버튼 한개당 작업시 뒤에 0xff를 붙여 해당 버튼의 끝을 알림
+        </td>
+    </tr>
+    <tr>
+        <td>
+        comfrim 시 완료되면 문구(QMessageBox) 추가
+        <br>
+        아두이노 구현 완료
+        <br>
+        디자인을 제외하곤 사실상 개발완료
+        <br>
+        <image src="resource/Running.gif">
+        </td>
+    </tr>
+    <tr>
         <td rowspan=2>22/04/27</td>
         <td rowspan=2>
         ContextMenu 추가 / 삭제 동작 구현

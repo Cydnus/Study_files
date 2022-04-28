@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->lvMapping->setContextMenuPolicy(Qt::ActionsContextMenu);
 
+    this->setWindowTitle("KeyBoard Macro Binder");
 
     QAction *actionAdd = new QAction("추가" , ui->lvMapping);
     QAction *actionDelete = new QAction("삭제" , ui->lvMapping);
@@ -104,7 +105,7 @@ void MainWindow::serialConenct()
 
     conns["port"] = connect(port, SIGNAL(readyRead()), this, SLOT(serialReceived()));
 
-    port->write("\n");
+    port->write(0x00);
 
 
     for(auto i = btns.begin(); i!=btns.end(); i++)
@@ -148,10 +149,11 @@ void MainWindow::btnLoad()
 
     ba.append((char)0xc0);
     ba.append((char)0xA0);
-    ba.append((char)0x00);
+    ba.append((char)0x80);
     ba.append((char)0xc0);
-    ba.append((char)0x0D);
-    ba.append((char)0x0A);
+
+  //  ba.append((char)0x0D);
+  //  ba.append((char)0x0A);
 
     //port->write(str.toStdString().c_str());
     port->write(ba);
@@ -164,7 +166,12 @@ void MainWindow::serialReceived()
     QByteArray received;
 
     while(port->bytesAvailable() > 0)
-        received += port->read(1);
+    {
+        QByteArray temp = port->read(1);
+        if( temp == "\n" || temp == "\r")
+            continue;
+        received +=temp;
+    }
     qDebug()<<"Serial input : >>"<<received;
 
     received.replace("\r\n","");
@@ -172,35 +179,37 @@ void MainWindow::serialReceived()
     int size = received.size();
     //qDebug()<<received[0]<<"\t"<<received[size-1];
 
+    if( size < 2)
+        return;
 
     if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
     {
-        if((received[1] & 0xf0) == 0xf0)
+        if((received[1] & 0xf0) == 0xA0)
         {
             macro.clear();
 
             int op = 2;
-            int opr_head = op+1;
 
-            for(int i = 0; i < 15 && opr_head < size-1; i++)
+            for(int i = 0; i < 15 || op < size -1; i++)
             {
                 if(i == 12)
                     continue;
-                uint8_t opc = (uint8_t)received[op];
-                int opr_size = (uint8_t)received[opr_head];
-                for(int j = 1; j<=opr_size; j++)
+                uint8_t opc = (uint8_t)received[op] & 0x7f;
+                int j = 1;
+                while(received[op+j] != (char)0xff)
                 {
-                    macro[opc].push_back((uint8_t)(received[opr_head+j]));
+                    macro[opc].push_back((uint8_t)received[op+j]);
+                    j++;
                 }
-                op = opr_size+opr_head+1;
-                opr_head = op+1;
-                //qDebug()<<op<<"\t"<<opr_head;
+                op = op + j + 1;
+                qDebug()<<op;
             }
             if(ui->lblNowList->text() != "")
                 setListView(ui->lblNowList->text().mid(3,2).toInt());
         }
-        else if((received[1] & 0x30) == 0x30)
+        else if((received[1] & 0xf0) == 0x30)
         {
+            QMessageBox::information(this,"저장완료", "설정이 저장되었습니다.");
             qDebug()<<"Insert Clear";
             qDebug()<<received;
         }
@@ -233,7 +242,7 @@ void MainWindow::macroBtnClick(QPushButton* btn)
     int btnName = btn->objectName().sliced(3,2).toInt();
     //qDebug()<<btnName;
     setListView(btnName);
-    ui->lblNowList->setText(QString("버튼 %0").arg(btnName,2,10,QChar('0')));
+    ui->lblNowList->setText(btn->text());
 }
 
 void MainWindow::btnReset()
@@ -252,7 +261,6 @@ void MainWindow::btnConfirm()
 
     QStringListModel *model = (QStringListModel *)ui->lvMapping->model();
     QStringList strlist = model->stringList();
-    ba.append((char) strlist.size());
 
      macro[no].clear();
     foreach(QString str, strlist)
@@ -260,13 +268,14 @@ void MainWindow::btnConfirm()
         // str->index
         //qDebug()<<str;
         int code = Convert::getInstance()->getKeyCode(str);
-        ba.append((char) code );
+        ba.append((char)code );
         macro[no].push_back(code);
     }
+    ba.append(0xff);
     ba.append(0xc0);
-    ba.append(0x0a);
+   // ba.append(0x0a);
 
-    //qDebug()<<ba;
+    qDebug()<<ba;
 
     port->write(ba);
 
@@ -314,6 +323,7 @@ void MainWindow::listDelete()
     }
 
     model->setStringList(strlist);
+    btnConfirm();
 
 }
 
