@@ -177,7 +177,7 @@ void Achieve::toLog(vector<uint64_t> listId)  /* 테이블 표시 제외 */
         {
             qDebug()<<(achieveTotalList.begin()+ind)->getId();
             achieveTotalList[ind].setVisible(true);
-            visibleList[ind2].setVisible(true);
+            visibleList.erase(visibleList.begin()+ind2);
         }
     }
     saveData();

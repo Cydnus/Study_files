@@ -167,21 +167,13 @@ void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입
 
     QCheckBox *box = new QCheckBox();
 
-    QWidget *cellWidget = new QWidget();
-
-    QHBoxLayout *layoutCB = new QHBoxLayout(cellWidget);
-    layoutCB->addWidget(box);
-    layoutCB->setAlignment(Qt::AlignCenter);
-    cellWidget->setLayout(layoutCB);
-
     box->setObjectName(QString::number(entity.getId()));
-
-    cellWidget->setObjectName(QString::number(entity.getId()));
 
     if(entity.isCalEnd() == true)
         box->setChecked(true);
 
-    ui->Table->setCellWidget(row,9, cellWidget);
+    box->setStyleSheet("margin-left:20%; margin-right:10%;");
+    ui->Table->setCellWidget(row,9, box);
 
     connect(box,SIGNAL(toggled(bool)),this,SLOT(checkBoxStateChange(bool)));
 
@@ -321,9 +313,13 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     ae.setItemCount(table->item(row, 4)->text().toInt());
     ae.setPrice(getMeso(table->item(row, 5)->text()));
     ae.setPartyCount(table->item(row, 8)->text().toInt());
-    ae.setCalEnd(((QCheckBox*)table->cellWidget(row,9))->isChecked());
+
+    ae.setCalEnd(((QCheckBox*)table->cellWidget(row,9))->isChecked());    
+    qDebug()<<"cellChanged : \t "<<((QCheckBox*) table->cellWidget(row,9))->isChecked();
+
 
     ae.setId(table->cellWidget(row,9)->objectName().toULongLong());
+
     ae.setVisible(false);
     qDebug()<<ae.toString();
 
