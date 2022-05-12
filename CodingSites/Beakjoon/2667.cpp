@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
+using namespace std;    
 
 int CountOfBlob(vector<string> &map, int i, int j, int ho)
 {

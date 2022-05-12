@@ -237,3 +237,4 @@ fabric.properties
 
 
 build**MinGW_64_bit-Debug/
+not_*
