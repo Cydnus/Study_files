@@ -493,12 +493,12 @@ void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤�
         painter.drawRect(QRect(start_x[5],sy,col_width[5],row_height));
         painter.drawText(QRect(start_x[5],sy,col_width[5],row_height), Qt::AlignCenter, QString("%L1").arg(list[i].getPrice()));
 
-        int pp = list[i].getItemCount() *list[i].getPrice() *0.95;
+        uint64_t pp = list[i].getItemCount() *list[i].getPrice() *0.95;
 
         painter.drawRect(QRect(start_x[6],sy,col_width[6],row_height));
         painter.drawText(QRect(start_x[6],sy,col_width[6],row_height), Qt::AlignCenter, QString("%L1").arg(pp));
 
-        int ppo = pp/list[i].getPartyCount();
+        uint64_t ppo = pp/list[i].getPartyCount();
 
         painter.drawRect(QRect(start_x[7],sy,col_width[7],row_height));
         painter.drawText(QRect(start_x[7],sy,col_width[7],row_height), Qt::AlignCenter, QString("%L1").arg(ppo));
