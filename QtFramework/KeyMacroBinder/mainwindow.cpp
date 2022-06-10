@@ -105,8 +105,6 @@ void MainWindow::serialConenct()
 
     conns["port"] = connect(port, SIGNAL(readyRead()), this, SLOT(serialReceived()));
 
-    port->write(0x00);
-
 
     for(auto i = btns.begin(); i!=btns.end(); i++)
     {
@@ -138,25 +136,25 @@ void MainWindow::serialDisconenct()
 void MainWindow::btnLoad()
 {
     //qDebug()<<"load";
-    QByteArray ba;
+    char* ba = new char[4];
     /*
     QString str;
-    str+=(char)0xc0;
+    str+=(char)0xFC;
     str+=(char)0xf0;
     str+= (char) 0x00;
-    str+=(char)0xc0;
+    str+=(char)0xFC;
     */
 
-    ba.append((char)0xc0);
-    ba.append((char)0xA0);
-    ba.append((char)0x80);
-    ba.append((char)0xc0);
+    ba[0]=(char)0xFC;
+    ba[1]=((char)0xA0);
+    ba[2]=((char)0x80);
+    ba[3]=((char)0xFC);
 
   //  ba.append((char)0x0D);
   //  ba.append((char)0x0A);
 
     //port->write(str.toStdString().c_str());
-    port->write(ba);
+    port->write(ba,4);
     qDebug()<<"Serial wirte : >>"<<ba;
 
 }
@@ -172,6 +170,7 @@ void MainWindow::serialReceived()
             continue;
         received +=temp;
     }
+
     qDebug()<<"Serial input : >>"<<received;
 
     received.replace("\r\n","");
@@ -182,7 +181,7 @@ void MainWindow::serialReceived()
     if( size < 2)
         return;
 
-    if(received[0] == (char)0xc0 && received[size-1] == (char)0xc0 )
+    if(received[0] == (char)0xFC && received[size-1] == (char)0xFC )
     {
         if((received[1] & 0xf0) == 0xA0)
         {
@@ -255,7 +254,7 @@ void MainWindow::btnReset()
 void MainWindow::btnConfirm()
 {
     QByteArray ba;
-    ba.append(0xc0);
+    ba.append(0xFC);
     int no = ui->lblNowList->text().mid(3,2).toInt();
     ba.append((char)no | 0x30);
 
@@ -272,7 +271,7 @@ void MainWindow::btnConfirm()
         macro[no].push_back(code);
     }
     ba.append(0xff);
-    ba.append(0xc0);
+    ba.append(0xFC);
    // ba.append(0x0a);
 
     qDebug()<<ba;
