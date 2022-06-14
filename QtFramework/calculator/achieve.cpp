@@ -8,10 +8,13 @@ Achieve::Achieve()  /* 생성자 */
     QFile fLog("log.Maple");
 
 
-    if(!fLog.open(QFile::ReadOnly | QFile::Text))
+    while(!fLog.open(QFile::ReadOnly | QFile::Text))
     {
         qDebug()<<"Not Open";
+        if(fLog.open(QFile::WriteOnly | QFile::Text))
+            fLog.close();
     }
+
     QTextStream tsLogs(&fLog);
 
     QStringList logs = tsLogs.readAll().split("\n");
@@ -64,10 +67,11 @@ Achieve* Achieve::getInstance()  /* single ton patton */
 uint64_t Achieve::getAddIndex() /* 추가시 들어갈 인덱스 */
 {
     uint64_t ret = achieveTotalList.size();
-
+    if(ret == 0)
+        return ret;
     //qDebug()<<ret<<"\t"<<(achieveTotalList.end()-1)->getId();
 
-    if( ret <= (achieveTotalList.end()-1)->getId())
+    else if( ret <= (achieveTotalList.end()-1)->getId())
     {
         ret = (achieveTotalList.end()-1)->getId()+1;
     }

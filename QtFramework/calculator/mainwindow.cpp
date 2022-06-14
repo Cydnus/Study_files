@@ -84,6 +84,15 @@ void MainWindow::setConfig()   /* 기본설정 (폰트/ 사이즈) */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) /* 생성자  */
 {
     ui->setupUi(this);
+
+#if (MODE_RELEASE == 1)
+    ui->lbl02->setText("");
+    ui->lblPer3->setText("");
+    ui->lbl02->setEnabled(false);
+    ui->lblPer3->setEnabled(false);
+    ui->lbl03->setText("1인당 분배금액");
+#endif
+
     QDate date;
     ui->deDate->setDate(date.currentDate());
 
@@ -279,7 +288,9 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
 
 
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
+#if (MODE_RELEASE != 1)
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
+#endif
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
@@ -325,7 +336,10 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
 
 
     uint64_t total_sum = getMeso(ui->lblTotal->text());
+
+#if (MODE_RELEASE != 1)
     uint64_t per3_sum = getMeso(ui->lblPer3->text());
+#endif
     uint64_t per4_sum = getMeso(ui->lblPer4->text());
 
     AchieveEntity before = achieve->getAchieveEntity(ae.getId());
@@ -336,10 +350,15 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     if(before.isCalEnd()==false)
     {
         total_sum -= pre_price;
+
+#if (MODE_RELEASE != 1)
         if(before.getPartyCount() == 3)
             per3_sum -= pre_ppo;
         else
             per4_sum -= pre_ppo;
+#else
+        per4_sum -= pre_ppo;
+#endif
     }
 
     uint64_t price = ae.getItemCount() * ae.getPrice() * 0.95;
@@ -349,15 +368,22 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     if(ae.isCalEnd()==false)
     {
         total_sum += price;
+#if (MODE_RELEASE != 1)
         if(ae.getPartyCount() == 3)
             per3_sum += ppo;
         else
             per4_sum += ppo;
+#else
+        per4_sum += ppo;
+#endif
     }
 
 
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
+
+#if (MODE_RELEASE != 1)
     ui->lblPer3->setText(QString("%L1 메소").arg(per3_sum));
+#endif
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
     achieve->changeData(ae);
@@ -405,7 +431,13 @@ void MainWindow::copyToClipboard() /* Copy/복사버튼 입력시 동작 이벤�
     // HEADER Insert
 
     QString text1 = QString("%1 : %2").arg(ui->lbl01->text()).arg(ui->lblTotal->text());
+
+#if (MODE_RELEASE != 1)
     QString text2 = QString("%1 : %2").arg(ui->lbl02->text()).arg(ui->lblPer3->text());
+#else
+    QString text2 = "";
+#endif
+
     QString text3 = QString("%1 : %2").arg(ui->lbl03->text()).arg(ui->lblPer4->text());
 
 
