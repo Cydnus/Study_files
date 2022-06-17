@@ -128,6 +128,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setConfig();
 
     setTable();
+
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
     ui->Table->setSelectionBehavior(QAbstractItemView::SelectRows);
     //ui->Table->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -180,12 +183,26 @@ void MainWindow::tableInsert( AchieveEntity entity )  /* 테이블에 한줄 입
 
     if(entity.isCalEnd() == true)
         box->setChecked(true);
+    //box->setStyleSheet(box->styleSheet() + "margin-left:20%; margin-right:10%;");
 
-    box->setStyleSheet("margin-left:20%; margin-right:10%;");
     ui->Table->setCellWidget(row,9, box);
 
+    if( row % 2 == 1)
+    {
+        ui->Table->item(row,0)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,1)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,2)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,3)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,4)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,5)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,6)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,7)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->item(row,8)->setBackground(QBrush(QColor(215, 214, 213)));
+        ui->Table->cellWidget(row,9)->setStyleSheet( ui->Table->cellWidget(row,9)->styleSheet() + "padding-left:20%;padding-right:10%;background-color:#d7d6d5");
+    }
+    else
+        ui->Table->cellWidget(row,9)->setStyleSheet( ui->Table->cellWidget(row,9)->styleSheet() + "padding-left:20%;padding-right:10%;");
     connect(box,SIGNAL(toggled(bool)),this,SLOT(checkBoxStateChange(bool)));
-
 
 }
 
@@ -198,6 +215,9 @@ void MainWindow::checkBoxStateChange(bool state) /* 체크박스 체크/해제�
     achieve->setCalEnd(row, state);
 
     setTable();
+
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
 }
 
 void MainWindow::btnClick() /* 버튼 클릭 분류  */
@@ -231,7 +251,9 @@ void MainWindow::insertRow() /* 항목 추가 이벤트  */
     qDebug() << ae.toString();
 
     ui->Table->disconnect();
-    tableInsert(ae);
+    tableInsert(ae);    
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
     achieve->AppendData(ae);
@@ -283,9 +305,6 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
         }
     }
 
-    ui->Table->resizeColumnsToContents();
-    ui->Table->resizeRowsToContents();
-
 
     ui->lblTotal->setText(QString("%L1 메소").arg(total_sum));
 #if (MODE_RELEASE != 1)
@@ -306,6 +325,9 @@ void MainWindow::calculateEnd() /* 정산완료 동작 이벤트  */
     achieve->setAllCalEnd();
 
     setTable();
+
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
 }
 
 
@@ -579,6 +601,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
            }
 
            setTable();
+
+           ui->Table->resizeColumnsToContents();
+           ui->Table->resizeRowsToContents();
 
        }
    }
