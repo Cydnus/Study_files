@@ -418,6 +418,8 @@ void MainWindow::setTableSomeRow(int row, uint64_t price, uint64_t ppo)
 
     ui->Table->setItem(row,6, new QTableWidgetItem(QString("%L1").arg(price)));
     ui->Table->setItem(row,7, new QTableWidgetItem(QString("%L1").arg(ppo)));
+    ui->Table->item(row,6)->setBackground(ui->Table->item(row,5)->background());
+    ui->Table->item(row,7)->setBackground(ui->Table->item(row,5)->background());
 
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 

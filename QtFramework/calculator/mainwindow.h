@@ -15,7 +15,7 @@
 #include <QMessageBox>
 
 
-#define MODE_RELEASE    1
+#define MODE_RELEASE    0
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
