@@ -421,6 +421,10 @@ void MainWindow::setTableSomeRow(int row, uint64_t price, uint64_t ppo)
     ui->Table->item(row,6)->setBackground(ui->Table->item(row,5)->background());
     ui->Table->item(row,7)->setBackground(ui->Table->item(row,5)->background());
 
+
+    ui->Table->resizeColumnsToContents();
+    ui->Table->resizeRowsToContents();
+
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
 }
@@ -584,22 +588,28 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
            vector<uint64_t> list;
            if(event->modifiers()  == Qt::ShiftModifier)
            {
-               for(int i = 0 ; i<select.count(); i ++)
+               if(QMessageBox::question(this, "완전 삭제", "정말 삭제하시겠습니까?", QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
                {
-                   qDebug()<<"Shift + Delete \t" <<ui->Table->cellWidget(select[i].row(),9)->objectName();
-                   list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+                   for(int i = 0 ; i<select.count(); i ++)
+                   {
+                       qDebug()<<"Shift + Delete \t" <<ui->Table->cellWidget(select[i].row(),9)->objectName();
+                       list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+                   }
+                    achieve->remove(list);
                }
-                achieve->remove(list);
 
            }
            else
-           {
-               for(int i = 0 ; i<select.count(); i ++)
+           {               
+               if(QMessageBox::question(this, "정산완료", "정산 완료 되었는지 확인 부탁드립니다.\n목록에서 삭제하시겠습니까?", QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
                {
-                   qDebug()<<"toLog\t"<<ui->Table->cellWidget(select[i].row(),9)->objectName();
-                   list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+                   for(int i = 0 ; i<select.count(); i ++)
+                   {
+                       qDebug()<<"toLog\t"<<ui->Table->cellWidget(select[i].row(),9)->objectName();
+                       list.push_back(ui->Table->cellWidget(select[i].row(),9)->objectName().toULongLong());
+                   }
+                   achieve->toLog(list);
                }
-               achieve->toLog(list);
            }
 
            setTable();
