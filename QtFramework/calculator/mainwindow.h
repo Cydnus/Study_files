@@ -44,6 +44,7 @@ private:
     void setTableSomeRow(int, uint64_t,uint64_t);
     void keyPressEvent(QKeyEvent *event);
 
+    void selectCheck();
 
 private slots:
     void btnClick();

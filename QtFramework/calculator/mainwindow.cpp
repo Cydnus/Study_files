@@ -138,6 +138,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
+    connect(ui->pbSelectCheck, SIGNAL(clicked()), this, SLOT(btnClick()));
 
     tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 
@@ -232,6 +233,28 @@ void MainWindow::btnClick() /* 버튼 클릭 분류  */
         copyToClipboard();
         QMessageBox::information(this, "Copy", "Copied");
     }
+    else if(obj == ui->pbSelectCheck && QMessageBox::information(this, "CalculateEnd", "정산 완료 하시겠습니까?", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes)
+    {
+        selectCheck();
+    }
+}
+
+void MainWindow::selectCheck()
+{
+    ui->Table->disconnect();
+
+    QModelIndexList select = ui->Table->selectionModel()->selectedRows();
+
+    if(select.size() > 0)
+    {
+        for(int i = 0 ; i<select.size(); i++)
+        {
+            ((QCheckBox*)ui->Table->cellWidget(select[i].row(),9))->setChecked(!((QCheckBox*)ui->Table->cellWidget(select[i].row(),9))->isChecked());
+            cellChanged(select[i].row(),9);
+        }
+    }
+    //setTable();
+    tableConnect = connect(ui->Table, SIGNAL(cellChanged(int,int)), this, SLOT(cellChanged(int, int)));
 }
 
 void MainWindow::insertRow() /* 항목 추가 이벤트  */
