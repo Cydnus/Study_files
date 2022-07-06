@@ -35,21 +35,45 @@ void MainWindow::setConfig()   /* 기본설정 (폰트/ 사이즈) */
 {
     ui->sbParty->setValue(conf["Party_Count"].toInt());
 
-    QFont font(conf["Button_Font_Family"],conf["Button_Font_Size"].toInt());
-
+    //버튼 설정
+    QFont font(conf["Button_Insert_Font_Family"],conf["Button_Insert_Font_Size"].toInt());
     ui->pbInsert->setFont(font);
+
+    font.setFamily(conf["Button_End_Font_Family"]);
+    font.setPointSize(conf["Button_End_Font_Size"].toInt());
     ui->pbCalEnd->setFont(font);
+
+    font.setFamily(conf["Button_Copy_Font_Family"]);
+    font.setPointSize(conf["Button_Copy_Font_Size"].toInt());
     ui->pbCopy->setFont(font);
 
-    font.setFamily(conf["TextBox_Font_Family"]);
-    font.setPointSize(conf["TextBox_Font_Size"].toInt());
-
+    //입력 받는 부분 설정
+    font.setFamily(conf["TextBox_ItemCount_Font_Family"]);
+    font.setPointSize(conf["TextBox_ItemCount_Font_Size"].toInt());
     ui->sbCount->setFont(font);
+
+    font.setFamily(conf["TextBox_Price_Font_Family"]);
+    font.setPointSize(conf["TextBox_Price_Font_Size"].toInt());
     ui->lePrice->setFont(font);
+
+    font.setFamily(conf["TextBox_Party_Font_Family"]);
+    font.setPointSize(conf["TextBox_Party_Font_Size"].toInt());
     ui->sbParty->setFont(font);
+
+    font.setFamily(conf["TextBox_Date_Font_Family"]);
+    font.setPointSize(conf["TextBox_Date_Font_Size"].toInt());
     ui->deDate->setFont(font);
+
+    font.setFamily(conf["TextBox_BossLevel_Font_Family"]);
+    font.setPointSize(conf["TextBox_BossLevel_Font_Size"].toInt());
     ui->cbBossLevel->setFont(font);
+
+    font.setFamily(conf["TextBox_BossName_Font_Family"]);
+    font.setPointSize(conf["TextBox_BossName_Font_Size"].toInt());
     ui->cbBossName->setFont(font);
+
+    font.setFamily(conf["TextBox_ItemName_Font_Family"]);
+    font.setPointSize(conf["TextBox_ItemName_Font_Size"].toInt());
     ui->cbItemName->setFont(font);
 
     font.setFamily(conf["Label_Font_Family"]);
@@ -68,7 +92,6 @@ void MainWindow::setConfig()   /* 기본설정 (폰트/ 사이즈) */
 
     font.setFamily(conf["GridBox_Font_Family"]);
     font.setPointSize(conf["GridBox_Font_Size"].toInt());
-
     ui->Table->setFont(font);
 
 
@@ -134,7 +157,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->Table->setSelectionBehavior(QAbstractItemView::SelectRows);
     //ui->Table->setSelectionMode(QAbstractItemView::SingleSelection);
 
-
+    ui->lblPer4->installEventFilter(this);
+#if (MODE_RELEASE != 1)
+    ui->lblPer3->installEventFilter(this);
+#endif
     connect(ui->pbInsert, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCalEnd, SIGNAL(clicked()), this, SLOT(btnClick()));
     connect(ui->pbCopy, SIGNAL(clicked()), this, SLOT(btnClick()));
@@ -238,6 +264,23 @@ void MainWindow::btnClick() /* 버튼 클릭 분류  */
         selectCheck();
     }
 }
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if((watched == ui->lblPer3||watched == ui->lblPer4 ) && event->type() == QMouseEvent::MouseButtonPress)
+    {
+        QString str = ((QLabel *)watched)->text();
+        str.replace(" 메소","");
+        str.replace(",","");
+        qDebug()<<str.toInt();
+
+        QClipboard *clipboard = QGuiApplication::clipboard();
+        clipboard->setText(str,QClipboard::Clipboard);
+
+    }
+    return QWidget::eventFilter(watched, event);
+}
+
 
 void MainWindow::selectCheck()
 {

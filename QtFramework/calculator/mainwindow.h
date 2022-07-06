@@ -46,6 +46,9 @@ private:
 
     void selectCheck();
 
+    bool eventFilter(QObject *watched, QEvent *event);
+
+
 private slots:
     void btnClick();
     void checkBoxStateChange(bool);
