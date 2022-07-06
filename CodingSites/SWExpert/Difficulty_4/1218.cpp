@@ -43,7 +43,7 @@ int main()
             else if(str[i] == ']')
             {
                 if( st.top() != '[')
-                {
+                {  
                     check = false;
                     break;
                 }                
