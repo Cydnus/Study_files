@@ -47,6 +47,10 @@ void MainWindow::setConfig()   /* 기본설정 (폰트/ 사이즈) */
     font.setPointSize(conf["Button_Copy_Font_Size"].toInt());
     ui->pbCopy->setFont(font);
 
+    font.setFamily(conf["Button_SelectEnd_Font_Family"]);
+    font.setPointSize(conf["Button_SelectEnd_Font_Size"].toInt());
+    ui->pbSelectCheck->setFont(font);
+
     //입력 받는 부분 설정
     font.setFamily(conf["TextBox_ItemCount_Font_Family"]);
     font.setPointSize(conf["TextBox_ItemCount_Font_Size"].toInt());
