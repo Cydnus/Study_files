@@ -28,7 +28,7 @@ int main()
     for(int testCase = 1; testCase<=T; testCase ++)
     {
         int testNo;
-        cin>>testNo;
+        cin>>testNo;L
 
         vector<vector<int>> ladderMap(MAX_MAP_SIZE,vector<int>(MAX_MAP_SIZE,0));
 
