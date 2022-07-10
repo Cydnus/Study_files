@@ -42,7 +42,7 @@ int main()
             else if( offset <= a.size() && carry != 0)
             {
                 int temp = ( a[a.size()-offset] -'0'+ carry ) %10;
-                carry += a[a.size()-10offset] -'0';
+                carry += a[a.size()-offset] -'0';
                 carry /= 10;
                 a[a.size()-offset] = temp+'0';
             }
