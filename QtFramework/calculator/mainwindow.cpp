@@ -280,6 +280,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
         QClipboard *clipboard = QGuiApplication::clipboard();
         clipboard->setText(str,QClipboard::Clipboard);
+        QMessageBox::information(this, "Copy", "Copied");
 
     }
     return QWidget::eventFilter(watched, event);
