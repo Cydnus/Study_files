@@ -17,7 +17,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
+        mainwindow_setting.cpp
+        mainwindow_table_insert.cpp
+        mainwindow_table_event.cpp
+        mainwindow_click.cpp
         mainwindow.h
         mainwindow.ui
         achieve.h
@@ -25,6 +28,8 @@ set(PROJECT_SOURCES
         AchieveEntity.h
         Resource.qrc
         Resource.rc
+        utilitys.h
+        utilitys.cpp
 )
 
 

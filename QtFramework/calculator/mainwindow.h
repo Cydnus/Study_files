@@ -6,6 +6,7 @@
 #include "AchieveEntity.h"
 
 #include "achieve.h"
+#include "utilitys.h"
 
 #include <QClipboard>
 #include <QMimeData>
