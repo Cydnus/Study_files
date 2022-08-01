@@ -16,7 +16,7 @@
 #include <QMessageBox>
 
 
-#define MODE_RELEASE    0
+#define MODE_RELEASE    1
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,7 +42,7 @@ private:
     void insertRow();
     void calculateEnd();
     void copyToClipboard();
-    void setTableSomeRow(int, uint64_t,uint64_t);
+    void setTableSomeRow(int, uint64_t,uint64_t, QString);
     void keyPressEvent(QKeyEvent *event);
 
     void selectCheck();
