@@ -41,7 +41,7 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
 
     qDebug()<<table->item(row, 0)->text();
 
-    ae.setDate(QDate::fromString(table->item(row, 0)->text().split(' ')[0],"yy-MM-dd").addYears(100));
+    ae.setDate(QDate::fromString(table->item(row, 0)->text().sliced(0,8),"yy-MM-dd").addYears(100));
     ae.setBossLevel(table->item(row, 1)->text());
     ae.setBossName(table->item(row, 2)->text());
     ae.setItemName(table->item(row, 3)->text());
@@ -111,12 +111,17 @@ void MainWindow::cellChanged(int row, int col) /* 셀 값 변경시 동작 이�
     ui->lblPer4->setText(QString("%L1 메소").arg(per4_sum));
 
     achieve->changeData(ae);
-    setTableSomeRow(row,price,ppo);
+    QLocale lo = QLocale::system();
+
+    setTableSomeRow(row,price,ppo, QString(ae.getDate().toString("yy-MM-dd") + " (" + lo.dayName(ae.getDate().dayOfWeek(),QLocale::ShortFormat) +")"));
 }
 
-void MainWindow::setTableSomeRow(int row, uint64_t price, uint64_t ppo)
+void MainWindow::setTableSomeRow(int row, uint64_t price, uint64_t ppo, QString strdate)
 {
     ui->Table->disconnect();
+
+
+    ui->Table->setItem(row,0, new QTableWidgetItem(strdate));
 
     ui->Table->setItem(row,6, new QTableWidgetItem(QString("%L1").arg(price)));
     ui->Table->setItem(row,7, new QTableWidgetItem(QString("%L1").arg(ppo)));

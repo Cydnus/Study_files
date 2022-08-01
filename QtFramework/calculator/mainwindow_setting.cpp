@@ -133,6 +133,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //ui->Table->setSelectionMode(QAbstractItemView::SingleSelection);
 
     ui->lblPer4->installEventFilter(this);
+
+
 #if (MODE_RELEASE != 1)
     ui->lblPer3->installEventFilter(this);
 #endif
