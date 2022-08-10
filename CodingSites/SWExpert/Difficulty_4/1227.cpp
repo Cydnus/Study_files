@@ -38,7 +38,7 @@ bool dfs(string graph[], int si, int sj)
     if(graph[si][sj-1] == '0' || graph[si][sj-1] == '3' )
         temp |= dfs(graph,si,sj-1);
     if(graph[si-1][sj] == '0' || graph[si-1][sj] == '3' )
-        temp |= dfs(graph,si-1,sj);
+        temp |= dfs(graph,si-1,sj); 
 
     return temp;
 }
