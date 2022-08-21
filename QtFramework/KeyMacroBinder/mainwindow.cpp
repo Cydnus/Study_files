@@ -100,10 +100,14 @@ void MainWindow::serialConenct()
         //qDebug()<<"Failed to open";
         return;
     }
+
+    port->setDataTerminalReady(true);
+
     btns["connect"]->setText("Disconnect");
     ui->cbCom->setEnabled(false);
 
     conns["port"] = connect(port, SIGNAL(readyRead()), this, SLOT(serialReceived()));
+    port->waitForBytesWritten(0);
 
 
     for(auto i = btns.begin(); i!=btns.end(); i++)
@@ -113,6 +117,8 @@ void MainWindow::serialConenct()
     ui->lvMapping->setEnabled(true);
 
     btnLoad();
+    port->waitForBytesWritten(0);
+
 }
 void MainWindow::serialDisconenct()
 {
@@ -136,7 +142,8 @@ void MainWindow::serialDisconenct()
 void MainWindow::btnLoad()
 {
     //qDebug()<<"load";
-    char* ba = new char[4];
+    QByteArray ba;
+    //char* ba = new char[4];
     /*
     QString str;
     str+=(char)0xFC;
@@ -144,17 +151,21 @@ void MainWindow::btnLoad()
     str+= (char) 0x00;
     str+=(char)0xFC;
     */
-
-    ba[0]=(char)0xFC;
+    /*
+    ba[0]=((char)0xFC);
     ba[1]=((char)0xA0);
     ba[2]=((char)0x80);
     ba[3]=((char)0xFC);
-
-  //  ba.append((char)0x0D);
-  //  ba.append((char)0x0A);
+*/
+    ba.append((char)0xfc);
+    ba.append((char)0xA0);
+    ba.append((char)0x80);
+    ba.append((char)0xFC);
+    ba.append((char)0x0d);
+    ba.append((char)0x0a);
 
     //port->write(str.toStdString().c_str());
-    port->write(ba,4);
+    port->write(ba);
     qDebug()<<"Serial wirte : >>"<<ba;
 
 }
@@ -163,7 +174,7 @@ void MainWindow::serialReceived()
 {
     QByteArray received;
 
-    while(port->bytesAvailable() > 0)
+    while(port->bytesAvailable() > 0 || port->waitForReadyRead(0))
     {
         QByteArray temp = port->read(1);
         if( temp == "\n" || temp == "\r")

@@ -7,6 +7,19 @@
         <th colspan=2></th>
     </tr>
     <tr>
+        <td rowspan=2>22/08/21</td>
+        <td rowspan=2>
+            아두이노와 프로그램간 최초통신 불가
+        </td>
+        <td>
+            아두이노 ide에서 시리얼 모니터를 한번 실행해야 동작
+            <br>
+                port->setDataTerminalReady(true) 문제 이것이 설정이 안되어 동작안함
+            <br>
+                기존 C#에서도 해당문제(dtr = true) 존재하여 데이터는 실제로 보내질 못 하였음.
+        </td>
+    </tr>
+    <tr>
         <td rowspan=2>22/04/28</td>
         <td rowspan=2>
         Arduino Pro Micro와 통신 구현
