@@ -131,10 +131,15 @@ void MainWindow::setTable() /* 테이블 항목 추가  */
         if(entity.isCalEnd()==false)
         {
             total_sum += price;
+
+#if (MODE_RELEASE != 1)
             if(entity.getPartyCount() == 3)
                 per3_sum += ppo;
             else
                 per4_sum += ppo;
+#endif
+            per4_sum += ppo;
+
         }
     }
 
