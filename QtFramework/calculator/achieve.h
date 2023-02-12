@@ -2,6 +2,9 @@
 #define ACHIEVE_H
 
 #include "AchieveEntity.h"
+#include <QDir>
+#include <QFileDialog>
+
 
 
 class Achieve

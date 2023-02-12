@@ -17,6 +17,8 @@
 
 
 #define MODE_RELEASE    1
+// 1 : Release Mode
+// other : Minimum size release or debug
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
