@@ -27,6 +27,7 @@ void MainWindow::Connect()
     }
 
     spPort->setDataTerminalReady(true);
+    spPort->setRequestToSend(true);
     sendDataChar = 0;
     lblSendData->setText(QString(tr("Send Data : Send %1 Charactor").arg(sendDataChar)));
 
@@ -102,7 +103,7 @@ void MainWindow::SendClicked()
 
      int index = 0;
 
-     for(int i =0 ; i < 5 ; i++)
+     for(int i =0 ; i < MAX_ARRAY ; i++)
      {
          if(btnClick == pbSend[i])
          {
@@ -133,6 +134,13 @@ void MainWindow::SendData(int index)
     {
         ba.append(leSendData[index]->text().toStdString().c_str());
     }
+
+    if(checkSet["AddCRLF"]->isChecked())
+    {
+        ba.append(0x0d);
+        ba.append(0x0a);
+    }
+
     spPort->write(ba);
     sendDataChar += ba.size();
     lblSendData->setText(QString(tr("Send Data : Send %1 Charactor").arg(sendDataChar)));
@@ -160,5 +168,48 @@ QByteArray MainWindow::StringToHex(QString str)
 
     qDebug()<<baStr;
     return baStr;
+}
+
+void MainWindow::DataRepeatChecked(int state)
+{
+    if(state == Qt::Checked)
+    {
+        for(int i = 0; i < MAX_ARRAY ; i++)
+        {
+            rbAuto[i]->setEnabled(false);
+        }
+
+        leFreq->setEnabled(false);
+        int iFreq = (int)((double)leFreq->text().toDouble()*1000);
+        timerFreq->setInterval(iFreq);
+        timerFreq->start();
+    }
+    else
+    {
+        timerFreq->stop();
+        leFreq->setEnabled(true);
+
+        for(int i = 0; i < MAX_ARRAY ; i++)
+        {
+            rbAuto[i]->setEnabled(true);
+        }
+    }
+}
+
+
+
+void  MainWindow::timerFreqCallBack()
+{
+    int index = 0;
+    for(int i = 0; i < MAX_ARRAY ; i++)
+    {
+        if(rbAuto[i]->isChecked())
+        {
+            index = i;
+            break;
+        }
+    }
+
+    SendData(index);
 }
 

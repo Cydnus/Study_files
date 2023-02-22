@@ -15,6 +15,12 @@
 #include    <QRadioButton>
 #include    <QMap>
 #include    <QMessageBox>
+#include    <QTimer>
+#include    <QFile>
+#include    <QSettings>
+
+
+#define     MAX_ARRAY   5
 
 class MainWindow : public QMainWindow
 {
@@ -32,19 +38,19 @@ private :
     uint64_t        recevDataChar;
 
     QPlainTextEdit  *teReceivedData;
-    QLineEdit       *leSendData[5];
+    QLineEdit       *leSendData[MAX_ARRAY];
     QLineEdit       *leFreq;
 
     QPushButton     *pbClear;
     QPushButton     *pbOpenCon;
     QPushButton     *pbCloseCon;
 
-    QPushButton     *pbFormat[5];
-    QPushButton     *pbSend[5];
+    QPushButton     *pbFormat[MAX_ARRAY];
+    QPushButton     *pbSend[MAX_ARRAY];
 
     QMap<QString, QComboBox*>       comboRx;
 
-    QRadioButton    *rbAuto[5];
+    QRadioButton    *rbAuto[MAX_ARRAY];
 
     QMap<QString, QCheckBox*>       checkSet;
 
@@ -56,7 +62,9 @@ private :
     QMap<QString, QSerialPort::Parity>    mParity;
 
     QMetaObject::Connection conPort;
+    QMetaObject::Connection conTimerFreq;
 
+    QTimer  *timerFreq;
     //Method
 
     void init();
@@ -66,6 +74,10 @@ private :
     void SendData(int);
     QByteArray StringToHex(QString);
 
+    void DataLoad();
+    void DataSave();
+
+    void closeEvent(QCloseEvent*);
 
 public slots :
     void ClearReceivedData();
@@ -73,6 +85,9 @@ public slots :
     void Disconnect();
     void SendClicked();
     void serialReceived();
+    void DataRepeatChecked(int);
+    void timerFreqCallBack();
+
 
 
 };

@@ -3,6 +3,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
     init();
 
     QWidget *widget = new QWidget;
@@ -15,6 +16,76 @@ MainWindow::MainWindow(QWidget *parent)
     widget->setLayout(vbox);
     this->setCentralWidget(widget);
     setFixedSize(800,600);
+
+    DataLoad();
+    if(checkSet["AutoConnect"]->isChecked())
+    {
+        Connect();
+    }
+}
+
+void MainWindow::DataLoad()
+{
+    QSettings settings("SerialComm", "mySerial");
+
+    //RX
+    comboRx[QString("SerialPort")]->setCurrentText(settings.value("RX/Port").toString());
+    comboRx[QString("BaudRate")]->setCurrentText(settings.value("RX/Baudrate").toString());
+    comboRx[QString("DataBits")]->setCurrentText(settings.value("RX/DataBit").toString());
+    comboRx[QString("StopBits")]->setCurrentText(settings.value("RX/StopBit").toString());
+    comboRx[QString("Parity")]->setCurrentText(settings.value("RX/Parity").toString());
+    checkSet["AutoConnect"]->setChecked(settings.value("RX/AutoConnect").toBool());
+    comboRx[QString("Format")]->setCurrentText(settings.value("RX/Format").toString());
+
+
+    //TX
+    checkSet["AddCRLF"]->setChecked(settings.value("TX/AddCRLF").toBool());
+
+    for(int i = 0; i< MAX_ARRAY; i++)
+    {
+        leSendData[i]->setText(settings.value(tr("TX/Data_%1").arg(i)).toString());
+        pbFormat[i]->setText(settings.value(tr("TX/Format_%1").arg(i)).toString());
+        rbAuto[i]->setChecked(settings.value(tr("TX/Auto_%1").arg(i)).toBool());
+    }
+    leFreq->setText(settings.value("TX/Freq").toString());
+
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+
+    if(spPort->isOpen())
+    {
+        spPort->close();
+    }
+    QSettings settings("SerialComm", "mySerial");
+
+    //RX
+    settings.setValue("RX/Port",       comboRx[QString("SerialPort")]->currentText() );
+    settings.setValue("RX/Baudrate",   comboRx[QString("BaudRate")]->currentText() );
+    settings.setValue("RX/DataBit",    comboRx[QString("DataBits")]->currentText() );
+    settings.setValue("RX/StopBit",    comboRx[QString("StopBits")]->currentText() );
+    settings.setValue("RX/Parity",     comboRx[QString("Parity")]->currentText() );
+    settings.setValue("RX/AutoConnect", checkSet["AutoConnect"]->isChecked());
+
+    settings.setValue("RX/Format",comboRx[QString("Format")]->currentText());
+
+     // TX
+
+    settings.setValue("TX/AddCRLF",checkSet["AddCRLF"]->isChecked() );
+
+    for(int i = 0; i< MAX_ARRAY; i++)
+    {
+        settings.setValue(tr("TX/Data_%1").arg(i), leSendData[i]->text() );
+        settings.setValue(tr("TX/Auto_%1").arg(i), rbAuto[i]->isChecked() );
+        settings.setValue(tr("TX/Format_%1").arg(i), pbFormat[i]->text() );
+    }
+
+    settings.setValue("TX/Freq", leFreq->text() );
+
+
+
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::init()
@@ -55,7 +126,7 @@ void MainWindow::init()
     comboRx["Parity"]->addItems({"None","Odd","Even"});
 
 
-    for(int i = 0; i<5; i++)
+    for(int i = 0; i < MAX_ARRAY; i++)
     {
         leSendData[i] = new QLineEdit;
         pbFormat[i] = new QPushButton("HEX");
@@ -94,6 +165,11 @@ void MainWindow::init()
     mParity.insert( "None",     QSerialPort::NoParity);
     mParity.insert( "Even",     QSerialPort::EvenParity);
     mParity.insert( "Odd",     QSerialPort::OddParity);
+
+    connect(checkSet["DataRepeat"],  &QCheckBox::stateChanged, this, &MainWindow::DataRepeatChecked);
+
+    timerFreq = new QTimer(this);
+    conTimerFreq = connect(timerFreq, &QTimer::timeout, this, &MainWindow::timerFreqCallBack);
 
 }
 
