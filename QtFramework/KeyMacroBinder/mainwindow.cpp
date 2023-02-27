@@ -102,6 +102,7 @@ void MainWindow::serialConenct()
     }
 
     port->setDataTerminalReady(true);
+    port->setRequestToSend(true);
 
     btns["connect"]->setText("Disconnect");
     ui->cbCom->setEnabled(false);
@@ -217,7 +218,7 @@ void MainWindow::serialReceived()
             if(ui->lblNowList->text() != "")
                 setListView(ui->lblNowList->text().mid(3,2).toInt());
         }
-        else if((received[1] & 0xf0) == 0x30)
+        else if((received[1] & 0xf0) == 0x40)
         {
             QMessageBox::information(this,"저장완료", "설정이 저장되었습니다.");
             qDebug()<<"Insert Clear";
