@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="i18n">
+<file alias="SerialCommunicator_ko_KR.qm">/home/sangho/git/Study_files/QtFramework/SerialCommunicator/.qm/SerialCommunicator_ko_KR.qm</file>
+</qresource>
+</RCC>

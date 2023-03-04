@@ -35,7 +35,7 @@ void MainWindow::DataLoad()
     comboRx[QString("StopBits")]->setCurrentText(settings.value("RX/StopBit").toString());
     comboRx[QString("Parity")]->setCurrentText(settings.value("RX/Parity").toString());
     checkSet["AutoConnect"]->setChecked(settings.value("RX/AutoConnect").toBool());
-    comboRx[QString("Format")]->setCurrentText(settings.value("RX/Format").toString());
+    comboRx[QString("Format")]->setCurrentText(settings.value("RX/Format").toString()=""? "HEX":settings.value("RX/Format").toString());
 
 
     //TX
@@ -44,7 +44,7 @@ void MainWindow::DataLoad()
     for(int i = 0; i< MAX_ARRAY; i++)
     {
         leSendData[i]->setText(settings.value(tr("TX/Data_%1").arg(i)).toString());
-        pbFormat[i]->setText(settings.value(tr("TX/Format_%1").arg(i)).toString());
+        pbFormat[i]->setText(settings.value(tr("TX/Format_%1").arg(i)).toString()=""?"HEX":settings.value(tr("TX/Format_%1").arg(i)).toString());
         rbAuto[i]->setChecked(settings.value(tr("TX/Auto_%1").arg(i)).toBool());
     }
     leFreq->setText(settings.value("TX/Freq").toString());

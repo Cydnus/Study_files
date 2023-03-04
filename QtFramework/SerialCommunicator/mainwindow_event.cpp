@@ -92,7 +92,7 @@ void MainWindow::serialReceived()
     else
     {
         recevDataChar += received.size();
-        teReceivedData->appendPlainText(QString(tr("%1 ").arg(received)));
+        teReceivedData->appendPlainText(QString(tr("%1 ").arg(QString(received))));
     }
 
     lblReceived->setText(tr("Received Data : Received %1 Charactors").arg(recevDataChar));
