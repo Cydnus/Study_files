@@ -250,7 +250,7 @@ void MainWindow::setListView(int no)
 
 void MainWindow::macroBtnClick(QPushButton* btn)
 {
-    int btnName = btn->objectName().sliced(3,2).toInt();
+    int btnName = btn->objectName().mid(3,2).toInt();
     //qDebug()<<btnName;
     setListView(btnName);
     ui->lblNowList->setText(btn->text());

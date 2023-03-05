@@ -360,7 +360,8 @@ Convert::Convert()
             { 207 , "KEY_PRINTSCREEN"} ,
             { 250 , "releaseAll"}
         };
-    keyStrings = {" ",                  "!",                  "\"",                  "{",                  "$",
+    keyStrings = QStringList({
+                " ",                  "!",                  "\"",                  "{",                  "$",
                   "%",                  "&",                  "\'",                  "(",                  ")",
                   "*",                  "+",                  "{",                  "-",                  ".",
                   "/",                  "0",                  "1",                  "2",                  "3",
@@ -422,7 +423,7 @@ Convert::Convert()
                   "KEY_NON_US",                  "MEDIA_STOP",
                   "MEDIA_PREVIOUS",                  "MEDIA_PLAY_PAUSE",
                   "MEDIA_NEXT",                  "KEY_PRINTSCREEN",
-                  "releaseAll"};
+                  "releaseAll"});
 
 }
 Convert* Convert::getInstance()

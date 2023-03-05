@@ -12,6 +12,8 @@
 
 #include <QMessageBox>
 #include <QKeyEvent>
+#include <QDebug>
+#include <QString>
 
 #include "convert.h"
 #include "insertdialog.h"
