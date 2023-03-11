@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgrounds"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="25dp">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mainbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="false"
+                android:scaleType="center"
+                android:src="@color/Good"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@android:drawable/ic_popup_sync" />
+
+            <TextView
+                android:id="@+id/pm10"
+                android:layout_width="155dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="76dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="현재 농도 : 36 / 보통"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iView"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textV"
+                android:layout_width="242dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="100dp"
+                android:text="hello"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/background" />
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="323dp"
+                android:layout_height="117dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="140dp"
+                app:layout_constraintBottom_toBottomOf="@+id/background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.51"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iView"
+                app:layout_constraintVertical_bias="0.0">
+
+                <TextView
+                    android:id="@+id/havior"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="행동강령"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+                    app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+                    app:layout_constraintStart_toStartOf="@+id/scrollView2"
+                    app:layout_constraintTop_toTopOf="@+id/scrollView2" />
+            </ScrollView>
+
+            <ImageView
+                android:id="@+id/menubutton"
+                android:layout_width="46dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/textV"
+                app:layout_constraintEnd_toStartOf="@+id/refresh"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@android:drawable/ic_dialog_dialer" />
+
+            <ImageView
+                android:id="@+id/iView"
+                android:layout_width="209dp"
+                android:layout_height="190dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/bad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textV" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/menuLayout"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#e49e9e"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:weightSum="100">
+
+            <Button
+                android:id="@+id/addLocation"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="left|center"
+                android:text="지역검색"
+                android:textSize="20sp"
+                android:translationY="-130dp" />
+
+            <Button
+                android:id="@+id/setAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="left|center"
+                android:text="알림설정"
+                android:textSize="20sp"
+                android:translationY="-140dp" />
+
+            <Button
+                android:id="@+id/Favorite"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="fill_horizontal"
+                android:gravity="left|center"
+                android:text="즐겨찾기"
+                android:textSize="20sp"
+                android:translationY="-150dp" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+</android.support.constraint.ConstraintLayout>

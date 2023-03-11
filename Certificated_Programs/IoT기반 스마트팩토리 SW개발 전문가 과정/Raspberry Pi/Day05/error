@@ -1,0 +1,7 @@
+/usr/bin/ld: /tmp/cctaYTSj.o: in function `I2C_LCD::I2C_LCD(int)':
+I2C_LCD.cpp:(.text+0x60): undefined reference to `I2C_LCD::write_Command(char)'
+/usr/bin/ld: I2C_LCD.cpp:(.text+0x6c): undefined reference to `I2C_LCD::write_Command(char)'
+/usr/bin/ld: I2C_LCD.cpp:(.text+0x78): undefined reference to `I2C_LCD::write_Command(char)'
+/usr/bin/ld: I2C_LCD.cpp:(.text+0x84): undefined reference to `I2C_LCD::write_Command(char)'
+collect2: error: ld returned 1 exit status
+make: *** [makefile:14: pin] Error 1

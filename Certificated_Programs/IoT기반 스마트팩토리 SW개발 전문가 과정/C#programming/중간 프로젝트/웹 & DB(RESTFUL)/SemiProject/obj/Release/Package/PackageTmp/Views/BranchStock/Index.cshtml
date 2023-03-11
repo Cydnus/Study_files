@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SemiProject.Controllers.Views.BranchStock>
+
+@{
+	ViewBag.Title = ViewData["Name"];
+}
+
+
+
+
+<nav>
+	<h2 style="display:inline">@ViewData["Name"]</h2>
+	<div style="display:inline" align="right">
+		<h4 style="display:inline"><span style="color:greenyellow">재고보기</span></h4>
+		<h4 style="display:inline">
+			<a href=@{
+		string temp = $"{ViewData["next"]}";
+		WriteTo(Output, temp);
+	}>매장 장부 보기</a>
+		</h4>
+	</div>
+	</br>
+</nav>
+
+<section>
+	<table class="table" style="	display: inline-block;">
+		<tr>
+			<th>상품명		</th>
+			<th>개수		</th>
+			<th>가격		</th>
+			<th>유통기한	</th>
+			<th>입고자		</th>
+			<th>입고일		</th>
+		</tr>
+
+		@{
+
+			foreach (var item in (Model))
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.ProductName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Count)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.price)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ExpirationDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ImporterName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ImportDate)
+					</td>
+				</tr>
+			}
+
+		}
+	</table>
+</section>

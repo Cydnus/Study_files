@@ -1,0 +1,32 @@
+D:\Google 드라이브\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5(제공파일).csprojResolveAssemblyReference.cache
+D:\Google 드라이브\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.Properties.Resources.resources
+D:\Google 드라이브\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5(제공파일).csproj.GenerateResource.Cache
+D:\Google 드라이브\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.exe
+D:\Google 드라이브\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.pdb
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\bin\Debug\Mission5.exe.config
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.exe
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.pdb
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5(제공파일).csprojResolveAssemblyReference.cache
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5.Properties.Resources.resources
+D:\Dropbox\PC공유\개발\교육과정\LG CNS VCC Phase2(닷넷과정)\01 최종산출물(2017.02.01)\02 윈폼\03 미션\02 제공파일\Mission5\Mission5\obj\Debug\Mission5(제공파일).csproj.GenerateResource.Cache
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5(제공파일).csprojAssemblyReference.cache
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5.Properties.Resources.resources
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5.View.frmLogin.resources
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5.View.frmMain.resources
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5(제공파일).csproj.GenerateResource.cache
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5(제공파일).csproj.CoreCompileInputs.cache
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5.exe
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5.pdb
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5.exe.config
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5.exe
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5.pdb
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\EntityFramework.dll
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\EntityFramework.SqlServer.dll
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5Lib.dll
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5Lib.pdb
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\Mission5Lib.dll.config
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\EntityFramework.xml
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\EntityFramework.SqlServer.xml
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\ko\EntityFramework.resources.dll
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\bin\Debug\ko\EntityFramework.SqlServer.resources.dll
+D:\Study\서울기술교육센터\C#\Mission\Mission5\Mission5\obj\Debug\Mission5(제공파일).csproj.CopyComplete

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookCode" Type="nvarchar" MaxLength="6" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Publisher" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="PublishDate" Type="datetime" Nullable="false" />
+    <Property Name="Author" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookCopy">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookId" Type="int" Nullable="false" />
+    <Property Name="BookCopyCode" Type="nvarchar" MaxLength="9" Nullable="false" />
+    <Property Name="BookStatus" Type="int" Nullable="false" />
+    <Property Name="ArrivalDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CheckOut">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="BookCopyId" Type="int" Nullable="false" />
+    <Property Name="CheckOutDate" Type="datetime" Nullable="false" />
+    <Property Name="DueDate" Type="datetime" Nullable="false" />
+    <Property Name="ReturnDate" Type="datetime" />
+    <Property Name="OverdueDays" Type="int" />
+    <Property Name="OverdueCharge" Type="int" />
+    <Property Name="LibrarianId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Librarian">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoginId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="PhoneNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoginId" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="MemberLevel" Type="int" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PhoneNo" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Rule">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LateFeePerDay" Type="int" Nullable="false" />
+    <Property Name="NumOfBooksCanCheckOut" Type="int" Nullable="false" />
+    <Property Name="RentDays" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_BookCopy_Book">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="BookCopy" Type="Self.BookCopy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BookCopy">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CheckOut_BookCopy">
+    <End Role="BookCopy" Type="Self.BookCopy" Multiplicity="1" />
+    <End Role="CheckOut" Type="Self.CheckOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookCopy">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckOut">
+        <PropertyRef Name="BookCopyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CheckOut_Librarian">
+    <End Role="Librarian" Type="Self.Librarian" Multiplicity="1" />
+    <End Role="CheckOut" Type="Self.CheckOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Librarian">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckOut">
+        <PropertyRef Name="LibrarianId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CheckOut_Member">
+    <End Role="Member" Type="Self.Member" Multiplicity="1" />
+    <End Role="CheckOut" Type="Self.CheckOut" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckOut">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LibraryModelStoreContainer">
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookCopy" EntityType="Self.BookCopy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CheckOut" EntityType="Self.CheckOut" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Librarian" EntityType="Self.Librarian" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rule" EntityType="Self.Rule" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BookCopy_Book" Association="Self.FK_BookCopy_Book">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="BookCopy" EntitySet="BookCopy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CheckOut_BookCopy" Association="Self.FK_CheckOut_BookCopy">
+      <End Role="BookCopy" EntitySet="BookCopy" />
+      <End Role="CheckOut" EntitySet="CheckOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CheckOut_Librarian" Association="Self.FK_CheckOut_Librarian">
+      <End Role="Librarian" EntitySet="Librarian" />
+      <End Role="CheckOut" EntitySet="CheckOut" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CheckOut_Member" Association="Self.FK_CheckOut_Member">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="CheckOut" EntitySet="CheckOut" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

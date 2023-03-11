@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SemiProject.Controllers.Views.EmPerson>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+
+<nav>
+	</br>
+	<h2 style="display:inline">본사</h2>
+
+	<div style="display:inline" align="right">
+		<h4 style="display:inline">
+			<a href=@{
+		string temp = $"{ViewData["next1"]}";
+		WriteTo(Output, temp);
+	}>전체 매장 재고 보기</a>
+		</h4>
+		<h4 style="display:inline">
+			<a href=@{
+		string temp2 = $"{ViewData["next2"]}";
+		WriteTo(Output, temp2);
+	}>전체 매장 매출 보기</a>
+		</h4>
+		<h4 style="display:inline">
+			<span style="color:greenyellow">전체 직원 보기</span>
+		</h4>
+	</div>
+
+	</br>
+</nav>
+
+
+
+
+<table class="table">
+	<tr>
+		<th>  이름        </th>
+		<th>직책        </th>
+		<th>근무처        </th>
+		<th>연락처        </th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.title)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.branchName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Phone)
+			</td>
+		</tr>
+	}
+
+</table>

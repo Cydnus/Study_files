@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+이 파일은 웹 프로젝트의 게시/패키지 프로세스에서 사용됩니다. 이 MSBuild 파일을 편집하여 이 프로세스의 동작을
+사용자 지정할 수 있습니다. 이에 대한 자세한 내용은 https://go.microsoft.com/fwlink/?LinkID=208121을 참조하세요. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAtLMxMjZaS0uduEb3d/7kKwAAAAACAAAAAAAQZgAAAAEAACAAAAABp7IIpMDQmKu0GIayS3vATsHPD1F6O+jpgvE/293pfgAAAAAOgAAAAAIAACAAAAAulLBhbbMuE4/yBEbNRuAFYekVmjh7MQ0a/Ah3MHocioAAAACZs23Tc8XQ692oTUiC2Ccq90Fbu9Z62fe+iln/aqxiULOgHmwRNHD7Mbi4tj8kqVTZt4LhoWGqsX53eOlIE4aTz9n2gY0yJIpQFFKndZAbDLhKNkfvNhq+w6qPeVvYjFn/sWqrLL3MrgG0HOwDft+E8Jmr9x3euC3unNSH3OvOYEAAAACvXoHhk24gooYwXc+jxUFNvTDqBcKHhqv9eKBFbFHCkAI0Iamxg8Ar7SQoXy1MFauGQmotcCfCJfPOfwpJtWYb</EncryptedPassword>
+    <History>True|2021-05-31T08:21:39.2321635Z;True|2021-05-31T17:07:54.4668262+09:00;True|2021-05-31T17:05:20.0500719+09:00;True|2021-05-31T16:59:32.7766242+09:00;True|2021-05-31T16:41:49.1469688+09:00;True|2021-05-31T16:34:51.4997601+09:00;True|2021-05-31T16:24:21.6104430+09:00;True|2021-05-31T16:12:14.6978074+09:00;True|2021-05-31T13:10:02.8679856+09:00;True|2021-05-31T12:55:11.0101226+09:00;True|2021-05-31T12:23:30.1221864+09:00;True|2021-05-31T10:54:49.8054530+09:00;False|2021-05-31T10:54:27.5542475+09:00;True|2021-05-31T09:22:31.9514571+09:00;True|2021-05-31T09:15:20.3549618+09:00;True|2021-05-31T09:13:42.5997659+09:00;False|2021-05-31T09:13:22.7285248+09:00;True|2021-05-30T23:00:36.8584597+09:00;</History>
+  </PropertyGroup>
+</Project>

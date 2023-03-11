@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MEGAStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Branch2">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Tel" Type="nvarchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Emp">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LoginID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LoginPW" Type="nvarchar" MaxLength="32" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="UserLevel" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="Maker" Type="nvarchar" MaxLength="20" />
+    <Property Name="ProductionDate" Type="datetime" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="40" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SellOrRefund">
+    <Key>
+      <PropertyRef Name="No" />
+    </Key>
+    <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LocalID" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" />
+    <Property Name="SRDate" Type="datetime" Nullable="false" />
+    <Property Name="TradeNo" Type="int" Nullable="false" />
+    <Property Name="Payment" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="AgeOfCustomer" Type="int" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="No" />
+    </Key>
+    <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LocalId" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="Count" Type="int" Nullable="false" />
+    <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
+    <Property Name="ImportDate" Type="datetime" Nullable="false" />
+    <Property Name="ImportId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Title">
+    <Key>
+      <PropertyRef Name="UserLevel" />
+    </Key>
+    <Property Name="UserLevel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TitleName" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Work">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="BranchID" Type="int" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Product_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SellOrRefund_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="SellOrRefund" Type="Self.SellOrRefund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SellOrRefund">
+        <PropertyRef Name="LocalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SellOrRefund_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="SellOrRefund" Type="Self.SellOrRefund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SellOrRefund">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="LocalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_User">
+    <End Role="Emp" Type="Self.Emp" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="ImportId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Title">
+    <End Role="Title" Type="Self.Title" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Title">
+        <PropertyRef Name="UserLevel" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="UserLevel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Work_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="Work" Type="Self.Work" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Work">
+        <PropertyRef Name="BranchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Work_User">
+    <End Role="Emp" Type="Self.Emp" Multiplicity="1" />
+    <End Role="Work" Type="Self.Work" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Work">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MEGAStoreModelStoreContainer">
+    <EntitySet Name="Branch2" EntityType="Self.Branch2" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Emp" EntityType="Self.Emp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SellOrRefund" EntityType="Self.SellOrRefund" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Title" EntityType="Self.Title" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
+      <End Role="Item" EntitySet="Item" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SellOrRefund_Branch2" Association="Self.FK_SellOrRefund_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="SellOrRefund" EntitySet="SellOrRefund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SellOrRefund_Product" Association="Self.FK_SellOrRefund_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="SellOrRefund" EntitySet="SellOrRefund" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_Branch2" Association="Self.FK_Stock_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_Product" Association="Self.FK_Stock_Product">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_User" Association="Self.FK_Stock_User">
+      <End Role="Emp" EntitySet="Emp" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Title" Association="Self.FK_User_Title">
+      <End Role="Title" EntitySet="Title" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Work_Branch2" Association="Self.FK_Work_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="Work" EntitySet="Work" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Work_User" Association="Self.FK_Work_User">
+      <End Role="Emp" EntitySet="Emp" />
+      <End Role="Work" EntitySet="Work" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

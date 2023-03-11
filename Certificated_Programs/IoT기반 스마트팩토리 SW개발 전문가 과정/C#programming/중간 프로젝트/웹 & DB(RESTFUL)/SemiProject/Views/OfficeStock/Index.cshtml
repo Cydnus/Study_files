@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SemiProject.Controllers.Views.OfficeViewStock>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<nav>
+	</br>
+	<h2 style="display:inline">본사</h2>
+
+	<div style="display:inline" align="right">
+		<h4 style="display:inline">
+			<span style="color:greenyellow">전체 매장 재고 보기</span>
+		</h4>
+		<h4 style="display:inline">
+			<a href=@{
+		string temp = $"{ViewData["next2"]}";
+		WriteTo(Output, temp);
+	}>전체 매장 매출 보기</a>
+		</h4>
+		<h4 style="display:inline">
+			<a href=@{
+		string temp2 = $"{ViewData["next3"]}";
+		WriteTo(Output, temp2);
+	}>전체 직원 보기</a>
+		</h4>
+	</div>
+
+	</br>
+</nav>
+
+<table class="table">
+	<tr>
+		<th>
+			지점
+		</th>
+		<th>
+			상품명
+		</th>
+		<th>
+			개수
+		</th>
+		<th>
+			유통기한
+		</th>
+		<th>
+			입고일
+		</th>
+		<!--		<th></th>-->
+		</tr>
+
+	@foreach (var item in Model) {
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => item.LocalName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.ProductName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Count)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.ExpirationDate)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.ImportDate)
+		</td>
+		<!--	<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.No }) |
+				@Html.ActionLink("Details", "Details", new { id = item.No }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.No })
+			</td>-->
+	</tr>
+}
+
+</table>

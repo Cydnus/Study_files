@@ -1,0 +1,64 @@
+﻿@model SemiProject.Models.SellOrRefund
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SellOrRefund</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SRDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SRDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TradeNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TradeNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgeOfCustomer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgeOfCustomer)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SemiProject.Controllers.Views.BSOR>
+
+@{
+	ViewBag.Title = ViewData["Name"];
+}
+
+<nav>
+	</br>
+	<h2 style="display:inline">@ViewData["Name"]</h2>
+
+	<div style="display:inline" align="right">
+		<h4 style="display:inline">
+			<a href=@{
+		string temp = $"{ViewData["next"]}";
+		WriteTo(Output, temp);
+	}>재고보기</a>
+		</h4>
+		<h4 style="display:inline">
+			<span style="color:greenyellow">매장 장부 보기</span>
+		</h4>
+	</div>
+	</br>
+</nav>
+
+<section>
+	<table class="table">
+		<tr>
+			<th> 구매/환불일       </th>
+			<th> 번호       </th>
+			<th>상품명        </th>
+			<th>개수        </th>
+			<th>개당 가격        </th>
+			<th>총 가격        </th>
+			<th>결제수단      </th>
+			<th>연령층      </th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.SRDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TradeNo)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ProductName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Count)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Total)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Payment)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AgeOfCustomer)
+				</td>
+
+			</tr>
+		}
+		<tr>
+			<td colspan="7" align="right"><h4>합계 : </h4></td>
+			<td>
+				<h4>
+					@{
+						int count = 0;
+						foreach (var item in Model)
+						{
+							count += item.Total;
+						}
+						Write(count.ToString() + "원");
+					}
+				</h4>
+			</td>
+		</tr>
+
+	</table>
+</section>

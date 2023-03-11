@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d78acd7bef5b4109922fadb88b26f343" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="MEGAStoreModel.Branch2" Width="1.5" PointX="4.625" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Emp" Width="1.5" PointX="0.625" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Item" Width="1.5" PointX="9.5" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Product" Width="1.5" PointX="7.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.SellOrRefund" Width="1.5" PointX="7.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Stock" Width="1.5" PointX="4.5" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Title" Width="1.5" PointX="0.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MEGAStoreModel.Work" Width="1.5" PointX="2.5" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="MEGAStoreModel.FK_SellOrRefund_Branch2" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Stock_Branch2" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Work_Branch2" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Stock_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_User_Title" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Work_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Product_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_SellOrRefund_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="MEGAStoreModel.FK_Stock_Product" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

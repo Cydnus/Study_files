@@ -1,0 +1,58 @@
+﻿@model SemiProject.Models.SellOrRefund
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SellOrRefund</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SRDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SRDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TradeNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TradeNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AgeOfCustomer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AgeOfCustomer)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.No }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -22,7 +22,7 @@ void MainWindow::Connect()
 
     if(!spPort->open(QIODevice::ReadWrite))
     {
-        //qDebug()<<"Failed to open";
+        qDebug()<<"Failed to open";
         return;
     }
 

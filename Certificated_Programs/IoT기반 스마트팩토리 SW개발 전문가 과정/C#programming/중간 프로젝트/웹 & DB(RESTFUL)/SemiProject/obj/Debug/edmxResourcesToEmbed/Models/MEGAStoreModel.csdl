@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MEGAStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Branch2">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Tel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SellOrRefunds" Relationship="Self.FK_SellOrRefund_Branch2" FromRole="Branch2" ToRole="SellOrRefund" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_Branch2" FromRole="Branch2" ToRole="Stock" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Works" Relationship="Self.FK_Work_Branch2" FromRole="Branch2" ToRole="Work" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Emp">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoginID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LoginPW" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserLevel" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_User" FromRole="Emp" ToRole="Stock" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Title" Relationship="Self.FK_User_Title" FromRole="Emp" ToRole="Title" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Works" Relationship="Self.FK_Work_User" FromRole="Emp" ToRole="Work" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_Item" FromRole="Item" ToRole="Product" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemID" Type="Int32" Nullable="false" />
+    <Property Name="Maker" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ProductionDate" Type="DateTime" Precision="3" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_Product_Item" FromRole="Product" ToRole="Item" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="SellOrRefunds" Relationship="Self.FK_SellOrRefund_Product" FromRole="Product" ToRole="SellOrRefund" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Stocks" Relationship="MEGAStoreModel.FK_Stock_Product" FromRole="Product" ToRole="Stock" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="SellOrRefund">
+    <Key>
+      <PropertyRef Name="No" />
+    </Key>
+    <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LocalID" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="SRDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TradeNo" Type="Int32" Nullable="false" />
+    <Property Name="Payment" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AgeOfCustomer" Type="Int32" />
+    <NavigationProperty Name="Branch2" Relationship="Self.FK_SellOrRefund_Branch2" FromRole="SellOrRefund" ToRole="Branch2" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_SellOrRefund_Product" FromRole="SellOrRefund" ToRole="Product" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="No" />
+    </Key>
+    <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LocalId" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ImportDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ImportId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Branch2" Relationship="Self.FK_Stock_Branch2" FromRole="Stock" ToRole="Branch2" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Emp" Relationship="Self.FK_Stock_User" FromRole="Stock" ToRole="Emp" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Product" Relationship="MEGAStoreModel.FK_Stock_Product" FromRole="Stock" ToRole="Product" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Title">
+    <Key>
+      <PropertyRef Name="UserLevel" />
+    </Key>
+    <Property Name="UserLevel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TitleName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Emps" Relationship="Self.FK_User_Title" FromRole="Title" ToRole="Emp" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <EntityType Name="Work">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="BranchID" Type="Int32" Nullable="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Branch2" Relationship="Self.FK_Work_Branch2" FromRole="Work" ToRole="Branch2" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+    <NavigationProperty Name="Emp" Relationship="Self.FK_Work_User" FromRole="Work" ToRole="Emp" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+  </EntityType>
+  <Association Name="FK_SellOrRefund_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="SellOrRefund" Type="Self.SellOrRefund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SellOrRefund">
+        <PropertyRef Name="LocalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="LocalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Work_Branch2">
+    <End Role="Branch2" Type="Self.Branch2" Multiplicity="1" />
+    <End Role="Work" Type="Self.Work" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Branch2">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Work">
+        <PropertyRef Name="BranchID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stock_User">
+    <End Role="Emp" Type="Self.Emp" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="ImportId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Title">
+    <End Role="Title" Type="Self.Title" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Title">
+        <PropertyRef Name="UserLevel" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="UserLevel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Work_User">
+    <End Role="Emp" Type="Self.Emp" Multiplicity="1" />
+    <End Role="Work" Type="Self.Work" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Emp">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Work">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SellOrRefund_Product">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="SellOrRefund" Type="Self.SellOrRefund" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SellOrRefund">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MEGADB" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Branch2" EntityType="Self.Branch2" />
+    <EntitySet Name="Emps" EntityType="Self.Emp" />
+    <EntitySet Name="Items" EntityType="Self.Item" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="SellOrRefunds" EntityType="Self.SellOrRefund" />
+    <EntitySet Name="Stocks" EntityType="Self.Stock" />
+    <EntitySet Name="Titles" EntityType="Self.Title" />
+    <EntitySet Name="Works" EntityType="Self.Work" />
+    <AssociationSet Name="FK_SellOrRefund_Branch2" Association="Self.FK_SellOrRefund_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="SellOrRefund" EntitySet="SellOrRefunds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_Branch2" Association="Self.FK_Stock_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="Stock" EntitySet="Stocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Work_Branch2" Association="Self.FK_Work_Branch2">
+      <End Role="Branch2" EntitySet="Branch2" />
+      <End Role="Work" EntitySet="Works" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_User" Association="Self.FK_Stock_User">
+      <End Role="Emp" EntitySet="Emps" />
+      <End Role="Stock" EntitySet="Stocks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Title" Association="Self.FK_User_Title">
+      <End Role="Title" EntitySet="Titles" />
+      <End Role="Emp" EntitySet="Emps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Work_User" Association="Self.FK_Work_User">
+      <End Role="Emp" EntitySet="Emps" />
+      <End Role="Work" EntitySet="Works" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Item" Association="Self.FK_Product_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SellOrRefund_Product" Association="Self.FK_SellOrRefund_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="SellOrRefund" EntitySet="SellOrRefunds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stock_Product" Association="MEGAStoreModel.FK_Stock_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Stock" EntitySet="Stocks" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Stock_Product">
+    <End Type="MEGAStoreModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="MEGAStoreModel.Stock" Role="Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
