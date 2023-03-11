@@ -7,8 +7,8 @@
         <th colspan=2></th>
     </tr>
     <tr>
-        <td >22/08/21</td>
-        <td >
+        <td rowspan=2 >22/08/21</td>
+        <td rowspan=2 >
             아두이노와 프로그램간 최초통신 불가
         </td>
         <td>
