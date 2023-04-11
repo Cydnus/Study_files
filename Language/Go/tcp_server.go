@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
-	"runtime"	
+	"runtime"
 	"sync"
 )
 
@@ -30,7 +30,7 @@ func findIndex(c net.Conn, start int, end int) int {
 func RemoveConn(c net.Conn) {
 
 	ind := findIndex(c, 0, len(connArr))
-	
+
 	mutex.Lock()
 	copy(connArr[ind:], connArr[ind+1:])
 	connArr = connArr[:len(connArr)-1]
@@ -59,7 +59,7 @@ func requestHandler(c net.Conn) {
 			fmt.Println(c.RemoteAddr().String(), "님이 연결을 종료하였습니다.")
 			for con := range connArr {
 				if connArr[con] == c {
-					continue 
+					continue
 				}
 
 				_, err := connArr[con].Write([]byte("[System] " + string(data[:n])[3:] + " 님이 연결을 종료하였습니다."))
@@ -85,7 +85,7 @@ func requestHandler(c net.Conn) {
 					return
 				}
 			}
-		}	
+		}
 		runtime.Gosched()
 	}
 }
